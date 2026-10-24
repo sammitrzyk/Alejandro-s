@@ -1,0 +1,45 @@
+---
+/* Server-rendered head for every Astro page. Same data and rules as the prototype's seo.js,
+   so the metadata exists in the generated HTML rather than being written by JavaScript.
+   Usage:  <SeoHead route="paver-patios" />                      (static routes)
+           <SeoHead title=… description=… path=… crumbs=… />      (project and town pages) */
+import data from "../data/seo-pages.json";
+
+const { route, title, description, path, crumbs, ogImage, noindex } = Astro.props;
+const p = route ? data.pages[route] : null;
+if (route && !p) throw new Error(`SeoHead: no SEO entry for route "${route}"`);
+
+const site = import.meta.env.PUBLIC_SITE_URL || data.site;
+const t = title ?? p.title;
+const d = description ?? p.description;
+const url = site + (path ?? p.path);
+const img = site + data.ogBase + (ogImage ?? p?.ogImage ?? "og-home.jpg");
+const trail = crumbs ?? p?.crumbs ?? [];
+const robots = (noindex ?? p?.noindex) ? "noindex, follow" : null;
+const ld = trail.length > 1 ? JSON.stringify({
+  "@context": "https://schema.org", "@type": "BreadcrumbList",
+  itemListElement: trail.map(([name, href], i) => ({ "@type": "ListItem", position: i + 1, name, item: site + href }))
+}) : null;
+---
+<title>{t}</title>
+<meta name="description" content={d} />
+<link rel="canonical" href={url} />
+{robots && <meta name="robots" content={robots} />}
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={data.brand} />
+<meta property="og:title" content={t} />
+<meta property="og:description" content={d} />
+<meta property="og:url" content={url} />
+<meta property="og:image" content={img} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={t} />
+<meta name="twitter:description" content={d} />
+<meta name="twitter:image" content={img} />
+<link rel="icon" href="/favicon/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+<link rel="manifest" href="/favicon/site.webmanifest" />
+<meta name="theme-color" content="#14532B" />
+{ld && <script type="application/ld+json" set:html={ld} />}

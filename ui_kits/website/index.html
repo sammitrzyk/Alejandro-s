@@ -1,0 +1,127 @@
+<!-- @dsCard group="Website" viewport="1440x900" name="Alejandro's Landscaping — website" subtitle="Homepage, paver patio service page, service area, commercial snow removal" -->
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Landscaping & Hardscaping in Harrisburg, PA | Alejandro's</title>
+<meta name="description" content="Paver patios, driveways, retaining walls, landscape installation and commercial grounds care from New Cumberland across the Harrisburg area. Request an estimate.">
+<link rel="canonical" href="https://alejandroslandscapes.com/">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Alejandro's Landscaping">
+<meta property="og:title" content="Landscaping & Hardscaping in Harrisburg, PA | Alejandro's">
+<meta property="og:description" content="Paver patios, driveways, retaining walls, landscape installation and commercial grounds care from New Cumberland across the Harrisburg area. Request an estimate.">
+<meta property="og:url" content="https://alejandroslandscapes.com/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../../assets/favicon/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../assets/favicon/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../../assets/favicon/apple-touch-icon.png">
+<link rel="manifest" href="../../assets/favicon/site.webmanifest">
+<meta name="theme-color" content="#14532B">
+<link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+body{margin:0}
+#switch{position:fixed;right:16px;bottom:16px;z-index:200;display:flex;gap:1px;background:var(--border-strong);border:1px solid var(--border-strong);box-shadow:var(--shadow-panel)}
+#switch button{appearance:none;border:0;background:var(--surface-raised);color:var(--text-secondary);font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;padding:11px 14px;cursor:pointer}
+#switch button[aria-pressed="true"]{background:var(--green-800);color:#fff}
+#switch select{appearance:none;border:0;background:var(--surface-raised);color:var(--text-secondary);font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;padding:11px 14px;cursor:pointer;max-width:150px}
+@media (max-width:900px){#switch{right:8px;bottom:72px}}
+</style>
+</head><body>
+<div id="root"></div>
+<script src="seo.js"></script>
+<script type="text/babel" src="Shell.jsx"></script>
+<script type="text/babel" src="ServicePage.jsx"></script>
+<script type="text/babel" src="Resources.jsx"></script>
+<script type="text/babel" src="FaqCenter.jsx"></script>
+<script type="text/babel" src="LandscapeInstallation.jsx"></script>
+<script type="text/babel" src="MulchBedWork.jsx"></script>
+<script type="text/babel" src="PaverDriveways.jsx"></script>
+<script type="text/babel" src="ShrubTrimming.jsx"></script>
+<script type="text/babel" src="YardCleanups.jsx"></script>
+<script type="text/babel" src="WalkwaysSteps.jsx"></script>
+<script type="text/babel" src="RetainingWalls.jsx"></script>
+<script src="service-data-hardscape.js"></script>
+<script src="service-data-landscape.js"></script>
+<script src="service-data-other.js"></script>
+<script type="text/babel" src="Home.jsx"></script>
+<script type="text/babel" src="PaverPatios.jsx"></script>
+<script type="text/babel" src="ServiceArea.jsx"></script>
+<script type="text/babel" src="SnowRemoval.jsx"></script>
+<script type="text/babel" src="CommercialLandscaping.jsx"></script>
+<script src="projects-data.js"></script>
+<script type="text/babel" src="ProjectPage.jsx"></script>
+<script type="text/babel" src="Projects.jsx"></script>
+<script type="text/babel" src="TownPage.jsx"></script>
+<script type="text/babel" src="About.jsx"></script>
+<script type="text/babel">
+const PAGES = [["home","Home",()=>window.Home],["paver-patios","Patios",()=>window.PaverPatios],["service-area","Areas",()=>window.ServiceArea],["snow-removal","Snow",()=>window.SnowRemoval],["resources","Resources",()=>window.Resources],["faqs","FAQs",()=>window.FaqCenter],["projects","Projects",()=>window.Projects],["about","About",()=>window.About]];
+const SERVICES = ()=>Object.assign({}, window.SERVICES_HARDSCAPE, window.SERVICES_LANDSCAPE, window.SERVICES_OTHER);
+const SERVICE_LABELS = {"paver-driveways":"Paver driveways","retaining-walls":"Retaining walls","walkways-steps":"Walkways & steps","fire-features-seat-walls":"Fire features","grading-drainage":"Grading & drainage","landscape-installation":"Landscape installation","mulch-bed-work":"Mulch & beds","shrub-hedge-trimming":"Trimming","yard-cleanups":"Spring & fall cleanups","sod-installation":"Sod installation","christmas-light-installation":"Christmas lights","landscape-lighting":"Landscape lighting","commercial-landscaping":"Commercial landscaping"};
+const ALIASES = {"walkways":"walkways-steps","fire-features":"fire-features-seat-walls","drainage":"grading-drainage","installation":"landscape-installation","mulch-beds":"mulch-bed-work","lawn-installation":"sod-installation","christmas-lights":"christmas-light-installation","holiday-lighting":"christmas-light-installation","trimming":"shrub-hedge-trimming","cleanups":"yard-cleanups","property-cleanups":"yard-cleanups","landscaping":"commercial-landscaping","service-areas":"service-area"};
+function App(){
+  const [page,setPage]=React.useState("home");
+  React.useEffect(()=>{window.scrollTo(0,0)},[page]);
+  React.useEffect(()=>{ if(!page.includes(":")) window.applySeo(page); },[page]);
+  window.__setPage=setPage;
+  const go=(href)=>{
+    const raw=String(href);
+    if(/^(#estimate|\/estimate|\/contact)\b/.test(raw)){const el=document.getElementById("estimate");if(el)window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-80,behavior:"smooth"});return;}
+    const parts=raw.replace(/^\//,"").split("#")[0].split("/").filter(Boolean);
+    let slug=parts.pop()||"home";
+    if(parts[0]==="resources"&&slug!=="faqs") slug="resources";
+    if((parts[0]==="service-areas"||parts[0]==="service-area")&&(window.TOWNS_DATA||[]).some(t=>t.slug===slug)){setPage("town:"+slug);return;}
+    if(parts[0]==="projects"&&(window.PROJECT_STUDIES||[]).some(p=>p.slug===slug)){setPage("project:"+slug);return;}
+    slug={"hardscaping":"paver-patios","maintenance":"commercial-landscaping"}[slug]||ALIASES[slug]||slug;
+    if(slug==="faqs"||slug==="resources"||PAGES.some(p=>p[0]===slug)||SERVICES()[slug]) setPage(slug);
+    else console.warn("No page for",raw);
+  };
+  const svc=SERVICES()[page];
+  const BESPOKE={"yard-cleanups":()=>window.YardCleanups,"shrub-hedge-trimming":()=>window.ShrubTrimming,"trimming":()=>window.ShrubTrimming,"commercial-landscaping":()=>window.CommercialLandscaping,"walkways":()=>window.WalkwaysSteps,"walkways-steps":()=>window.WalkwaysSteps,"retaining-walls":()=>window.RetainingWalls,"paver-driveways":()=>window.PaverDriveways,"landscape-installation":()=>window.LandscapeInstallation,"mulch-bed-work":()=>window.MulchBedWork};
+  const Bespoke=page.startsWith("town:")?((p)=><window.TownPage {...p} slug={page.slice(5)}/>):page.startsWith("project:")?((p)=><window.ProjectPage {...p} slug={page.slice(8)}/>):BESPOKE[page]&&BESPOKE[page]();
+  const Current=(svc||Bespoke)?null:(PAGES.find(p=>p[0]===page)||PAGES[0])[2]();
+  return (<>
+    {Bespoke?<Bespoke go={go}/>:svc?<window.ServicePage go={go} data={svc}/>:<Current go={go}/>}
+    <MobileCallBar phone={PHONE} estimateHref="#estimate"/>
+    <div id="switch">
+      {PAGES.map(([slug,label])=>(
+        <button key={slug} aria-pressed={page===slug} onClick={()=>setPage(slug)}>{label}</button>
+      ))}
+      <select aria-label="Service pages" value={SERVICE_LABELS[page]?page:""} onChange={e=>e.target.value&&setPage(e.target.value)}>
+        <option value="">Services…</option>
+        {Object.entries(SERVICE_LABELS).map(([slug,label])=>(<option key={slug} value={slug}>{label}</option>))}
+      </select>
+    </div>
+  </>);
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+<script>
+/* Hides [VERIFY …] / [ADD …] editor notes from visitors. Add ?review to the URL to see them.
+   A row or section left with no real content is hidden with its note. */
+(function(){
+  if(/[?&]review\b/.test(location.search)) return;
+  var RE=/\[(?:VERIFY|ADD|CONTENT NEEDED)[^\]]*\]\s*/g, root=document.getElementById("root");
+  function media(el){return el.matches&&el.matches("img,svg,video,picture,input,select,textarea")||(el.querySelector&&el.querySelector("img,svg,video,picture,input,select,textarea"));}
+  function visText(el){var t="";for(var c=el.firstChild;c;c=c.nextSibling){if(c.nodeType===3)t+=c.nodeValue;else if(c.nodeType===1&&c.style.display!=="none")t+=visText(c);}return t.trim();}
+  function collapse(el){
+    for(var i=0;el&&el!==root&&i<8;i++){
+      if(media(el))return;
+      if(i>0&&el.querySelector("h1,h2,h3,h4,h5,h6")&&el.parentElement&&media(el.parentElement))return;
+      var t=visText(el);
+      if(i===0?t.length===0:t.length<=48){el.style.display="none";el=el.parentElement;}else return;
+    }
+  }
+  function clean(node){
+    if(!node)return;
+    var w=document.createTreeWalker(node.nodeType===3?node.parentNode:node,NodeFilter.SHOW_TEXT),n,hit=[];
+    while((n=w.nextNode())){if(n.nodeValue.indexOf("[")>-1&&RE.test(n.nodeValue))hit.push(n);RE.lastIndex=0;}
+    hit.forEach(function(t){t.nodeValue=t.nodeValue.replace(RE,"").replace(/^\s*[—–-]\s*/,"");collapse(t.parentElement);});
+  }
+  new MutationObserver(function(ms){ms.forEach(function(m){if(m.type==="characterData")clean(m.target);else m.addedNodes.forEach(clean);});})
+    .observe(root,{childList:true,subtree:true,characterData:true});
+  clean(root);
+})();
+</script>
+</body></html>

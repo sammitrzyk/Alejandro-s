@@ -1,0 +1,82 @@
+/* Alejandro's Landscaping — colour system.
+   Sampled from assets/logo.png. Green is the primary; gold is a single restrained accent.
+   Neutrals are warm (stone/cream), never blue-grey — they sit under photography of soil,
+   flagstone and mulch. */
+:root{
+  /* Green — the ground of the brand */
+  --green-950:#0A2416;
+  --green-900:#0F3D22;
+  --green-800:#14532B;
+  --green-700:#1B5E32;
+  --green-600:#26743E;
+  --green-500:#3E8E3F;
+  --green-300:#7FB07C;
+  --green-100:#D8E6D5;
+  --green-50:#EFF5ED;
+
+  /* Lime — logo only. Never for UI. */
+  --lime-500:#7CC522;
+
+  /* Gold — accent. One use per screen. */
+  --gold-600:#C98A11;
+  /* Text-safe gold. 5.4:1 on --surface-page, 5.7:1 on white. Use for any gold GLYPH;
+     --gold-600 is for rules, fills and borders only. */
+  --gold-text:#8A5D08;
+  --gold-500:#F5B324;
+  --gold-300:#F7CB6B;
+  --gold-100:#FBEBC6;
+
+  /* Warm neutrals */
+  --stone-0:#FFFFFF;
+  --stone-50:#FAF8F4;
+  --stone-100:#F2EEE7;
+  --stone-200:#E4DED4;
+  --stone-300:#D0C8BB;
+  --stone-400:#A79E90;
+  --stone-500:#8A8279;
+  --stone-600:#6B655D;
+  --stone-700:#4A453F;
+  --stone-800:#2E2B27;
+  --stone-900:#1C1B19;
+
+  /* Semantic — surfaces */
+  --surface-page:var(--stone-50);
+  --surface-raised:var(--stone-0);
+  --surface-sunken:var(--stone-100);
+  --surface-dark:var(--green-950);
+  --surface-dark-alt:var(--green-900);
+  --surface-inverse-text:var(--stone-50);
+
+  /* Semantic — text */
+  --text-primary:var(--stone-900);
+  --text-secondary:var(--stone-600);
+  --text-muted:var(--stone-600);
+  /* Decoration only — never body copy, service names or form hints. Fails AA at text sizes. */
+  --text-faint:var(--stone-500);
+  --text-on-dark:#F4F1EB;
+  --text-on-dark-secondary:#B9B4A9;
+  --text-brand:var(--green-800);
+
+  /* Semantic — lines */
+  --border-hairline:var(--stone-200);
+  --border-strong:var(--stone-300);
+  --border-dark:rgba(244,241,235,.18);
+  --border-accent:var(--gold-500);
+
+  /* Semantic — action */
+  --cta-bg:var(--green-800);
+  --cta-bg-hover:var(--green-950);
+  --cta-text:#FFFFFF;
+  --cta-accent-bg:var(--gold-500);
+  --cta-accent-bg-hover:var(--gold-600);
+  --cta-accent-text:var(--green-950);
+
+  /* Semantic — status */
+  --status-emergency:#A93916;
+  --status-winter:#4E6E86;
+
+  /* Photography scrims. Kept light — the reference set rejects heavy black overlays. */
+  --scrim-hero:linear-gradient(90deg,rgba(10,36,22,.86) 0%,rgba(10,36,22,.62) 42%,rgba(10,36,22,.12) 78%,rgba(10,36,22,0) 100%); /* @kind other */
+  --scrim-hero-mobile:linear-gradient(180deg,rgba(10,36,22,.25) 0%,rgba(10,36,22,.78) 62%,rgba(10,36,22,.92) 100%); /* @kind other */
+  --scrim-tile:linear-gradient(180deg,rgba(10,36,22,0) 40%,rgba(10,36,22,.78) 100%); /* @kind other */
+}

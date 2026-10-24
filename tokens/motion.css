@@ -1,0 +1,18 @@
+/* Motion. Restrained: fades and short rises only. Nothing bounces, nothing slides far.
+   Image scale on hover is 1.03 max — the photograph is the product, not a toy. */
+:root{
+  --ease-out:cubic-bezier(.22,.61,.36,1); /* @kind other */
+  --ease-in-out:cubic-bezier(.45,0,.15,1); /* @kind other */
+  --dur-instant:120ms; /* @kind other */
+  --dur-fast:200ms; /* @kind other */
+  --dur-base:320ms; /* @kind other */
+  --dur-slow:600ms; /* @kind other */
+  --dur-reveal:800ms; /* @kind other */
+
+  --reveal-distance:18px; /* @kind other */
+  --hover-image-scale:1.03; /* @kind other */
+  --hover-lift:-2px; /* @kind other */
+}
+@media (prefers-reduced-motion:reduce){
+  :root{--dur-instant:0ms; /* @kind other */--dur-fast:0ms; /* @kind other */--dur-base:0ms; /* @kind other */--dur-slow:0ms; /* @kind other */--dur-reveal:0ms; /* @kind other */--reveal-distance:0px;--hover-image-scale:1; /* @kind other */--hover-lift:0px}
+}

@@ -1,0 +1,35 @@
+/* Layout, radius, elevation.
+   Radius is near-zero on purpose: squared corners read as masonry and craft.
+   Pills read as SaaS and were explicitly rejected in reference review. */
+:root{
+  --container-max:1320px;
+  --container-text:720px;
+  --container-narrow:560px;
+  --gutter:clamp(20px,4vw,56px); /* @kind spacing */
+
+  --radius-none:0;
+  --radius-xs:2px;
+  --radius-sm:3px;
+  --radius-image:2px;
+  --radius-full:999px; /* avatars and count chips only */
+
+  --border-width:1px; /* @kind other */
+  --border-width-strong:2px; /* @kind other */
+
+  /* Shadows are used sparingly — only for elements that genuinely float
+     (sticky bars, dropdown panels). Cards sit on hairlines, not shadows. */
+  --shadow-none:none;
+  --shadow-sticky:0 -1px 0 var(--border-hairline),0 -8px 24px rgba(28,27,25,.06);
+  --shadow-panel:0 12px 40px rgba(28,27,25,.14);
+  --shadow-lift:0 2px 14px rgba(28,27,25,.08);
+
+  --ratio-hero:16/9; /* @kind other */
+  --ratio-project:4/3; /* @kind other */
+  --ratio-portrait:3/4; /* @kind other */
+  --ratio-wide:21/9; /* @kind other */
+  --ratio-square:1/1; /* @kind other */
+
+  --bp-sm:640px; /* @kind other */
+  --bp-md:900px; /* @kind other */
+  --bp-lg:1200px; /* @kind other */
+}
