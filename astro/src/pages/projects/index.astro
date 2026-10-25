@@ -1,0 +1,77 @@
+---
+/* Ported from ui_kits/website/Projects.jsx. The category filter is plain progressive-
+   enhancement JS (not a React island) — every project tile is present in the static HTML
+   for SEO/no-JS users; the filter script only toggles visibility. */
+import Base from "../../layouts/Base.astro";
+import Container from "../../components/Container.astro";
+import Section from "../../components/Section.astro";
+import Reveal from "../../components/Reveal.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import EstimateBand from "../../components/EstimateBand.astro";
+import { PROJECT_STUDIES, PROJECT_CARDS } from "../../data/projects";
+
+const P = "/photos/";
+const studies = PROJECT_STUDIES.map((p) => ({ cat: p.cat, img: p.hero, alt: p.heroAlt, title: p.short, town: p.town, scope: p.result, href: `/projects/${p.slug}/`, study: true }));
+const all = [...studies, ...PROJECT_CARDS.map((p) => ({ ...p, study: false }))];
+const cats = ["All", ...["Hardscaping", "Landscaping", "Commercial"].filter((c) => all.some((p) => p.cat === c))];
+---
+<Base route="projects" headerActive="Projects">
+  <Section tone="light" tight>
+    <Container>
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-5)" }}>Projects</Eyebrow>
+        <h1 style="font:var(--type-h1);letter-spacing:var(--ls-heading);max-width:16ch">Landscaping &amp; Hardscaping Projects</h1>
+        <p style="font:var(--type-body);color:var(--text-secondary);margin-top:var(--space-4);max-width:54ch">Driveways, patios, walkways, retaining walls, landscaping and commercial grounds completed by Alejandro's in New Cumberland and across Central Pennsylvania. Every photo here is our work.</p>
+      </Reveal>
+      <div id="project-filters" role="tablist" aria-label="Filter projects" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:var(--space-8);border-bottom:1px solid var(--border-hairline);padding-bottom:var(--space-4)">
+        {cats.map((c, i) => (
+          <button type="button" role="tab" data-cat={c} aria-selected={i === 0 ? "true" : "false"}
+            style={`font:var(--type-button);letter-spacing:var(--ls-button);text-transform:uppercase;cursor:pointer;min-height:44px;padding:0 16px;background:${i === 0 ? "var(--green-800)" : "transparent"};color:${i === 0 ? "#fff" : "var(--text-primary)"};border:1px solid ${i === 0 ? "var(--green-800)" : "var(--border-strong)"}`}>{c}</button>
+        ))}
+      </div>
+      <div id="project-grid" class="proj-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-5) 12px;margin-top:var(--space-8)">
+        {all.map((p) => (
+          <a href={p.href} data-cat={p.cat} style="display:block;text-decoration:none;color:inherit;min-width:0">
+            <img src={P + p.img} alt={p.alt} loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-image);display:block" />
+            <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text);margin-top:var(--space-3)">{p.town}</div>
+            <div class="proj-title" style="font:var(--fw-regular) .9375rem/1.25 var(--font-display);color:var(--text-primary);margin-top:2px">{p.title}</div>
+            {p.scope && <p class="proj-scope" style="font:var(--type-caption);color:var(--text-secondary);margin-top:4px;max-width:40ch;display:none">{p.scope}</p>}
+            {p.study && <div style="font:var(--type-button);letter-spacing:var(--ls-button);text-transform:uppercase;color:var(--green-800);margin-top:var(--space-2);font-size:.75rem">View project →</div>}
+          </a>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <div id="estimate"><EstimateBand title="Have a project like one of these?" intro="Send a photo of the yard and tell us what you're thinking. We'll look at the property and talk through what it needs." /></div>
+</Base>
+
+<style>
+  @media (min-width: 760px) {
+    .proj-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: var(--space-8) clamp(16px,2vw,28px) !important; }
+    .proj-title { font: var(--fw-regular) 1.125rem/1.25 var(--font-display) !important; }
+    .proj-scope { display: block !important; }
+  }
+</style>
+
+<script>
+  const filters = document.getElementById("project-filters");
+  const grid = document.getElementById("project-grid");
+  if (filters && grid) {
+    filters.addEventListener("click", (e) => {
+      const btn = (e.target as HTMLElement).closest("button[data-cat]") as HTMLButtonElement | null;
+      if (!btn) return;
+      const cat = btn.dataset.cat;
+      filters.querySelectorAll("button").forEach((b) => {
+        const active = b === btn;
+        b.setAttribute("aria-selected", String(active));
+        (b as HTMLElement).style.background = active ? "var(--green-800)" : "transparent";
+        (b as HTMLElement).style.color = active ? "#fff" : "var(--text-primary)";
+        (b as HTMLElement).style.borderColor = active ? "var(--green-800)" : "var(--border-strong)";
+      });
+      grid.querySelectorAll<HTMLElement>("[data-cat]").forEach((el) => {
+        el.style.display = cat === "All" || el.dataset.cat === cat ? "" : "none";
+      });
+    });
+  }
+</script>

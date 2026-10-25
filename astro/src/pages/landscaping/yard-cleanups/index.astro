@@ -1,0 +1,150 @@
+---
+/* Ported from ui_kits/website/YardCleanups.jsx. CleanupCompare reuses the shared BeforeAfter
+   island (same drag-to-compare interaction) rather than duplicating a near-identical component. */
+import Base from "../../../layouts/Base.astro";
+import Container from "../../../components/Container.astro";
+import Section from "../../../components/Section.astro";
+import Reveal from "../../../components/Reveal.astro";
+import Hero from "../../../components/Hero.astro";
+import Button from "../../../components/Button.astro";
+import Icon from "../../../components/Icon.astro";
+import Eyebrow from "../../../components/Eyebrow.astro";
+import SectionHead from "../../../components/SectionHead.astro";
+import QuestionList from "../../../components/QuestionList.astro";
+import EstimateBand from "../../../components/EstimateBand.astro";
+import BeforeAfter from "../../../islands/BeforeAfter.jsx";
+
+const P = "/photos/";
+const CL = "/photos/cleanup/";
+const PHONE = "(717) 736-6538";
+const phoneHref = `tel:${PHONE.replace(/\D/g, "")}`;
+
+const YC_LEAF: [string, string][] = [
+  ["Lawn cleared", "Leaves raked and blown off the lawn so the grass isn't smothered going into winter."],
+  ["Beds and edges", "Leaves pulled out from under shrubs, along fences, foundations and bed edges."],
+  ["Hard surfaces", "Patios, walks and driveways cleared of leaves and debris."],
+];
+const YC_SPRING: [string, string][] = [
+  ["Winter debris out", "Leaves, sticks and matted growth cleared out of the beds."],
+  ["Cut back", "Last year's perennial and ornamental-grass growth cut down before new growth comes in."],
+  ["Weeds and edges", "Early weeds pulled and bed edges re-cut sharp."],
+];
+const YC_NEXT: [string, string, string, string][] = [
+  ["Mulch & bed work", "Beds are already cleared and edged, so fresh mulch goes straight down.", "/landscaping/mulch-beds/", "landscape-azaleas-flagstone-edge.jpg"],
+  ["Shrub & hedge trimming", "Shrubs get shaped while the crew is already on the property.", "/landscaping/trimming/", "commercial/east-main.jpg"],
+  ["Sod installation", "Bare or worn lawn areas that show up after cleanup can be replaced.", "/landscaping/sod-installation/", "sod/sod-hero-pool-new-lawn.jpg"],
+];
+const FAQ = [
+  { question: "What's the difference between a spring and a fall cleanup?", answer: "A spring cleanup clears out what collected over winter, re-cuts the bed edges and gets beds ready for mulch and new growth. A fall cleanup gets leaves and spent growth off the property before winter. Many properties get both.", linkLabel: null, href: null },
+  { question: "How much does a yard cleanup cost?", answer: "Cleanups are priced by the condition of the property, not by square footage. How long it has been since the last cleanup is usually the biggest factor, followed by how much material has to come out. Send photos and we'll quote what is actually there.", linkLabel: null, href: null },
+  { question: "What's included in a cleanup?", answer: "It depends on the property and the season. Your estimate lists exactly what's included, so you can compare it line by line against any other quote.", linkLabel: null, href: null },
+  { question: "Can mulch or shrub trimming be added?", answer: "Yes, they're often done right after a cleanup, since the beds are already cleared and edged. Ask for them on the same estimate.", linkLabel: "Mulch & bed work", href: "/landscaping/mulch-beds/" },
+  { question: "My yard is badly overgrown. Is that a cleanup?", answer: "Send photos first. Some overgrown properties are a large cleanup; others are closer to a bed renovation. We'll tell you which once we see it.", linkLabel: "Landscape installation", href: "/landscaping/installation/" },
+];
+---
+<Base route="yard-cleanups" headerOverlay headerActive="Landscaping">
+  <Hero height="min(72vh,640px)" image={CL + "cleanup-hero-cleared-beds.jpg"}
+    alt="Cleared planting beds with fresh black mulch and clean edges beside a lawn at a brick building"
+    eyebrow="Landscaping · Spring & fall cleanups"
+    title="Leaf cleanups and spring cleanups in the Harrisburg area."
+    lede="Fall leaf removal and spring yard cleanups across the west shore, Harrisburg and the towns within twenty miles of New Cumberland."
+    credit="Beds cleared, cut back and mulched">
+    <Button slot="primary" variant="solidLight" size="lg" href="#estimate">Request a cleanup estimate</Button>
+    <Button slot="secondary" variant="inverse" size="lg" href={phoneHref}><Icon name="phone" size={16} />{PHONE}</Button>
+  </Hero>
+
+  <Section tone="light" tight>
+    <Container>
+      <div class="yc-one" style="display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:center">
+        <Reveal>
+          <BeforeAfter ratio="4/3" before={CL + "cleanup-before-overgrown-bed.jpg"} after={CL + "cleanup-after-cleared-bed.jpg"}
+            beforeAlt="Planting bed before the cleanup, overgrown with tall grasses and weeds over thin, faded mulch"
+            afterAlt="The same bed after the cleanup: grasses cut back, weeds out, fresh black mulch and a clean edge against the lawn"
+            client:load />
+        </Reveal>
+        <Reveal delay={80}>
+          <Eyebrow tone="brand" style={{ marginBottom: "var(--space-5)" }}>One bed, one visit</Eyebrow>
+          <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:14ch">Same bed. One cleanup.</h2>
+          <p style="font:var(--type-body);color:var(--text-secondary);margin-top:var(--space-4);max-width:42ch">Grasses cut back, weeds pulled, debris cleared, the edge re-cut and fresh mulch laid. Drag the line to compare.</p>
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="dark">
+    <Container>
+      <div class="yc-seasons" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-12)">
+        <Reveal>
+          <div style="margin-bottom:var(--space-6)">
+            <BeforeAfter ratio="4/3" before={CL + "leaf-before.jpg"} after={CL + "leaf-after.jpg"}
+              beforeAlt="Front lawn under an oak tree covered in fallen oak leaves before a fall cleanup"
+              afterAlt="The same lawn after the leaf cleanup, cleared to green grass under the oak tree"
+              client:load />
+          </div>
+          <Eyebrow tone="inverse" rule style={{ marginBottom: "var(--space-4)" }}>Fall · Leaf cleanup</Eyebrow>
+          <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);color:var(--text-on-dark);max-width:14ch">Leaves off before they sit all winter.</h2>
+          <dl style="margin:var(--space-6) 0 0">
+            {YC_LEAF.map(([dt, dd]) => (
+              <div style="padding:var(--space-4) 0;border-top:1px solid var(--border-dark)">
+                <dt style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-300);margin-bottom:4px">{dt}</dt>
+                <dd style="margin:0;font:var(--type-small);color:var(--text-on-dark-secondary);max-width:44ch">{dd}</dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
+        <Reveal delay={80}>
+          <Eyebrow tone="inverse" rule style={{ marginBottom: "var(--space-4)" }}>Spring · Spring cleanup</Eyebrow>
+          <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);color:var(--text-on-dark);max-width:14ch">Clear the winter out of the yard.</h2>
+          <dl style="margin:var(--space-6) 0 0">
+            {YC_SPRING.map(([dt, dd]) => (
+              <div style="padding:var(--space-4) 0;border-top:1px solid var(--border-dark)">
+                <dt style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-300);margin-bottom:4px">{dt}</dt>
+                <dd style="margin:0;font:var(--type-small);color:var(--text-on-dark-secondary);max-width:44ch">{dd}</dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="light" tight>
+    <Container>
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-5)" }}>While the beds are clear</Eyebrow>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:18ch">What usually comes after a cleanup.</h2>
+      </Reveal>
+      <div class="yc-next" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-5);margin-top:var(--space-8)">
+        {YC_NEXT.map(([h, t, href, img], i) => (
+          <Reveal delay={i * 60}>
+            <a href={href} class="yc-next-link" style="display:grid;grid-template-columns:112px minmax(0,1fr);gap:var(--space-4);align-items:start;text-decoration:none;color:inherit;border-top:1px solid var(--gold-500);padding-top:var(--space-4)">
+              <img src={P + img} alt="" loading="lazy" style="width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:var(--radius-image);display:block" />
+              <div>
+                <h3 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-primary);margin-bottom:var(--space-2)">{h} →</h3>
+                <p style="font:var(--type-small);color:var(--text-secondary)">{t}</p>
+              </div>
+            </a>
+          </Reveal>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="sunken">
+    <Container>
+      <Reveal><SectionHead eyebrow="Questions about cleanups" title="What people ask first." /></Reveal>
+      <Reveal style={{ marginTop: "var(--space-10)" }}><QuestionList items={FAQ} /></Reveal>
+    </Container>
+  </Section>
+
+  <div id="estimate"><EstimateBand title="Book a leaf or spring cleanup." intro="Send a few photos of the yard. Cleanups are quoted off what's actually there." /></div>
+</Base>
+
+<style>
+  @media (min-width: 760px) {
+    .yc-one { grid-template-columns: minmax(0,1.5fr) minmax(0,1fr) !important; }
+    .yc-seasons { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: clamp(32px,5vw,88px) !important; }
+    .yc-next { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: clamp(20px,2.4vw,36px) !important; }
+    .yc-next-link { grid-template-columns: minmax(0,1fr) !important; }
+  }
+</style>

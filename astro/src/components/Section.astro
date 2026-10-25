@@ -1,0 +1,12 @@
+---
+import { sx, type StyleObject } from "../lib/style";
+interface Props { tone?: "light" | "raised" | "sunken" | "dark" | "darkAlt"; tight?: boolean; style?: StyleObject; id?: string; }
+const { tone = "light", tight = false, style, id } = Astro.props;
+const bg: Record<string, string> = {
+  light: "var(--surface-page)", raised: "var(--surface-raised)", sunken: "var(--surface-sunken)",
+  dark: "var(--surface-dark)", darkAlt: "var(--surface-dark-alt)",
+};
+---
+<section id={id} style={sx({ background: bg[tone], padding: `${tight ? "var(--section-y-tight)" : "var(--section-y)"} 0`, ...style })}>
+  <slot />
+</section>

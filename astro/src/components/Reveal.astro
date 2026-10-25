@@ -1,0 +1,11 @@
+---
+/* Static equivalent of the prototype's Reveal: fade + 18px rise, once, on scroll into view.
+   A single delegated IntersectionObserver (reveal.js, loaded once per page) does the work;
+   no per-instance React component needed. */
+import { sx, type StyleObject } from "../lib/style";
+interface Props { delay?: number; style?: StyleObject; }
+const { delay = 0, style } = Astro.props;
+---
+<div class="reveal" style={sx({ transitionDelay: delay ? `${delay}ms` : undefined, ...style })}>
+  <slot />
+</div>

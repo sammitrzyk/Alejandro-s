@@ -1,0 +1,18 @@
+---
+import * as lucide from "lucide";
+interface Props { name: string; size?: number; strokeWidth?: number; color?: string; style?: string; }
+const { name, size = 18, strokeWidth = 1.5, color = "currentColor", style } = Astro.props;
+const pascal = name.split("-").map((p) => p.charAt(0).toUpperCase() + p.slice(1)).join("");
+const node = (lucide as Record<string, unknown>)[pascal] as [string, Record<string, string>, [string, Record<string, string>][]] | undefined;
+const children = node ? node[2] : [];
+---
+{node ? (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} stroke-width={strokeWidth} stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style={`display:block;flex:0 0 auto;${style || ""}`}>
+    {children.map(([tag, attrs]) => {
+      const Tag = tag;
+      return <Tag {...attrs} />;
+    })}
+  </svg>
+) : (
+  <span aria-hidden="true" style={`display:inline-block;width:${size}px;height:${size}px;${style || ""}`} />
+)}

@@ -1,0 +1,22 @@
+---
+const W = 200, H = 108, b = 12, f = "#E4DED4";
+const SPEC_INK = "#4A453F";
+const labelStyle = "font:var(--fw-semibold) 10px/1 var(--font-sans);letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted)";
+const field: [number, number, number, number][] = [];
+for (let r = 0; r < 8; r++) for (let c = -1; c < 10; c++) field.push([b + c * 22 + (r % 2 ? 11 : 0), b + r * 11, 22, 11]);
+const ring: [number, number][] = [];
+for (let x = 0; x < W; x += b) ring.push([x, 0], [x, H - b]);
+for (let y = b; y < H - b; y += b) ring.push([0, y], [W - b, y]);
+---
+<div style="display:flex;align-items:center;gap:16px">
+  <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} aria-hidden="true" style="display:block">
+    <defs><clipPath id="bf"><rect x={b} y={b} width={W - 2 * b} height={H - 2 * b} /></clipPath></defs>
+    <g clip-path="url(#bf)" fill={f} stroke={SPEC_INK} stroke-width="1">{field.map(([x, y, w, h]) => <rect x={x} y={y} width={w} height={h} />)}</g>
+    <g fill="#5B534B" stroke="#2E2B27" stroke-width="1">{ring.map(([x, y]) => <rect x={x} y={y} width={b} height={b} />)}</g>
+    <rect x=".75" y=".75" width={W - 1.5} height={H - 1.5} fill="none" stroke="var(--gold-500)" stroke-width="1.5" />
+  </svg>
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <span style={`${labelStyle};display:flex;align-items:center;gap:8px`}><span style={`width:12px;height:12px;background:${f};outline:1px solid ${SPEC_INK}`}></span>Field</span>
+    <span style={`${labelStyle};display:flex;align-items:center;gap:8px`}><span style="width:12px;height:12px;background:#5B534B;outline:1.5px solid var(--gold-500)"></span>Border</span>
+  </div>
+</div>

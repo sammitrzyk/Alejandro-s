@@ -1,0 +1,102 @@
+@import url("https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..600&family=Archivo:wght@400;500;600;700&display=swap");
+@import "./colors.css";
+@import "./typography.css";
+@import "./spacing.css";
+@import "./layout.css";
+@import "./motion.css";
+@import "./base.css";
+
+/* ----------------------------------------------------------------------
+   Interaction states that the prototype did with React onMouseEnter/
+   onMouseLeave (hover) and onFocus/onBlur (focus). Ported to real CSS
+   pseudo-classes so these components can render as static HTML with
+   zero client JS. Values match the inline styles in components/*.
+   ---------------------------------------------------------------------- */
+
+/* Button */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2);
+  font: var(--type-button); letter-spacing: var(--ls-button); text-transform: uppercase;
+  border: var(--border-width) solid transparent; border-radius: var(--radius-none);
+  cursor: pointer; text-decoration: none; white-space: nowrap;
+  transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.btn-sm { padding: 10px 18px; min-height: 40px; font-size: .8125rem; }
+.btn-md { padding: 15px 28px; min-height: 48px; font-size: var(--fs-button); }
+.btn-lg { padding: 19px 38px; min-height: 56px; font-size: .9375rem; }
+.btn-full { width: 100%; }
+.btn-disabled { opacity: .42; cursor: not-allowed; }
+
+.btn-primary { background: var(--cta-bg); color: var(--cta-text); border-color: var(--cta-bg); }
+.btn-primary:hover:not(.btn-disabled) { background: var(--cta-bg-hover); border-color: var(--cta-bg-hover); }
+.btn-accent { background: var(--cta-accent-bg); color: var(--cta-accent-text); border-color: var(--cta-accent-bg); }
+.btn-accent:hover:not(.btn-disabled) { background: var(--cta-accent-bg-hover); border-color: var(--cta-accent-bg-hover); }
+.btn-outline { background: transparent; color: var(--green-800); border-color: var(--border-strong); }
+.btn-outline:hover:not(.btn-disabled) { border-color: var(--green-800); background: var(--green-50); }
+.btn-inverse { background: transparent; color: var(--text-on-dark); border-color: rgba(244,241,235,.42); }
+.btn-inverse:hover:not(.btn-disabled) { border-color: var(--gold-500); color: var(--gold-300); }
+.btn-solidLight { background: var(--stone-0); color: var(--green-950); border-color: var(--stone-0); }
+.btn-solidLight:hover:not(.btn-disabled) { background: var(--gold-500); border-color: var(--gold-500); }
+
+/* Image hover-scale inside a link/card (ProjectTile, TownEntry, ServiceRow) */
+.hover-media { overflow: hidden; }
+.hover-media img { transition: transform var(--dur-slow) var(--ease-out); }
+a:hover .hover-media img, .hover-media:hover img { transform: scale(var(--hover-image-scale)); }
+
+/* Underline links (ServiceRow CTA, SectionHead action, resource back-links) */
+.link-underline {
+  border-bottom: 1px solid var(--border-strong);
+  transition: border-color var(--dur-fast) var(--ease-out);
+  padding-bottom: 6px;
+}
+.link-underline:hover { border-color: var(--gold-500); }
+.link-underline-dark { border-bottom: 1px solid var(--border-dark); }
+.link-underline-dark:hover { border-color: var(--gold-500); }
+
+/* Form fields */
+.field-control {
+  width: 100%; font: var(--type-body); color: var(--text-primary);
+  background: var(--surface-raised); border: 1px solid var(--border-strong);
+  border-radius: var(--radius-none); padding: 14px 16px; min-height: 50px; outline: none;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+.field-control:focus { border-color: var(--gold-500); }
+.field-control-dark { background: rgba(255,255,255,.05); color: var(--text-on-dark); border-color: var(--border-dark); }
+.field-control-dark:focus { border-color: var(--gold-500); }
+textarea.field-control { min-height: 108px; resize: vertical; }
+select.field-control { height: 50px; appearance: none; padding-right: 44px; cursor: pointer; }
+
+/* TrustedBy card hover (home page) */
+.trusted-card {
+  position: relative; display: flex; flex-direction: column; padding: 0; border: 1px solid transparent;
+  border-radius: 16px; background: #fff; overflow: hidden; cursor: pointer; aspect-ratio: 10/4.25;
+  box-shadow: 0 4px 18px rgba(28,27,25,.05);
+  transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+.trusted-card:hover { border-color: #F7CB6B; box-shadow: 0 18px 40px rgba(28,27,25,.12); transform: translateY(-8px); }
+.trusted-card .trusted-band {
+  position: absolute; left: 0; right: 0; bottom: 0; background: #FFD166; color: #1C1B19;
+  font: var(--fw-semibold) clamp(.6875rem,1.1vw,.9375rem)/1 var(--font-sans); letter-spacing: .08em;
+  text-transform: uppercase; padding: clamp(11px,1.4vw,16px) 8px; text-align: center;
+  transform: translateY(100%); transition: transform var(--dur-base) var(--ease-out);
+}
+.trusted-card:hover .trusted-band { transform: translateY(0); }
+
+html { scroll-behavior: smooth; }
+[id] { scroll-margin-top: 90px; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+/* Reveal — fade + rise on scroll into view (IntersectionObserver, vanilla JS, no framework) */
+.reveal { opacity: 0; transform: translateY(var(--reveal-distance)); transition: opacity var(--dur-reveal) var(--ease-out), transform var(--dur-reveal) var(--ease-out); }
+.reveal.is-visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* Horizontal swipe strips with hidden scrollbar (RetainingWalls, etc.) */
+.swipe-strip::-webkit-scrollbar { display: none; }
+.swipe-strip { scrollbar-width: none; }
+
+/* FAQ <details> marker */
+.faq-details summary::-webkit-details-marker { display: none; }
+.faq-details summary { list-style: none; }

@@ -1,0 +1,104 @@
+---
+/* Project case-study template. Ported from ui_kits/website/ProjectPage.jsx. One static page per
+   entry in PROJECT_STUDIES (src/data/projects.js). */
+import Base from "../../../layouts/Base.astro";
+import Container from "../../../components/Container.astro";
+import Section from "../../../components/Section.astro";
+import RelatedProjects from "../../../components/RelatedProjects.astro";
+import EstimateBand from "../../../components/EstimateBand.astro";
+import BeforeAfter from "../../../islands/BeforeAfter.jsx";
+import { PROJECT_STUDIES } from "../../../data/projects";
+
+export function getStaticPaths() {
+  return PROJECT_STUDIES.map((p) => ({ params: { slug: p.slug }, props: { p } }));
+}
+
+const { p } = Astro.props as { p: (typeof PROJECT_STUDIES)[number] };
+const P = "/photos/";
+const [bl, al] = p.beforeAfterLabels || ["Before", "After"];
+const title = `${p.title.replace(/\s*\[VERIFY[^\]]*\]/, "")} | Alejandro's Landscaping`;
+const crumbs: [string, string][] = [["Home", "/"], ["Projects", "/projects/"], [p.short, `/projects/${p.slug}/`]];
+const path = `/projects/${p.slug}/`;
+const beforeIsPlaceholder = /^\s*\[(VERIFY|ADD)[^\]]*\]\s*$/.test(p.before);
+---
+<Base title={title} description={p.meta} path={path} crumbs={crumbs} headerActive="Projects">
+  <Section tone="light" tight>
+    <Container>
+      <nav aria-label="Breadcrumb" style="font:var(--type-caption);color:var(--text-muted);margin-bottom:var(--space-6)">
+        <a href="/">Home</a> <span aria-hidden="true">/</span> <a href="/projects/">Projects</a> <span aria-hidden="true">/</span> <span>{p.short}</span>
+      </nav>
+      <div class="proj-hero" style="display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:start">
+        <div>
+          <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text)">{p.serviceLabel} · {p.town}</div>
+          <h1 style="font:var(--type-h1);letter-spacing:var(--ls-heading);margin-top:var(--space-3);max-width:18ch">{p.title}</h1>
+          <p style="font:var(--type-lead);color:var(--text-secondary);margin-top:var(--space-5);max-width:48ch">{p.intro}</p>
+          <dl style="margin:var(--space-6) 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 var(--space-5)">
+            {p.facts.filter(([, v]) => !/^\s*\[VERIFY[^\]]*\]\s*$/.test(v)).map(([k, v]) => (
+              <div style="border-top:1px solid var(--gold-500);padding:var(--space-3) 0">
+                <dt style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text)">{k}</dt>
+                <dd style="margin:var(--space-1) 0 0;font:var(--type-small);color:var(--text-primary)">{v}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+        <img src={P + p.hero} alt={p.heroAlt} fetchpriority="high" class="proj-hero-img" style="width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:var(--radius-image);display:block;order:-1" />
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="sunken" tight>
+    <Container>
+      <div class="proj-detail" style="display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:start">
+        <div>
+          <BeforeAfter before={P + p.beforeAfter[0]} after={P + p.beforeAfter[1]} beforeAlt={p.beforeAfter[2]} afterAlt={p.beforeAfter[3]} ratio="4/3" client:load />
+          <p style="font:var(--type-caption);color:var(--text-muted);margin-top:var(--space-2)">Drag to compare · {bl} / {al}</p>
+        </div>
+        <div>
+          {!beforeIsPlaceholder && (
+            <>
+              <h2 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text);margin-bottom:var(--space-2)">Before the work</h2>
+              <p style="font:var(--type-body);color:var(--text-secondary);max-width:46ch;margin-bottom:var(--space-6)">{p.before}</p>
+            </>
+          )}
+          <h2 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text);margin-bottom:var(--space-2)">Work performed</h2>
+          <ul style="margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:6px">
+            {p.work.filter((w) => !/^\s*\[(VERIFY|ADD)[^\]]*\]\s*$/.test(w)).map((w) => <li style="font:var(--type-body);color:var(--text-secondary);max-width:46ch">{w}</li>)}
+          </ul>
+          <h2 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text);margin:var(--space-6) 0 var(--space-2)">The result</h2>
+          <p style="font:var(--type-body);color:var(--text-secondary);max-width:46ch">{p.result}</p>
+        </div>
+      </div>
+      {p.gallery.length > 0 && (
+        <div class="proj-gallery" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:var(--space-10)">
+          {p.gallery.map(([f, alt, cap]) => (
+            <figure style="margin:0">
+              <img src={P + f} alt={alt} loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-image);display:block" />
+              <figcaption style="font:var(--type-caption);color:var(--text-secondary);margin-top:var(--space-2)">{cap}</figcaption>
+            </figure>
+          ))}
+        </div>
+      )}
+    </Container>
+  </Section>
+
+  <Section tone="light" tight>
+    <Container>
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-4) var(--space-10);align-items:baseline">
+        <h2 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-primary)">Related services</h2>
+        {p.related.map(([l, h]) => <a href={h} style="font:var(--type-body)">{l} →</a>)}
+        <a href={p.areaHref} style="font:var(--type-body)">{p.townVerified ? `Our services in ${p.town.replace(", PA", "")}` : "Our service area"} →</a>
+      </div>
+    </Container>
+  </Section>
+
+  <div id="estimate"><EstimateBand title="Planning something similar?" intro={`Send a photo of your property and tell us what you have in mind. We'll take a look and talk through the ${p.serviceLabel.toLowerCase()} work it needs.`} /></div>
+</Base>
+
+<style>
+  @media (min-width: 760px) {
+    .proj-hero { grid-template-columns: minmax(0,1fr) minmax(0,1.25fr) !important; }
+    .proj-hero-img { aspect-ratio: 4/3 !important; order: 0 !important; }
+    .proj-detail { grid-template-columns: minmax(0,1.2fr) minmax(0,1fr) !important; }
+    .proj-gallery { gap: var(--gap-grid) !important; max-width: 820px; }
+  }
+</style>

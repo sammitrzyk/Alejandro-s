@@ -1,0 +1,20 @@
+---
+/* Illustrative cross-section, not to scale: a tyre load on the pavers spreads wider through
+   the bedding and compacted base into the subgrade. Ported from PaverDriveways.jsx. */
+const DW_INK = "#4A453F", DW_GOLD = "#F5B324", DW_ONDARK = "#F4F1EB", DW_ONDARK2 = "#B9B4A9";
+const labelStyle = "font-family:Archivo,sans-serif;font-size:10px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase";
+const bars = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+const labels: [string, number][] = [["Pavers", 131], ["Bedding", 152], ["Compacted base", 206], ["Subgrade", 294]];
+---
+<svg viewBox="0 0 640 340" role="img" aria-label="Cross-section: a tyre load on the pavers spreads wider through the bedding and compacted base into the subgrade" style="width:100%;height:auto;display:block">
+  <circle cx="320" cy="58" r="52" fill="#2E2B27" /><circle cx="320" cy="58" r="22" fill="#6B655D" />
+  <text x="400" y="40" style={`${labelStyle};fill:${DW_INK}`}>Vehicle load</text>
+  {bars.map((i) => <rect x={40 + i * 64} y="112" width="60" height="26" fill="#B8B0A2" stroke="#6B655D" />)}
+  <rect x="40" y="140" width="572" height="16" fill="#6B655D" />
+  <path d="M40 158 L612 158 L612 246 L40 246 Z" fill="#4A453F" />
+  <path d="M40 248 L612 248 L612 330 L40 330 Z" fill="#5A4632" />
+  <path d="M296 112 L276 140 L200 246 L90 330 M344 112 L364 140 L440 246 L550 330" fill="none" stroke={DW_GOLD} stroke-width="2" />
+  <path d="M296 112 L344 112 L364 140 L440 246 L550 330 L90 330 L200 246 L276 140 Z" fill={DW_GOLD} opacity=".14" />
+  {labels.map(([t, y]) => <text x="600" y={y} text-anchor="end" style={`${labelStyle};fill:${t === "Pavers" ? "#2E2B27" : DW_ONDARK}`}>{t}</text>)}
+  <path d="M320 112 L320 330" stroke={DW_GOLD} stroke-width="1" stroke-dasharray="3 5" />
+</svg>

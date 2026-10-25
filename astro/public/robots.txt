@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://alejandroslandscapes.com/sitemap-index.xml

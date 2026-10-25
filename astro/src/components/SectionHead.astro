@@ -1,0 +1,13 @@
+---
+import { sx, type StyleObject } from "../lib/style";
+import Eyebrow from "./Eyebrow.astro";
+interface Props { eyebrow?: string; title: string; intro?: string; align?: "left" | "center"; tone?: "light" | "dark"; style?: StyleObject; }
+const { eyebrow, title, intro, align = "left", tone = "light", style } = Astro.props;
+const inverse = tone === "dark";
+---
+<header style={sx({ display: "flex", flexDirection: "column", gap: "var(--space-5)", alignItems: align === "center" ? "center" : "flex-start", textAlign: align === "center" ? "center" : "left", ...style })}>
+  {eyebrow && <Eyebrow tone={inverse ? "inverse" : "brand"} rule={inverse}>{eyebrow}</Eyebrow>}
+  <h2 style={sx({ font: "var(--type-h2)", letterSpacing: "var(--ls-heading)", color: inverse ? "var(--text-on-dark)" : "var(--text-primary)", maxWidth: "18ch", textWrap: "pretty" })}>{title}</h2>
+  {intro && <p style={sx({ font: "var(--type-lead)", color: inverse ? "var(--text-on-dark-secondary)" : "var(--text-secondary)", maxWidth: "var(--measure-lead)", textWrap: "pretty" })}>{intro}</p>}
+  <slot name="action" />
+</header>

@@ -1,0 +1,43 @@
+---
+/* Ported from ui_kits/website/Resources.jsx. */
+import Base from "../../layouts/Base.astro";
+import Container from "../../components/Container.astro";
+import Section from "../../components/Section.astro";
+import Reveal from "../../components/Reveal.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import EstimateBand from "../../components/EstimateBand.astro";
+
+const RS_ITEMS: [string, string, string, string][] = [
+  ["FAQ center", "Short answers about services, estimates and working with Alejandro's.", "/resources/faqs/", "Browse questions"],
+  ["Completed projects", "Patios, driveways, walkways, walls and landscaping we've finished, with where they are and what was done.", "/projects/", "See projects"],
+  ["Service areas", "The towns we work in around New Cumberland and Harrisburg.", "/service-areas/", "Find your town"],
+  ["How much mulch?", "A quick table of how much mulch common bed sizes take at two and three inches.", "/landscaping/mulch-beds/", "Open the guide"],
+];
+---
+<Base route="resources" headerActive="Resources">
+  <Section tone="light" tight style={{ paddingTop: "var(--space-16)" }}>
+    <Container>
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-6)" }}>Resources</Eyebrow>
+        <h1 style="font:var(--type-h1);letter-spacing:var(--ls-heading);max-width:16ch;margin-bottom:var(--space-6);text-wrap:balance">Landscaping and hardscaping resources.</h1>
+        <p style="font:var(--type-lead);color:var(--text-secondary);max-width:var(--measure-lead)">Answers to common questions, completed projects and the towns we serve.</p>
+      </Reveal>
+    </Container>
+  </Section>
+
+  <Section tone="sunken" tight>
+    <Container>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:0 clamp(20px,3vw,40px)">
+        {RS_ITEMS.map(([h, d, href, cta], i) => (
+          <Reveal delay={i * 60} style={{ borderTop: "2px solid var(--gold-500)", padding: "var(--space-6) 0" }}>
+            <h2 style="font:var(--type-h4);margin-bottom:var(--space-3)">{h}</h2>
+            <p style="font:var(--type-small);color:var(--text-secondary);max-width:34ch;margin-bottom:var(--space-5)">{d}</p>
+            <a href={href} class="link-underline" style="font:var(--type-button);letter-spacing:var(--ls-button);text-transform:uppercase;color:var(--green-800);text-decoration:none">{cta} →</a>
+          </Reveal>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <div id="estimate"><EstimateBand title="Have a question about your property?" intro="Tell us what you're looking at and send a photo. We'll come out, walk it with you and give you a written estimate." /></div>
+</Base>

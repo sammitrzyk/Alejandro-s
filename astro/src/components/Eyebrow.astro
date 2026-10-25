@@ -1,0 +1,12 @@
+---
+import { sx, type StyleObject } from "../lib/style";
+interface Props { tone?: "default" | "brand" | "accent" | "inverse"; rule?: boolean; style?: StyleObject; }
+const { tone = "default", rule = false, style } = Astro.props;
+const colors: Record<string, string> = {
+  default: "var(--text-muted)", brand: "var(--green-700)", accent: "var(--gold-text)", inverse: "rgba(244,241,235,.72)",
+};
+---
+<div style={sx({ display: "flex", alignItems: "center", gap: "var(--space-4)", ...style })}>
+  {rule && <span style={sx({ width: 28, height: 1, background: tone === "inverse" ? "rgba(244,241,235,.42)" : "var(--border-strong)", flex: "0 0 auto" })} />}
+  <span style={sx({ font: "var(--type-eyebrow)", letterSpacing: "var(--ls-eyebrow)", textTransform: "uppercase", color: colors[tone] })}><slot /></span>
+</div>

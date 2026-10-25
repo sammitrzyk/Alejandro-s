@@ -1,0 +1,25 @@
+---
+import { sx, type StyleObject } from "../lib/style";
+interface Props {
+  variant?: "primary" | "accent" | "outline" | "inverse" | "solidLight";
+  size?: "sm" | "md" | "lg";
+  href?: string;
+  fullWidth?: boolean;
+  disabled?: boolean;
+  type?: "button" | "submit";
+  style?: StyleObject;
+  class?: string;
+}
+const { variant = "primary", size = "md", href, fullWidth = false, disabled = false, type = "button", style, class: className } = Astro.props;
+const cls = [
+  "btn", `btn-${size}`, `btn-${variant}`,
+  fullWidth && "btn-full",
+  disabled && "btn-disabled",
+  className,
+].filter(Boolean).join(" ");
+---
+{href && !disabled ? (
+  <a href={href} class={cls} style={sx(style)}><slot /></a>
+) : (
+  <button type={type} disabled={disabled} class={cls} style={sx(style)}><slot /></button>
+)}

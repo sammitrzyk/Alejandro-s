@@ -1,0 +1,174 @@
+---
+/* Ported from ui_kits/website/MulchBedWork.jsx. The "mulch calculator" in the prototype is a
+   static reference table (MB_GUIDE), not a live input->output calculator — no interactivity
+   to preserve, so it renders as plain static HTML. */
+import Base from "../../../layouts/Base.astro";
+import Container from "../../../components/Container.astro";
+import Section from "../../../components/Section.astro";
+import Reveal from "../../../components/Reveal.astro";
+import Hero from "../../../components/Hero.astro";
+import Button from "../../../components/Button.astro";
+import Icon from "../../../components/Icon.astro";
+import Eyebrow from "../../../components/Eyebrow.astro";
+import SectionHead from "../../../components/SectionHead.astro";
+import QuestionList from "../../../components/QuestionList.astro";
+import EstimateBand from "../../../components/EstimateBand.astro";
+
+const P = "/photos/";
+const CMB = "/photos/commercial/";
+const PHONE = "(717) 736-6538";
+const phoneHref = `tel:${PHONE.replace(/\D/g, "")}`;
+
+const MB_GUIDE: [number, string, string][] = [[50, "0.5", "0.5"], [100, "1", "1"], [200, "1.5", "2"], [400, "2.5", "4"], [800, "5", "7.5"]];
+const MB_STEPS: [string, string][] = [
+  ["Clear", "Weeds pulled to the root and spent growth cut back."],
+  ["Edge", "A spade-cut trench along the lawn so the line holds."],
+  ["Mulch", "Two to three inches, spread by hand."],
+  ["Rake back", "Pulled off stems and trunks, beds left tidy."],
+];
+const MB_WORK: [string, string, string, string, string][] = [
+  [P + "mb-res-azaleas.jpg", "Blooming azaleas in a fresh black mulch bed behind a dry-laid fieldstone edge", "Foundation bed & azaleas", "Camp Hill, PA", "50% 50%"],
+  [P + "mb-res-island-bed.jpg", "Island bed of black mulch and shrubs edged in fieldstone beside a driveway", "Island bed refresh", "Mechanicsburg, PA", "50% 50%"],
+  [P + "mulch-hero-black-beds.jpg", "Fresh black mulch with a sharp cut edge against the lawn", "Edging & mulch", "New Cumberland, PA", "50% 60%"],
+  [CMB + "commercial-landscaping-linglestown-family-dental-mulch-colonial-park-pa.jpg", "Long bed of fresh black mulch along a lawn and walkway", "Long border bed", "Colonial Park, PA", "50% 62%"],
+];
+---
+<Base route="mulch-bed-work" headerOverlay headerActive="Landscaping">
+  <Hero height="min(70vh,620px)" image={P + "mulch-hero-black-beds.jpg"}
+    alt="Fresh black mulch beds with clean curved edges against a lawn and walkway"
+    eyebrow="Landscaping · Mulch & bed work"
+    title="Clean beds, sharp edges, fresh mulch."
+    lede="Mulch, edging, weeding and bed refreshes for homes and commercial properties across the west shore, Harrisburg and the towns within twenty miles of New Cumberland."
+    credit="Cut edges and fresh black mulch">
+    <Button slot="primary" variant="solidLight" size="lg" href="#estimate">Request an estimate</Button>
+    <Button slot="secondary" variant="inverse" size="lg" href={phoneHref}><Icon name="phone" size={16} />{PHONE}</Button>
+  </Hero>
+
+  <Section tone="light" tight>
+    <Container>
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-4)" }}>Recent bed work</Eyebrow>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:18ch">Beds we keep sharp.</h2>
+        <p style="font:var(--type-small);color:var(--text-secondary);margin-top:var(--space-3);max-width:50ch">Front beds, island beds and borders around homes across the west shore.</p>
+      </Reveal>
+      <div class="mb-gallery" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:var(--space-8)">
+        {MB_WORK.map(([src, alt, cap, town, pos], i) => (
+          <Reveal delay={(i % 4) * 60}>
+            <figure style="margin:0">
+              <img src={src} alt={alt} loading="lazy" style={`width:100%;aspect-ratio:4/5;object-fit:cover;object-position:${pos};border-radius:var(--radius-image);display:block`} />
+              <figcaption style="margin-top:var(--space-2)">
+                <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-primary)">{cap}</div>
+                <div style="font:var(--type-caption);color:var(--text-muted);margin-top:2px">{town}</div>
+              </figcaption>
+            </figure>
+          </Reveal>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="dark" tight>
+    <Container>
+      <Reveal>
+        <Eyebrow tone="inverse" rule style={{ marginBottom: "var(--space-4)" }}>What a bed refresh includes</Eyebrow>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);color:var(--text-on-dark);max-width:18ch">Usually done in one visit.</h2>
+      </Reveal>
+      <dl class="mb-steps" style="margin:var(--space-8) 0 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 16px">
+        {MB_STEPS.map(([h, d]) => (
+          <div style="border-top:1px solid var(--gold-500);padding:var(--space-4) 0">
+            <dt style="font:var(--type-h3);color:var(--text-on-dark);margin-bottom:var(--space-2)">{h}</dt>
+            <dd style="margin:0;font:var(--type-small);color:var(--text-on-dark-secondary);max-width:26ch">{d}</dd>
+          </div>
+        ))}
+      </dl>
+    </Container>
+  </Section>
+
+  <Section tone="sunken" tight>
+    <Container>
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-4)" }}>How much mulch</Eyebrow>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:18ch">How much mulch will your beds take?</h2>
+        <p style="font:var(--type-small);color:var(--text-secondary);margin-top:var(--space-3);max-width:52ch">One cubic yard covers about 160 square feet at two inches, or about 108 at three. Rounded up to the half yard.</p>
+      </Reveal>
+      <div class="mb-calc" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-8) clamp(28px,5vw,80px);align-items:start;border-top:1px solid var(--gold-500);padding-top:var(--space-6);margin-top:var(--space-8)">
+        <table style="width:100%;border-collapse:collapse">
+          <thead><tr>
+            <th style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-muted);text-align:left;padding:0 0 var(--space-3);font-weight:600">Bed area</th>
+            <th style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-muted);text-align:left;padding:0 0 var(--space-3);font-weight:600">At 2 in</th>
+            <th style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-muted);text-align:left;padding:0 0 var(--space-3);font-weight:600">At 3 in</th>
+          </tr></thead>
+          <tbody>
+            {MB_GUIDE.map(([a, two, three]) => (
+              <tr>
+                <td style="font:var(--fw-regular) 1.125rem/1.2 var(--font-display);color:var(--text-primary);padding:var(--space-3) 0;border-top:1px solid var(--border-hairline)">{a} sq ft</td>
+                <td style="font:var(--fw-regular) 1.125rem/1.2 var(--font-display);color:var(--text-primary);padding:var(--space-3) 0;border-top:1px solid var(--border-hairline)">{two} yd</td>
+                <td style="font:var(--fw-regular) 1.125rem/1.2 var(--font-display);color:var(--green-800);padding:var(--space-3) 0;border-top:1px solid var(--border-hairline)">{three} yd</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div>
+          <p style="font:var(--type-body);color:var(--text-secondary);max-width:40ch">Not sure of the size? Send a photo of the beds and we'll measure them when we come out.</p>
+          <a href="/#estimate" class="link-underline" style="display:inline-block;margin-top:var(--space-4);font:var(--type-button);letter-spacing:var(--ls-button);text-transform:uppercase;color:var(--green-800);text-decoration:none">Have us measure and install it →</a>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="light" tight>
+    <Container>
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-4)" }}>Mulch or stone</Eyebrow>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:20ch">Pick the material for the spot.</h2>
+      </Reveal>
+      <div class="mb-compare" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:var(--space-8)">
+        <Reveal>
+          <figure style="margin:0">
+            <img src={CMB + "commercial-landscaping-family-physician-associates-new-cumberland-pa.jpg"} alt="Rounded shrubs in a fresh black mulch bed" loading="lazy" style="width:100%;aspect-ratio:1/1;object-fit:cover;object-position:50% 70%;border-radius:var(--radius-image);display:block" />
+            <figcaption style="border-top:1px solid var(--gold-500);margin-top:var(--space-4);padding-top:var(--space-3)">
+              <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase">Mulch</div>
+              <p style="font:var(--type-small);color:var(--text-secondary);margin-top:var(--space-2);max-width:44ch">Breaks down and feeds the soil. Cheaper up front, topped up every year or two. Best in planting beds you change around.</p>
+            </figcaption>
+          </figure>
+        </Reveal>
+        <Reveal>
+          <figure style="margin:0">
+            <img src={CMB + "commercial-landscaping-linglestown-family-dental-river-rock-colonial-park-pa.jpg"} alt="Tan river rock bed along a building" loading="lazy" style="width:100%;aspect-ratio:1/1;object-fit:cover;object-position:50% 65%;border-radius:var(--radius-image);display:block" />
+            <figcaption style="border-top:1px solid var(--gold-500);margin-top:var(--space-4);padding-top:var(--space-3)">
+              <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase">Decorative stone</div>
+              <p style="font:var(--type-small);color:var(--text-secondary);margin-top:var(--space-2);max-width:44ch">Doesn't need replacing and stays put on a slope or along a drive. Reflects heat onto plants and is hard to remove later.</p>
+            </figcaption>
+          </figure>
+        </Reveal>
+      </div>
+      <Reveal><p style="font:var(--type-small);color:var(--text-secondary);margin-top:var(--space-8)">Starting from bare ground? <a href="/landscaping/installation/">See landscape installation →</a></p></Reveal>
+    </Container>
+  </Section>
+
+  <Section tone="sunken">
+    <Container>
+      <Reveal><SectionHead eyebrow="Questions about mulch & bed work" title="What people ask before they hire." /></Reveal>
+      <Reveal style={{ marginTop: "var(--space-10)" }}>
+        <QuestionList items={[
+          { question: "When should mulch go down in Pennsylvania?", answer: "Mid to late spring, once the soil has warmed and the first weeds have shown. Mulching too early traps cold, wet soil and buries weeds that are about to come up anyway. Fall mulching helps insulate roots but does less for appearance.", linkLabel: null, href: null },
+          { question: "Do old mulch and weeds get removed first?", answer: "Weeds come out to the root first, because burying them only delays them. Old mulch usually stays unless it has built up past about three inches; then some comes off before the new layer goes down.", linkLabel: null, href: null },
+          { question: "How often should beds be mulched?", answer: "Most beds look right with a light top-up once a year. Many properties alternate: a full refresh one year and just edging and touch-ups the next, which also stops the layer building up too deep.", linkLabel: null, href: null },
+          { question: "Do you do mulch for commercial properties?", answer: "Yes. Bed work is a regular part of our commercial grounds maintenance for offices, practices and managed properties.", linkLabel: "Commercial landscaping", href: "/commercial-landscaping/" },
+        ]} />
+      </Reveal>
+    </Container>
+  </Section>
+
+  <div id="estimate"><EstimateBand title="Send a photo of the beds." intro="One picture tells us most of what the price needs: how overgrown the beds are, how long the edges are, and whether anything has to come out first." /></div>
+</Base>
+
+<style>
+  @media (min-width: 760px) {
+    .mb-gallery { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: clamp(14px,2vw,24px) !important; }
+    .mb-steps { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 0 clamp(20px,3vw,40px) !important; }
+    .mb-calc { grid-template-columns: minmax(0,1.2fr) minmax(0,1fr) !important; }
+    .mb-compare { gap: clamp(24px,4vw,56px) !important; }
+    .mb-compare img { aspect-ratio: 3/2 !important; }
+  }
+</style>

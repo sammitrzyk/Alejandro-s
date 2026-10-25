@@ -1,0 +1,10 @@
+---
+const xs = [27, 45, 63];
+const ys = [27, 45];
+---
+<svg viewBox="0 0 96 72" aria-hidden="true" style="width:100%;height:auto;display:block">
+  <rect width="96" height="72" fill="#4A453F" />
+  <rect x="9" y="9" width="78" height="54" fill="#B8B0A2" />
+  {xs.map((x) => <path d={`M${x} 9 L${x} 63`} stroke="#8E877C" />)}
+  {ys.map((y) => <path d={`M9 ${y} L87 ${y}`} stroke="#8E877C" />)}
+</svg>

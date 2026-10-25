@@ -1,0 +1,45 @@
+---
+/* Strip of related case studies for a service or town page. Ported from ProjectPage.jsx's
+   RelatedProjects. Renders nothing if no project matches. */
+import Section from "./Section.astro";
+import Container from "./Container.astro";
+import { PROJECT_STUDIES } from "../data/projects";
+import { TOWNS_DATA } from "../data/towns";
+
+interface Props { service?: string; town?: string; title?: string; }
+const { service, town, title } = Astro.props;
+const P = "/photos/";
+const list = PROJECT_STUDIES.filter((p) => (service ? p.service === service : true) && (town ? p.townVerified && p.town.startsWith(town) : true));
+const towns = service ? TOWNS_DATA.filter((t) => list.some((p) => p.townVerified && p.town.startsWith(t.town))) : [];
+---
+{list.length > 0 && (
+  <Section tone="light" tight>
+    <Container>
+      <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:var(--space-4);border-top:1px solid var(--gold-500);padding-top:var(--space-5)">
+        <h2 style="font:var(--type-h3)">{title || "Related projects"}</h2>
+        <a href="/projects/" style="font:var(--type-button);letter-spacing:var(--ls-button);text-transform:uppercase;text-decoration:none">All projects →</a>
+      </div>
+      <div class="related-projects-grid" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:var(--space-6)">
+        {list.map((p) => (
+          <a href={`/projects/${p.slug}/`} style="text-decoration:none;color:inherit;min-width:0">
+            <img src={P + p.hero} alt={p.heroAlt} loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-image);display:block" />
+            <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text);margin-top:var(--space-3)">{p.town}</div>
+            <div style="font:var(--fw-regular) 1rem/1.3 var(--font-display);margin-top:2px">{p.short}</div>
+          </a>
+        ))}
+      </div>
+      {towns.length > 0 && (
+        <p style="font:var(--type-small);color:var(--text-secondary);margin-top:var(--space-6);display:flex;flex-wrap:wrap;gap:var(--space-2) var(--space-4);align-items:baseline">
+          <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text)">Where we work</span>
+          {towns.map((t) => <a href={`/service-areas/${t.slug}/`}>{t.town}, PA</a>)}
+          <a href="/service-areas/">All service areas →</a>
+        </p>
+      )}
+    </Container>
+  </Section>
+)}
+<style>
+  @media (min-width: 760px) {
+    .related-projects-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: var(--gap-grid) !important; }
+  }
+</style>

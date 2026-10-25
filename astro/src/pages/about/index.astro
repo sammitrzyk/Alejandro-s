@@ -1,0 +1,100 @@
+---
+/* Ported from ui_kits/website/About.jsx. Several blocks in the prototype were entirely
+   [VERIFY ...] placeholders with no real content — see VERIFY-LIST.md for what was omitted
+   (company founding story, "How it started" section, Dorian's role/title caption, tree work
+   description). */
+import Base from "../../layouts/Base.astro";
+import Container from "../../components/Container.astro";
+import Section from "../../components/Section.astro";
+import Reveal from "../../components/Reveal.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import SectionHead from "../../components/SectionHead.astro";
+import EstimateBand from "../../components/EstimateBand.astro";
+
+const P = "/photos/";
+const AB_WORK: [string, string, string | null][] = [
+  ["Hardscaping", "Patios, driveways, walkways, retaining walls and fire features.", "/hardscaping/paver-patios/"],
+  ["Landscaping", "Installation, mulch and beds, sod, trimming, cleanups and lighting.", "/landscaping/installation/"],
+  ["Commercial maintenance", "Grounds care for offices, medical practices and managed properties.", "/commercial-landscaping/"],
+  ["Snow removal", "Commercial snow and ice management through the winter.", "/commercial/snow-removal/"],
+];
+const AB_TOWNS = ["New Cumberland", "Camp Hill", "Lemoyne", "Mechanicsburg", "Enola", "Harrisburg", "Hershey", "Dillsburg"];
+---
+<Base route="about" headerActive="About">
+  <Section tone="light">
+    <Container>
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-5)" }}>About Alejandro's</Eyebrow>
+        <h1 style="font:var(--type-h1);letter-spacing:var(--ls-heading);max-width:16ch">The people behind Alejandro's.</h1>
+        <p style="font:var(--type-lead);color:var(--text-secondary);margin-top:var(--space-5);max-width:52ch">Alejandro's Landscaping is a New Cumberland-based landscaping and hardscaping company serving properties across Central Pennsylvania.</p>
+      </Reveal>
+      <div class="ab-who" style="display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(24px,4vw,72px);align-items:end;margin-top:var(--space-10)">
+        <Reveal>
+          <figure style="margin:0">
+            <img src={P + "about-dorian-mower.jpg"} alt="Dorian of Alejandro's Landscaping on a Kubota zero-turn mower on a freshly striped lawn" fetchpriority="high" style="width:100%;aspect-ratio:4/3;object-fit:cover;object-position:38% 55%;border-radius:var(--radius-image);display:block" />
+            <figcaption style="margin-top:var(--space-3)">
+              <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text)">Dorian</span>
+            </figcaption>
+          </figure>
+        </Reveal>
+        <Reveal delay={80}>
+          <div style="border-top:1px solid var(--gold-500);padding-top:var(--space-5)">
+            <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--green-700);margin-bottom:var(--space-4)">The company</div>
+            <p style="font:var(--type-body);color:var(--text-secondary);max-width:46ch">Today Alejandro's builds patios, driveways and walls, installs and maintains landscapes, and cares for commercial properties year round.</p>
+          </div>
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="dark" tight>
+    <Container>
+      <Reveal>
+        <Eyebrow tone="inverse" rule style={{ marginBottom: "var(--space-4)" }}>The company today</Eyebrow>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);color:var(--text-on-dark);max-width:18ch">Crews, trucks and equipment on the job.</h2>
+      </Reveal>
+    </Container>
+  </Section>
+
+  <Section tone="light" tight>
+    <Container>
+      <Reveal><SectionHead eyebrow="The work" title="What we do." /></Reveal>
+      <div class="ab-work" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 clamp(16px,2.6vw,40px);margin-top:var(--space-8)">
+        {AB_WORK.map(([h, d, href]) => (
+          <div style="border-top:1px solid var(--gold-500);padding:var(--space-4) 0">
+            {href
+              ? <a href={href} style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-primary);text-decoration:none">{h} →</a>
+              : <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-primary)">{h}</span>}
+            <p style="font:var(--type-small);color:var(--text-secondary);margin-top:var(--space-2)">{d}</p>
+          </div>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="sunken" tight>
+    <Container>
+      <div class="ab-where" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-6) clamp(28px,5vw,80px);align-items:end">
+        <Reveal>
+          <Eyebrow tone="brand" style={{ marginBottom: "var(--space-4)" }}>Where we work</Eyebrow>
+          <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:16ch">Based in New Cumberland.</h2>
+          <p style="font:var(--type-body);color:var(--text-secondary);margin-top:var(--space-4);max-width:46ch">We work properties within about twenty miles: the west shore, Harrisburg, Hershey and the communities around them.</p>
+        </Reveal>
+        <Reveal delay={80}>
+          <p style="font:var(--fw-regular) 1.125rem/1.9 var(--font-display);color:var(--text-primary)">{AB_TOWNS.join(" · ")}</p>
+          <a href="/service-areas/" class="link-underline" style="display:inline-block;margin-top:var(--space-4);font:var(--type-button);letter-spacing:var(--ls-button);text-transform:uppercase;color:var(--green-800);text-decoration:none">View our service area →</a>
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  <div id="estimate"><EstimateBand title="Tell us what you're working with." intro="Send a photo of the property and what you'd like to change. We'll come out, walk it with you and give you a written estimate." /></div>
+</Base>
+
+<style>
+  @media (min-width: 860px) {
+    .ab-who { grid-template-columns: minmax(0,1.3fr) minmax(0,1fr) !important; }
+    .ab-work { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+    .ab-where { grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important; }
+  }
+</style>

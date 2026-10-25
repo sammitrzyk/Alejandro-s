@@ -1,0 +1,30 @@
+---
+function herringbone(u: number, w: number, h: number) {
+  const out: [number, number, number, number][] = [];
+  for (let s = -12; s <= 12; s++) for (let t = -12; t <= 16; t++) {
+    const ox = s * 4 + t, oy = t;
+    out.push([ox * u, oy * u, 2 * u, u], [(ox + 2) * u, (oy - 1) * u, u, 2 * u]);
+  }
+  return out.filter(([x, y, rw, rh]) => x < w && y < h && x + rw > 0 && y + rh > 0);
+}
+const W = 92, H = 68, f = "#E4DED4";
+const SPEC_INK = "#4A453F";
+const labelStyle = "font:var(--fw-semibold) 10px/1 var(--font-sans);letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted)";
+const modular: [number, number, number, number][] = [[0,0,34,22],[34,0,22,22],[56,0,36,22],[0,22,22,22],[22,22,34,22],[56,22,22,22],[78,22,14,22],[0,44,34,24],[34,44,22,24],[56,44,36,24]];
+const bond: [number, number, number, number][] = [];
+for (let r = 0; r < 6; r++) for (let c = -1; c < 5; c++) bond.push([c * 24 + (r % 2 ? 12 : 0), r * 12, 24, 12]);
+const sets: [string, [number, number, number, number][]][] = [["Modular", modular], ["Running bond", bond], ["Herringbone", herringbone(8, W, H)]];
+---
+<div style="display:flex;gap:14px;flex-wrap:wrap">
+  {sets.map(([l, rects], i) => (
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} aria-hidden="true" style={`display:block;background:${f};outline:1px solid ${SPEC_INK}`}>
+        <defs><clipPath id={`pc${i}`}><rect width={W} height={H} /></clipPath></defs>
+        <g clip-path={`url(#pc${i})`} fill={f} stroke={SPEC_INK} stroke-width="1">
+          {rects.map(([x, y, w, h]) => <rect x={x} y={y} width={w} height={h} />)}
+        </g>
+      </svg>
+      <span style={labelStyle}>{l}</span>
+    </div>
+  ))}
+</div>

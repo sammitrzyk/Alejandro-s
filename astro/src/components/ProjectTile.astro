@@ -1,0 +1,16 @@
+---
+import { sx, type StyleObject } from "../lib/style";
+interface Props { image: string; alt: string; town: string; service: string; detail?: string; href?: string; ratio?: string; size?: "md" | "lg"; style?: StyleObject; }
+const { image, alt, town, service, detail, href = "#", ratio = "4/3", size = "md", style } = Astro.props;
+---
+<a href={href} class="hover-media" style={sx({ display: "block", textDecoration: "none", color: "inherit", position: "relative", ...style })}>
+  <div style={sx({ position: "relative", aspectRatio: ratio, overflow: "hidden", background: "var(--stone-200)", borderRadius: "var(--radius-image)" })}>
+    <img src={image} alt={alt} loading="lazy" style={sx({ width: "100%", height: "100%", objectFit: "cover" })} />
+    <div style={sx({ position: "absolute", inset: 0, background: "var(--scrim-tile)", pointerEvents: "none" })}></div>
+    <div style={sx({ position: "absolute", left: 0, right: 0, bottom: 0, padding: size === "lg" ? "var(--space-8)" : "var(--space-6)" })}>
+      <div style={sx({ font: "var(--type-eyebrow)", letterSpacing: "var(--ls-eyebrow)", textTransform: "uppercase", color: "var(--gold-300)", marginBottom: "var(--space-2)" })}>{town}</div>
+      <div style={sx({ font: size === "lg" ? "var(--type-h3)" : "var(--fw-medium) 1.1875rem/1.25 var(--font-display)", color: "#fff" })}>{service}</div>
+      {detail && <div style={sx({ font: "var(--type-caption)", color: "rgba(255,255,255,.82)", marginTop: "var(--space-2)", maxWidth: "var(--measure-caption)" })}>{detail}</div>}
+    </div>
+  </div>
+</a>

@@ -1,0 +1,199 @@
+---
+/* Ported from ui_kits/website/PaverDriveways.jsx. */
+import Base from "../../../layouts/Base.astro";
+import Container from "../../../components/Container.astro";
+import Section from "../../../components/Section.astro";
+import Reveal from "../../../components/Reveal.astro";
+import Hero from "../../../components/Hero.astro";
+import Button from "../../../components/Button.astro";
+import Icon from "../../../components/Icon.astro";
+import Eyebrow from "../../../components/Eyebrow.astro";
+import SectionHead from "../../../components/SectionHead.astro";
+import QuestionList from "../../../components/QuestionList.astro";
+import EstimateBand from "../../../components/EstimateBand.astro";
+import RelatedProjects from "../../../components/RelatedProjects.astro";
+import BeforeAfter from "../../../islands/BeforeAfter.jsx";
+import BrandLogo from "../../../components/BrandLogo.astro";
+import LoadSection from "../../../components/diagrams/LoadSection.astro";
+import MiniPattern from "../../../components/diagrams/MiniPattern.astro";
+import MiniBorder from "../../../components/diagrams/MiniBorder.astro";
+import MiniWalk from "../../../components/diagrams/MiniWalk.astro";
+import MiniSwatch from "../../../components/diagrams/MiniSwatch.astro";
+
+const P = "/photos/";
+const PHONE = "(717) 736-6538";
+const phoneHref = `tel:${PHONE.replace(/\D/g, "")}`;
+
+const DESIGN: [string, string, any][] = [
+  ["Color & texture", "How the paver field relates to brick, siding, stone and other materials on the house.", MiniSwatch],
+  ["Pattern", "How paver scale and laying pattern change the appearance of a large paved surface.", MiniPattern],
+  ["Borders", "How a contrasting border defines the driveway perimeter and connects visually with adjacent walkways.", MiniBorder],
+  ["Connected walkways", "How the driveway and front walk can use related materials so they read as one composition.", MiniWalk],
+];
+const SURFACES: [string, string][] = [
+  ["Asphalt", "Lowest cost to install. Flexible, but it oxidises, cracks and needs periodic sealcoating. Repairs are patches that rarely match the surrounding surface."],
+  ["Poured concrete", "A single rigid slab. Strong and clean-looking, but when the ground moves it cracks, and a crack in a slab cannot be undone — only cut out and patched."],
+  ["Pavers", "Individual units that move slightly with the ground instead of cracking across it. A damaged or settled section can be lifted and reset with the same pavers. Higher cost up front."],
+];
+const DW_STEPS: [string, string][] = [
+  ["Walk the property", "Access, elevations, drainage, garage and street transitions, and how the driveway connects to the property."],
+  ["Define the project", "Layout, paver direction, border and design choices, and a written scope."],
+  ["Build", "Excavation, base preparation, paving and finishing according to the confirmed scope."],
+  ["Final walkthrough", "Review the finished work with the homeowner."],
+];
+---
+<Base route="paver-driveways" headerOverlay headerActive="Hardscaping">
+  <Hero height="min(84vh,760px)" image={P + "driveway-hero-v4.jpg"}
+    alt="Large-format modular paver driveway with a charcoal border leading up to a brick house in evening light"
+    eyebrow="Hardscaping · Paver driveways"
+    title="Custom Paver Driveways"
+    lede="Paver driveway design and installation in Camp Hill, Mechanicsburg, Harrisburg, Hershey and communities within twenty miles of New Cumberland."
+    credit="Driveway, border and walkway — Central PA">
+    <Button slot="primary" variant="solidLight" size="lg" href="#estimate">Request an estimate</Button>
+    <Button slot="secondary" variant="inverse" size="lg" href={phoneHref}><Icon name="phone" size={16} />{PHONE}</Button>
+  </Hero>
+
+  <Section tone="sunken" tight>
+    <Container>
+      <div class="dw-feature" style="display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:center">
+        <Reveal>
+          <Eyebrow tone="brand" style={{ marginBottom: "var(--space-5)" }}>Built in New Cumberland</Eyebrow>
+          <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:16ch">A driveway that connects all the way to the front door.</h2>
+          <p style="font:var(--type-body);color:var(--text-secondary);margin-top:var(--space-5);max-width:46ch">This New Cumberland project uses Cambridge pavers with a charcoal border, extending from the parking area into a matching walkway toward the home's front entry.</p>
+          <ul style="list-style:none;margin:var(--space-6) 0 0;padding:0;display:flex;flex-wrap:wrap;gap:var(--space-2) var(--space-5);border-top:1px solid var(--gold-500);padding-top:var(--space-4)">
+            <li style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text)">Cambridge pavers</li>
+            <li style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text)">Charcoal border</li>
+            <li style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text)">Connected walkway</li>
+            <li style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text)">New Cumberland, PA</li>
+          </ul>
+        </Reveal>
+        <Reveal delay={80}>
+          <BeforeAfter before={P + "dw-before2.jpg"} after={P + "dw-after2.jpg"} ratio="4/3"
+            beforeAlt="Old concrete walk broken out and piled on the lawn in front of a brick house, with a jackhammer and shovel on site"
+            afterAlt="Finished paver parking area with a charcoal border and a matching walkway leading to the front of the brick house"
+            caption="Drag to compare. The old concrete walk was broken out and removed before the driveway and walkway went in."
+            client:load />
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="dark" tight>
+    <Container width="var(--container-text)">
+      <Reveal>
+        <Eyebrow tone="inverse" rule style={{ marginBottom: "var(--space-5)" }}>Driveway drainage</Eyebrow>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);color:var(--text-on-dark);max-width:18ch">Water needs somewhere to go.</h2>
+        <p style="font:var(--type-body);color:var(--text-on-dark-secondary);margin-top:var(--space-4);max-width:52ch">A paver driveway is graded with the property around it in mind. Pitch, garage height and the surrounding grades decide where runoff can safely go.</p>
+        <a href="/hardscaping/drainage/" style="display:flex;align-items:center;gap:var(--space-4);margin-top:var(--space-8);text-decoration:none;width:fit-content">
+          <img src={P + "drainage-trench-sm.jpg"} alt="Drain pipe laid in a trench before grading" loading="lazy" style="width:96px;height:72px;object-fit:cover;border-radius:var(--radius-image);display:block;flex:0 0 auto" />
+          <span class="link-underline" style="font:var(--type-button);letter-spacing:var(--ls-button);text-transform:uppercase;color:var(--text-on-dark)">Learn more about our drainage process →</span>
+        </a>
+      </Reveal>
+    </Container>
+  </Section>
+
+  <Section tone="light">
+    <Container>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:clamp(32px,5vw,88px);align-items:center">
+        <Reveal>
+          <Eyebrow tone="brand" style={{ marginBottom: "var(--space-6)" }}>What's under the surface</Eyebrow>
+          <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:16ch">The surface carries the car. The base carries the load.</h2>
+          <p style="font:var(--type-lead);color:var(--text-secondary);max-width:var(--measure-lead);margin-top:var(--space-6)">A tire puts its weight on a small area of pavers. The pavement system distributes that load downward and outward through the layers beneath it. By the time it reaches the subgrade, the load is spread across a much larger area.</p>
+        </Reveal>
+        <Reveal delay={100}>
+          <div style="border-top:1px solid var(--gold-500);border-bottom:1px solid var(--gold-500);padding:var(--space-8) 0"><LoadSection /></div>
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="sunken">
+    <Container>
+      <Reveal><SectionHead eyebrow="Designing the surface" title="The driveway takes up a lot of the front of a property. It should belong there." /></Reveal>
+      <div class="dw-design" style="display:grid;grid-template-columns:minmax(0,1fr);gap:0 clamp(28px,4vw,64px);margin-top:var(--space-10);border-bottom:1px solid var(--gold-500)">
+        {DESIGN.map(([h, d, Visual], i) => (
+          <Reveal delay={i * 60} style={{ display: "grid", gridTemplateColumns: "112px 1fr", gap: "var(--space-5)", alignItems: "center", borderTop: "1px solid var(--gold-500)", padding: "var(--space-5) 0" }}>
+            <div style="overflow:hidden;border-radius:var(--radius-xs)"><Visual /></div>
+            <div><h3 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;margin-bottom:var(--space-2)">{h}</h3>
+              <p style="font:var(--type-small);color:var(--text-secondary);max-width:42ch">{d}</p></div>
+          </Reveal>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="light">
+    <Container>
+      <Reveal><SectionHead eyebrow="Asphalt, concrete or pavers" title="Why choose individual pavers for something this large?" intro="All three can make a good driveway. They fail differently, repair differently and cost differently, and that's usually what decides it." /></Reveal>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:0 clamp(24px,4vw,56px);margin-top:var(--space-12)">
+        {SURFACES.map(([h, d], i) => (
+          <Reveal delay={i * 70} style={{ borderTop: i === 2 ? "2px solid var(--gold-500)" : "1px solid var(--border-strong)", padding: "var(--space-6) 0" }}>
+            <h3 style="font:var(--type-h3);margin-bottom:var(--space-4)">{h}</h3>
+            <p style="font:var(--type-body);color:var(--text-secondary);max-width:42ch">{d}</p>
+          </Reveal>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="sunken" tight>
+    <Container>
+      <Reveal>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));gap:var(--space-6) clamp(24px,4vw,64px);align-items:center;border-top:1px solid var(--gold-500);border-bottom:1px solid var(--gold-500);padding:var(--space-8) 0">
+          <div>
+            <h3 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;margin-bottom:var(--space-3)">Paver manufacturers</h3>
+            <p style="font:var(--type-small);color:var(--text-secondary);max-width:46ch">We install pavers from Techo-Bloc and Cambridge, including units made for vehicle traffic.</p>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-6) 0">
+            <div style="padding:var(--space-2) clamp(20px,3vw,40px) var(--space-2) 0"><BrandLogo file="techo-bloc.png" name="Techo-Bloc" h="19px" /></div>
+            <div style="padding:var(--space-2) 0 var(--space-2) clamp(20px,3vw,40px);border-left:1px solid var(--border-strong)"><BrandLogo file="cambridge-pavers.png" name="Cambridge Pavers" h="56px" /></div>
+          </div>
+        </div>
+      </Reveal>
+    </Container>
+  </Section>
+
+  <Section tone="light" tight>
+    <Container>
+      <Reveal><Eyebrow tone="brand" style={{ marginBottom: "var(--space-8)" }}>Getting a driveway built</Eyebrow></Reveal>
+      <ol style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:var(--space-6) var(--space-8)">
+        {DW_STEPS.map(([h, d], i) => (
+          <li style="border-top:1px solid var(--border-strong);padding-top:var(--space-4)">
+            <div style="display:flex;gap:var(--space-3);align-items:baseline;margin-bottom:var(--space-2)">
+              <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);color:var(--gold-text)">{String(i + 1).padStart(2, "0")}</span>
+              <h3 style="font:var(--type-h4)">{h}</h3>
+            </div>
+            <p style="font:var(--type-small);color:var(--text-secondary)">{d}</p>
+          </li>
+        ))}
+      </ol>
+    </Container>
+  </Section>
+
+  <Section tone="sunken">
+    <Container>
+      <Reveal><SectionHead eyebrow="Questions about paver driveways" title="What people ask before they hire." /></Reveal>
+      <Reveal style={{ marginTop: "var(--space-10)" }}>
+        <QuestionList items={[
+          { question: "How are paver driveways different from paver patios?", answer: "The surface can look similar. What changes is the load: cars are heavier than foot traffic and tires turn on the surface, so a driveway is built with a deeper base and pavers made for vehicle traffic.", linkLabel: "Paver patios", href: "/hardscaping/paver-patios/" },
+          { question: "Can pavers handle vehicle traffic?", answer: "Yes, when the pavement system is built as a driveway. The pavers, bedding and compacted base spread each tire's load across a wider area, as shown above.", linkLabel: null, href: null },
+          { question: "Can a paver driveway connect to an existing concrete garage slab?", answer: "Yes. The finished paver surface is set to meet the slab and pitched away from the garage so water doesn't run toward it.", linkLabel: null, href: null },
+          { question: "Can a matching paver walkway be built with the driveway?", answer: "Yes. Building both together lets them share the same pavers and border, so they read as one composition. The New Cumberland project above does exactly that.", linkLabel: "Walkways & steps", href: "/hardscaping/walkways/" },
+          { question: "How do you choose paver colors and borders?", answer: "Start with what's already on the house: brick, siding, stone and trim. The field usually picks up the main exterior tone, and a darker border defines the edge. We install Techo-Bloc and Cambridge, which offer a wide range of both.", linkLabel: null, href: null },
+          { question: "Do paver driveways work on sloped properties?", answer: "Often, yes. Slope affects how water moves across the surface and how the edges are held.", linkLabel: "Grading & drainage", href: "/hardscaping/drainage/" },
+          { question: "What areas do you serve?", answer: "Towns within about twenty miles of New Cumberland, including Camp Hill, Mechanicsburg, Lemoyne, Harrisburg and Hershey.", linkLabel: "Service area", href: "/service-areas/" },
+        ]} />
+      </Reveal>
+    </Container>
+  </Section>
+
+  <RelatedProjects service="paver-driveways" />
+  <div id="estimate"><EstimateBand title="Send a photo of the driveway." intro="A picture of what's there now and a rough size tells us more than a paragraph. We'll look at how it meets the street and the house, and what has to come out." /></div>
+</Base>
+
+<style>
+  @media (min-width: 760px) {
+    .dw-feature { grid-template-columns: minmax(0,1fr) minmax(0,1.35fr) !important; }
+    .dw-design { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  }
+</style>

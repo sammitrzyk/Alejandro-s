@@ -1,0 +1,8 @@
+---
+import { sx, type StyleObject } from "../lib/style";
+interface Props { width?: string; style?: StyleObject; class?: string; }
+const { width = "var(--container-max)", style, class: className } = Astro.props;
+---
+<div class={className} style={sx({ maxWidth: width, margin: "0 auto", padding: "0 var(--gutter)", ...style })}>
+  <slot />
+</div>

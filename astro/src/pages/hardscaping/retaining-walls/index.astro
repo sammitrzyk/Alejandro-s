@@ -1,0 +1,201 @@
+---
+/* Ported from ui_kits/website/RetainingWalls.jsx. Bespoke layout — story: the property -> the
+   grade problem -> what the wall changes -> what makes it work -> a real transformation ->
+   how it fits the property -> complexity -> action. */
+import Base from "../../../layouts/Base.astro";
+import Container from "../../../components/Container.astro";
+import Section from "../../../components/Section.astro";
+import Reveal from "../../../components/Reveal.astro";
+import Hero from "../../../components/Hero.astro";
+import Button from "../../../components/Button.astro";
+import Icon from "../../../components/Icon.astro";
+import Eyebrow from "../../../components/Eyebrow.astro";
+import EstimateBand from "../../../components/EstimateBand.astro";
+import RelatedProjects from "../../../components/RelatedProjects.astro";
+import EstimateForm from "../../../islands/EstimateForm.jsx";
+
+const P = "/photos/";
+const PHONE = "(717) 736-6538";
+const phoneHref = `tel:${PHONE.replace(/\D/g, "")}`;
+
+const RW_FAQ: [string, string][] = [
+  ["How do I know if I need a retaining wall?", "Usually the yard tells you: ground that falls away too steeply to use, soil washing down a bank, or a patio or walkway that needs level ground the property doesn't have. A wall is one answer; sometimes regrading alone is enough."],
+  ["Can you replace an existing failing retaining wall?", "Yes. A leaning or bulging wall usually failed because of what's behind or below it, typically drainage or base, so the cause gets looked at before the wall is rebuilt."],
+  ["Why is drainage important behind a retaining wall?", "Water that collects in the soil behind a wall adds pressure against it. Drainage gives that water a path through the system and out, instead of pushing on the back of the wall."],
+  ["Do retaining walls require permits or engineering?", "Some do. Height, slope above the wall, soil, nearby structures and loads such as driveways can all change what's required."],
+  ["Can a retaining wall be incorporated into a patio or walkway?", "Yes. Walls often hold up a raised patio, or create the level ground a patio or walkway sits on, with steps where people move between elevations."],
+];
+---
+<Base route="retaining-walls" headerOverlay headerActive="Hardscaping">
+  {/* 1. Finished result */}
+  <Hero height="min(84vh,760px)" image={P + "rw/IMG_2724.jpg"}
+    alt="Curved block retaining wall with built-in lights holding a raised paver patio above a pool deck at night"
+    eyebrow="Hardscaping · Retaining walls"
+    title="Retaining walls that hold the grade."
+    lede="Retaining wall design and installation in Camp Hill, Mechanicsburg, Harrisburg, Hershey and communities within twenty miles of New Cumberland."
+    credit="Curved wall, raised patio and wall lighting">
+    <Button slot="primary" variant="solidLight" size="lg" href="#estimate">Request an estimate</Button>
+    <Button slot="secondary" variant="inverse" size="lg" href={phoneHref}><Icon name="phone" size={16} />{PHONE}</Button>
+  </Hero>
+
+  {/* 2. Featured project — same job, mid-build then finished */}
+  <Section tone="light" tight>
+    <Container>
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-4)" }}>Retaining wall project</Eyebrow>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:18ch">From open lawn to a walled patio.</h2>
+      </Reveal>
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gap-grid);margin-top:var(--space-6)">
+        <Reveal><figure style="margin:0">
+          <img src={P + "rw/IMG_2716.jpg"} alt="Tan block wall and paver patio mid-build, with tools and gravel still on site" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;object-position:30% 55%;border-radius:var(--radius-image);display:block" />
+          <figcaption style="margin-top:var(--space-2)"><span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text)">During</span></figcaption>
+        </figure></Reveal>
+        <Reveal delay={80}><figure style="margin:0">
+          <img src={P + "rw/IMG_2717.jpg"} alt="The same tan block wall finished, with caps, pillars and built-in lights around the patio and fire pit" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;object-position:40% 40%;border-radius:var(--radius-image);display:block" />
+          <figcaption style="margin-top:var(--space-2)"><span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text)">Finished</span></figcaption>
+        </figure></Reveal>
+      </div>
+      <Reveal>
+        <dl class="rw-breakdown" style="margin:var(--space-6) 0 0;display:grid;grid-template-columns:minmax(0,1fr);gap:0">
+          <div style="display:grid;grid-template-columns:84px 1fr;gap:var(--space-3);border-top:1px solid var(--gold-500);padding:var(--space-3) 0">
+            <dt style="padding-top:2px"><span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text)">Solution</span></dt>
+            <dd style="margin:0;font:var(--type-small);color:var(--text-secondary)">An L-shaped tan block wall with pillars, set around a new paver patio and fire pit beside the deck.</dd>
+          </div>
+          <div style="display:grid;grid-template-columns:84px 1fr;gap:var(--space-3);border-top:1px solid var(--gold-500);padding:var(--space-3) 0">
+            <dt style="padding-top:2px"><span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text)">Result</span></dt>
+            <dd style="margin:0;font:var(--type-small);color:var(--text-secondary)">A defined patio with caps and lights built into the wall.</dd>
+          </div>
+        </dl>
+      </Reveal>
+    </Container>
+  </Section>
+
+  {/* 3. Why retaining walls — swipe examples */}
+  <Section tone="sunken" tight>
+    <Container>
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-4)" }}>Why retaining walls</Eyebrow>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:16ch">Make difficult ground usable.</h2>
+        <p style="font:var(--type-body);color:var(--text-secondary);margin-top:var(--space-4);max-width:56ch">Retaining walls can hold back a slope, create level space, support a patio or walkway, or replace an existing wall that's beginning to fail.</p>
+      </Reveal>
+      <div class="rw-swipe swipe-strip" style="display:flex;gap:var(--gap-grid);overflow-x:auto;scroll-snap-type:x mandatory;margin:var(--space-6) calc(var(--gutter) * -1) 0;padding:0 var(--gutter)">
+        <figure style="margin:0;flex:0 0 78vw;scroll-snap-align:start">
+          <img src={P + "rw/IMG_2721.jpg"} alt="Block wall with pillar caps holding the slope in front of a house" loading="lazy" style="width:100%;height:300px;object-fit:cover;object-position:40% 60%;border-radius:var(--radius-image);display:block" />
+          <figcaption style="font:var(--type-caption);color:var(--text-muted);margin-top:var(--space-2)">Holding a slope</figcaption>
+        </figure>
+        <figure style="margin:0;flex:0 0 78vw;scroll-snap-align:start">
+          <img src={P + "rw/IMG_2714.jpg"} alt="Capped block wall along the edge of a driveway" loading="lazy" style="width:100%;height:300px;object-fit:cover;object-position:40% 62%;border-radius:var(--radius-image);display:block" />
+          <figcaption style="font:var(--type-caption);color:var(--text-muted);margin-top:var(--space-2)">Along a driveway</figcaption>
+        </figure>
+        <figure style="margin:0;flex:0 0 78vw;scroll-snap-align:start">
+          <img src={P + "rw/IMG_2718.jpg"} alt="Block wall raising a planting bed along an alley" loading="lazy" style="width:100%;height:300px;object-fit:cover;object-position:40% 65%;border-radius:var(--radius-image);display:block" />
+          <figcaption style="font:var(--type-caption);color:var(--text-muted);margin-top:var(--space-2)">Creating a raised bed</figcaption>
+        </figure>
+      </div>
+    </Container>
+  </Section>
+
+  {/* 4. How they're built */}
+  <Section tone="dark" tight>
+    <Container>
+      <div class="rw-built" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-6)">
+        <Reveal>
+          <Eyebrow tone="inverse" rule style={{ marginBottom: "var(--space-4)" }}>How they're built</Eyebrow>
+          <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);color:var(--text-on-dark);max-width:16ch">Built for what's behind the wall.</h2>
+          <p style="font:var(--type-body);color:var(--text-on-dark-secondary);margin-top:var(--space-4);max-width:44ch">A retaining wall isn't just the block you see. Base preparation and drainage behind the wall are critical parts of the installation.</p>
+        </Reveal>
+        <Reveal delay={80}>
+          <img src={P + "rw/IMG_2715.jpg"} alt="Curved capped wall with clean stone backfill behind it, before final grading" loading="lazy" style="width:100%;aspect-ratio:3/2;object-fit:cover;object-position:50% 72%;border-radius:var(--radius-image);display:block" />
+          <p style="font:var(--type-caption);color:var(--text-on-dark-secondary);margin-top:var(--space-2)">Clean stone behind the wall, before final grading.</p>
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  {/* 5. Materials */}
+  <Section tone="light" tight>
+    <Container>
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-4)" }}>Materials</Eyebrow>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading)">Designed to fit the property.</h2>
+        <p style="font:var(--type-body);color:var(--text-secondary);margin-top:var(--space-4);max-width:56ch">Block, cap, color and texture can be selected to work with the house and surrounding hardscape.</p>
+      </Reveal>
+      <div class="rw-materials" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gap-grid);margin-top:var(--space-8);align-items:stretch">
+        <Reveal style={{ gridColumn: "span 2" }}>
+          <img src={P + "rw/IMG_2724.jpg"} alt="Curved block wall with built-in lights holding a raised patio above a pool deck at night" loading="lazy" style="width:100%;aspect-ratio:16/9;object-fit:cover;object-position:40% 45%;border-radius:var(--radius-image);display:block" />
+        </Reveal>
+        <div style="display:contents">
+          <Reveal delay={60}><img src={P + "rw/IMG_2723.jpg"} alt="Grey block seat wall with a stone-look cap wrapping a square fire pit" loading="lazy" style="width:100%;aspect-ratio:3/2;object-fit:cover;object-position:45% 55%;border-radius:var(--radius-image);display:block" /></Reveal>
+          <Reveal delay={120}><img src={P + "rw/IMG_2719.jpg"} alt="Grey block wall along a paver patio with steps set into the wall line" loading="lazy" style="width:100%;aspect-ratio:3/2;object-fit:cover;object-position:35% 45%;border-radius:var(--radius-image);display:block" /></Reveal>
+        </div>
+      </div>
+      <Reveal><p style="font:var(--type-caption);color:var(--text-muted);margin-top:var(--space-6);max-width:70ch">Taller or more complex walls may require additional engineering or permitting depending on site conditions and local requirements.</p></Reveal>
+    </Container>
+  </Section>
+
+  {/* More hardscaping */}
+  <Section tone="sunken" tight>
+    <Container>
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-4)" }}>More hardscaping</Eyebrow>
+        <h2 style="font:var(--type-h3);letter-spacing:var(--ls-heading)">Building more than the wall?</h2>
+      </Reveal>
+      <ul class="rw-services-list" style="list-style:none;margin:var(--space-6) 0 0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:0">
+        {[["Paver patios", "/hardscaping/paver-patios/"], ["Paver driveways", "/hardscaping/paver-driveways/"], ["Walkways & steps", "/hardscaping/walkways/"], ["Fire features & seat walls", "/hardscaping/fire-features/"], ["Grading & drainage", "/hardscaping/drainage/"]].map(([l, h]) => (
+          <li style="border-top:1px solid var(--border-strong)">
+            <a href={h} style="display:flex;justify-content:space-between;align-items:center;min-height:52px;font:var(--fw-medium) 1rem/1.3 var(--font-sans);color:var(--text-primary);text-decoration:none">
+              {l}<span style="color:var(--gold-text)">→</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </Container>
+  </Section>
+
+  {/* FAQ — accordion */}
+  <Section tone="light">
+    <Container width="var(--container-text)">
+      <Reveal><h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading)">Retaining wall questions</h2></Reveal>
+      <div style="margin-top:var(--space-8);border-bottom:1px solid var(--border-hairline)">
+        {RW_FAQ.map(([q, a]) => (
+          <details class="faq-details" style="border-top:1px solid var(--border-hairline)">
+            <summary style="cursor:pointer;display:flex;justify-content:space-between;gap:var(--space-4);padding:var(--space-5) 0;font:var(--fw-regular) 1.1875rem/1.3 var(--font-display)">
+              <span>{q}</span><span aria-hidden="true" style="color:var(--gold-text);font:var(--fw-regular) 1.25rem/1 var(--font-sans)">+</span>
+            </summary>
+            <p style="font:var(--fw-regular) .9375rem/1.55 var(--font-sans);color:var(--text-secondary);padding:0 0 var(--space-5);max-width:62ch">{a}</p>
+          </details>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  {/* Final CTA — image-led */}
+  <RelatedProjects service="retaining-walls" />
+  <section id="estimate" style="position:relative;min-height:min(78vh,640px);display:flex;align-items:flex-end;overflow:hidden;background:var(--green-950)">
+    <img src={P + "rw/IMG_2721.jpg"} alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:45% 55%" />
+    <div style="position:absolute;inset:0;background:var(--scrim-hero)"></div>
+    <Container style={{ position: "relative", width: "100%", padding: "clamp(64px,8vw,120px) var(--gutter)" }}>
+      <Eyebrow tone="inverse" rule style={{ marginBottom: "var(--space-6)" }}>Planning a retaining wall?</Eyebrow>
+      <h2 style="font:var(--type-h1);letter-spacing:var(--ls-heading);color:#fff;max-width:14ch">Let's look at the grade.</h2>
+      <p style="font:var(--type-lead);color:rgba(255,255,255,.9);max-width:46ch;margin:var(--space-6) 0 var(--space-8)">Show us what you're trying to change. We'll look at the property, elevation and surrounding conditions before recommending the next step.</p>
+      <div class="rw-cta-grid" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-8)">
+        <Button variant="inverse" size="lg" href={phoneHref} style={{ justifySelf: "start" }}><Icon name="phone" size={16} />{PHONE}</Button>
+        <EstimateForm tone="dark" client:load />
+      </div>
+    </Container>
+  </section>
+</Base>
+
+<style>
+  @media (min-width: 760px) {
+    .rw-breakdown { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 0 clamp(24px, 4vw, 56px) !important; }
+    .rw-swipe { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; overflow-x: visible !important; margin: var(--space-8) 0 0 !important; padding: 0 !important; }
+    .rw-swipe figure { flex: auto !important; }
+    .rw-swipe img { height: auto !important; aspect-ratio: 3/2 !important; }
+    .rw-built { grid-template-columns: minmax(0,1fr) minmax(0,1.3fr) !important; gap: var(--space-6) clamp(28px,5vw,80px) !important; align-items: center !important; }
+    .rw-materials { grid-template-columns: minmax(0,1.6fr) minmax(0,1fr) !important; }
+    .rw-materials > div { display: grid !important; grid-template-rows: repeat(2, minmax(0, 1fr)); gap: var(--gap-grid); }
+    .rw-cta-grid { grid-template-columns: minmax(0,1fr) minmax(0,1.3fr) !important; }
+    .rw-services-list { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 0 clamp(24px, 4vw, 56px) !important; }
+  }
+</style>

@@ -1,0 +1,72 @@
+---
+import Icon from "./Icon.astro";
+interface Props { phone?: string; email?: string; towns?: string[]; logo?: string; }
+const { phone = "(717) 736-6538", email = "contact@alejandroslandscapes.com", towns = [], logo = "/logo.png" } = Astro.props;
+const cols: [string, [string, string][]][] = [
+  ["Hardscaping", [
+    ["Paver patios", "/hardscaping/paver-patios/"],
+    ["Paver driveways", "/hardscaping/paver-driveways/"],
+    ["Retaining walls", "/hardscaping/retaining-walls/"],
+    ["Walkways & steps", "/hardscaping/walkways/"],
+    ["Fire features", "/hardscaping/fire-features/"],
+    ["Grading & drainage", "/hardscaping/drainage/"],
+  ]],
+  ["Landscaping", [
+    ["Landscape installation", "/landscaping/installation/"],
+    ["Mulch & bed work", "/landscaping/mulch-beds/"],
+    ["Sod installation", "/landscaping/sod-installation/"],
+    ["Shrub & hedge trimming", "/landscaping/trimming/"],
+    ["Spring & fall cleanups", "/landscaping/yard-cleanups/"],
+    ["Landscape lighting", "/landscaping/landscape-lighting/"],
+    ["Christmas lights", "/landscaping/christmas-light-installation/"],
+  ]],
+  ["Commercial", [
+    ["Commercial landscaping", "/commercial-landscaping/"],
+    ["Commercial snow removal", "/commercial/snow-removal/"],
+  ]],
+  ["Company", [
+    ["Projects", "/projects/"],
+    ["About", "/about/"],
+    ["Service area", "/service-areas/"],
+    ["Resources", "/resources/"],
+    ["FAQs", "/resources/faqs/"],
+    ["Contact", "/#estimate"],
+  ]],
+];
+const phoneHref = `tel:${phone.replace(/\D/g, "")}`;
+---
+<footer style="background:var(--surface-dark);color:var(--text-on-dark)">
+  <div style="max-width:var(--container-max);margin:0 auto;padding:var(--section-y-tight) var(--gutter) var(--space-10)">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:var(--space-12);padding-bottom:var(--space-16)">
+      <div style="grid-column:span 1;min-width:200px">
+        <img src={logo} alt="Alejandro's Landscaping" style="height:44px;width:auto;filter:brightness(0) invert(1);margin-bottom:var(--space-6)" />
+        <a href={phoneHref} style="display:flex;align-items:center;gap:8px;font:var(--fw-medium) 1.125rem/1 var(--font-sans);color:var(--text-on-dark);text-decoration:none;margin-bottom:var(--space-3)">
+          <Icon name="phone" size={16} />{phone}
+        </a>
+        <a href={`mailto:${email}`} style="font:var(--type-small);color:var(--text-on-dark-secondary);text-decoration:none">{email}</a>
+      </div>
+      {cols.map(([heading, links]) => (
+        <nav>
+          <h3 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-500);margin-bottom:var(--space-5)">{heading}</h3>
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:var(--space-3)">
+            {links.map(([l, h]) => (
+              <li><a href={h} style="font:var(--type-small);color:var(--text-on-dark-secondary);text-decoration:none">{l}</a></li>
+            ))}
+          </ul>
+        </nav>
+      ))}
+    </div>
+
+    {towns.length > 0 && (
+      <div style="border-top:1px solid var(--border-dark);padding-top:var(--space-8);margin-bottom:var(--space-8)">
+        <h3 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-500);margin-bottom:var(--space-5)">Towns we work in</h3>
+        <p style="font:var(--type-small);color:var(--text-on-dark-secondary);line-height:2;max-width:100%">{towns.join(" · ")}</p>
+      </div>
+    )}
+
+    <div style="border-top:1px solid var(--border-dark);padding-top:var(--space-6);display:flex;flex-wrap:wrap;gap:var(--space-6);justify-content:space-between;font:var(--type-caption);color:var(--text-on-dark-secondary)">
+      <span>© {new Date().getFullYear()} Alejandro's Landscaping</span>
+      <span>New Cumberland, PA · Serving Cumberland, Dauphin, York, Perry, Lancaster and Lebanon counties</span>
+    </div>
+  </div>
+</footer>

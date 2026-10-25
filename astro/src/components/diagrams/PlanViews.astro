@@ -1,0 +1,26 @@
+---
+const W = 120, H = 88, f = "#E4DED4";
+const SPEC_INK = "#4A453F";
+const labelStyle = "font:var(--fw-semibold) 10px/1 var(--font-sans);letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted)";
+---
+<div style="display:flex;gap:16px;flex-wrap:wrap">
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} aria-hidden="true" style="display:block">
+      <rect x="6" y="4" width="108" height="14" fill="#A79E90" />
+      <text x="60" y="14" text-anchor="middle" style="font:600 7px var(--font-sans);letter-spacing:.14em" fill="#FAF8F4">HOUSE</text>
+      <rect x="18" y="18" width="84" height="56" fill={f} stroke={SPEC_INK} stroke-width="1" />
+      <rect x="22" y="22" width="76" height="48" fill="none" stroke={SPEC_INK} stroke-width=".6" stroke-dasharray="2 2" />
+      <rect x="52" y="74" width="16" height="8" fill={f} stroke={SPEC_INK} stroke-width="1" />
+    </svg>
+    <span style={labelStyle}>Straight</span>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <svg width={W} height={H} viewBox={`0 0 ${W} ${H}`} aria-hidden="true" style="display:block">
+      <path d="M8 44 C8 14 40 6 64 8 C94 10 114 26 112 50 C110 74 84 84 58 82 C30 80 8 70 8 44 Z" fill={f} stroke={SPEC_INK} stroke-width="1" />
+      <ellipse cx="62" cy="45" rx="32" ry="22" fill="#B9CFD6" stroke={SPEC_INK} stroke-width="1" />
+      <ellipse cx="62" cy="45" rx="36" ry="26" fill="none" stroke={SPEC_INK} stroke-width=".6" stroke-dasharray="2 2" />
+      <text x="62" y="48" text-anchor="middle" style="font:600 7px var(--font-sans);letter-spacing:.14em" fill={SPEC_INK}>POOL</text>
+    </svg>
+    <span style={labelStyle}>Curved</span>
+  </div>
+</div>

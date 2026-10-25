@@ -1,0 +1,176 @@
+---
+/* Ported from ui_kits/website/ShrubTrimming.jsx. FAQ is items [0,3,4,5] from
+   service-data-landscape.js's shrub-hedge-trimming record, with [VERIFY ...] brackets
+   stripped per the prototype's own filter — same four questions, same stripping rule. */
+import Base from "../../../layouts/Base.astro";
+import Container from "../../../components/Container.astro";
+import Section from "../../../components/Section.astro";
+import Reveal from "../../../components/Reveal.astro";
+import Hero from "../../../components/Hero.astro";
+import Button from "../../../components/Button.astro";
+import Icon from "../../../components/Icon.astro";
+import Eyebrow from "../../../components/Eyebrow.astro";
+import SectionHead from "../../../components/SectionHead.astro";
+import QuestionList from "../../../components/QuestionList.astro";
+import EstimateBand from "../../../components/EstimateBand.astro";
+import BeforeAfter from "../../../islands/BeforeAfter.jsx";
+import TrimCalendar from "../../../islands/TrimCalendar.jsx";
+
+const P = "/photos/";
+const PHONE = "(717) 736-6538";
+const phoneHref = `tel:${PHONE.replace(/\D/g, "")}`;
+
+const KINDS: [string, string, string, string, string][] = [
+  ["commercial/east-main.jpg", "Sheared boxwood hedge along the front of a brick dental office in Harrisburg", "Hedges & foundation shrubs", "Sheared back to a clean, straight line on a schedule.", "50% 60%"],
+  ["stone-edge-bed.jpg", "Rounded shrubs shaped inside a stone-edged bed beside a house", "Shaping & detail", "Rounded and specimen shrubs hand-shaped so each keeps its form.", "50% 55%"],
+  ["landscape-azaleas-flagstone-edge.jpg", "Azaleas in bloom behind a flagstone bed edge", "Flowering shrubs", "Azaleas, hydrangeas and other bloomers cut at the right time so they flower again.", "50% 50%"],
+];
+const RECENT: [string, string, string, string, boolean, string][] = [
+  ["landscape-island-bed-fieldstone.jpg", "Island bed of layered shrubs and grasses edged in fieldstone beside a driveway", "Island bed shrubs", "Camp Hill, PA", true, "50% 55%"],
+  ["commercial/sauve.jpg", "Shrub bed and flowering plants around the Sauvé Family Dentistry sign", "Sauvé Family Dentistry", "Camp Hill, PA", false, "50% 60%"],
+  ["commercial/family-physician.jpg", "Rounded shrub bed at Family Physician Associates", "Family Physician Associates", "New Cumberland, PA", false, "50% 62%"],
+];
+const OPTIONS: [string, string][] = [
+  ["Shape it back", "If there's still green growth where the cut lands, most overgrown shrubs come back to a clean outline in one visit."],
+  ["Renovate it", "Many can be cut back hard over two or three seasons, taking some old growth each year. It depends on the plant."],
+  ["Replace it", "Some won't recover from a hard cut, or were planted in the wrong spot. Replanting is then the cheaper long-term answer."],
+];
+const FAQ = [
+  { question: "How much does shrub and hedge trimming cost?", answer: "Count and size drive it, plus whether it is routine maintenance or a first cut on something that has not been touched in years. The first visit on a neglected property always costs more than the ones after it.", linkLabel: null, href: null },
+  { question: "What is the difference between trimming and pruning?", answer: "Trimming is shaping the outside — keeping a hedge to a line. Pruning is selective, cutting specific branches back to a joint to improve the plant's structure or open it up. A sheared shrub looks tidy from outside and goes hollow within; a pruned one keeps growth through the whole plant.", linkLabel: null, href: null },
+  { question: "How often should hedges be trimmed?", answer: "Most formal hedges need two cuts a season here — once in early summer after the first flush, once in late summer. Slower-growing evergreens often hold their shape on one.", linkLabel: null, href: null },
+  { question: "Do you remove the branches and debris?", answer: "Worth confirming on any quote — a trimming price that leaves the clippings on the drive is not the same price as one that does not.", linkLabel: null, href: null },
+];
+---
+<Base route="shrub-hedge-trimming" headerOverlay headerActive="Landscaping">
+  <Hero height="min(76vh,680px)" image={P + "commercial/east-main.jpg"}
+    alt="Sheared boxwood hedge along the front of a brick office building"
+    eyebrow="Landscaping · Shrub & hedge trimming"
+    title="Shrub & hedge trimming in Harrisburg, PA."
+    lede="Shrub and hedge trimming for homes and commercial properties across the west shore, Harrisburg and the towns within twenty miles of New Cumberland."
+    credit="Sheared foundation shrubs · Colonial Park, PA">
+    <Button slot="primary" variant="solidLight" size="lg" href="#estimate">Request an estimate</Button>
+    <Button slot="secondary" variant="inverse" size="lg" href={phoneHref}><Icon name="phone" size={16} />{PHONE}</Button>
+  </Hero>
+
+  <Section tone="light" tight>
+    <Container>
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-4)" }}>What we trim</Eyebrow>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:18ch">Not every shrub gets the same cut.</h2>
+      </Reveal>
+      <div class="st-kinds" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-5);margin-top:var(--space-8)">
+        {KINDS.map(([f, alt, h, d, pos], i) => (
+          <Reveal delay={i * 60}>
+            <figure class="st-kind-figure" style="margin:0;display:grid;grid-template-columns:128px 1fr;gap:var(--space-4);align-items:center">
+              <img src={P + f} alt={alt} loading="lazy" style={`width:100%;aspect-ratio:1/1;object-fit:cover;object-position:${pos};border-radius:var(--radius-image);display:block`} />
+              <figcaption>
+                <h3 style="font:var(--type-h4)">{h}</h3>
+                <p style="font:var(--type-small);color:var(--text-secondary);margin-top:4px;max-width:34ch">{d}</p>
+              </figcaption>
+            </figure>
+          </Reveal>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="light" tight>
+    <Container>
+      <div class="st-ba" style="display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:center">
+        <Reveal>
+          <Eyebrow tone="brand" style={{ marginBottom: "var(--space-5)" }}>Before & after</Eyebrow>
+          <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:14ch">Same boxwoods, back in shape.</h2>
+          <p style="font:var(--type-small);color:var(--text-secondary);margin-top:var(--space-4);max-width:40ch">A row of boxwoods sheared back to rounded forms, with the bed re-edged and fresh black mulch underneath. Drag to compare.</p>
+        </Reveal>
+        <Reveal delay={80}>
+          <BeforeAfter before={P + "shrub-before.jpg"} after={P + "shrub-after.jpg"} ratio="4/3"
+            beforeAlt="Overgrown boxwood row with loose new growth above a gravel bed"
+            afterAlt="The same boxwood row sheared into rounded forms over fresh black mulch"
+            client:load />
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="sunken" tight>
+    <Container>
+      <Reveal>
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:var(--space-4)">
+          <div>
+            <Eyebrow tone="brand" style={{ marginBottom: "var(--space-4)" }}>Recent trimming</Eyebrow>
+            <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:18ch">Homes and businesses we keep trimmed.</h2>
+          </div>
+          <a href="/commercial-landscaping/" style="font:var(--type-button);letter-spacing:var(--ls-button);text-transform:uppercase;text-decoration:none">Commercial landscaping →</a>
+        </div>
+      </Reveal>
+      <div class="st-recent" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:var(--space-8)">
+        {RECENT.map(([f, alt, h, town, big, pos], i) => (
+          <Reveal delay={(i % 2) * 60} style={{ gridColumn: big ? "span 2" : "auto", minWidth: 0 }}>
+            <figure style="margin:0">
+              <img src={P + f} alt={alt} loading="lazy" style={`width:100%;aspect-ratio:${big ? "16/9" : "1/1"};object-fit:cover;object-position:${pos};border-radius:var(--radius-image);display:block`} />
+              <figcaption style="margin-top:var(--space-2)">
+                <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text)">{town}</div>
+                <div style="font:var(--fw-regular) .9375rem/1.3 var(--font-display);margin-top:2px">{h}</div>
+              </figcaption>
+            </figure>
+          </Reveal>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="light" tight>
+    <Container>
+      <Reveal><SectionHead eyebrow="Overgrown shrubs" title="Shrubs over the windows?" intro="A shrub sheared into a ball for years is green outside and bare inside. What happens next depends on the plant." /></Reveal>
+      <ol class="st-options" style="list-style:none;margin:var(--space-8) 0 0;padding:0;display:grid;grid-template-columns:minmax(0,1fr);gap:0 clamp(24px,4vw,56px)">
+        {OPTIONS.map(([h, d], i) => (
+          <Reveal delay={i * 70} style={{ borderTop: "1px solid var(--border-strong)", padding: "var(--space-4) 0" }}>
+            <li>
+              <div style="display:flex;gap:var(--space-3);align-items:baseline;margin-bottom:var(--space-2)">
+                <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);color:var(--gold-text)">{String(i + 1).padStart(2, "0")}</span>
+                <h3 style="font:var(--type-h4)">{h}</h3>
+              </div>
+              <p style="font:var(--type-small);color:var(--text-secondary);max-width:38ch">{d}</p>
+            </li>
+          </Reveal>
+        ))}
+      </ol>
+      <Reveal><p style="font:var(--type-small);color:var(--text-secondary);margin-top:var(--space-4)">Time to replant? <a href="/landscaping/installation/">See landscape installation →</a></p></Reveal>
+    </Container>
+  </Section>
+
+  {/* When your plant gets cut */}
+  <Section tone="dark" tight>
+    <Container>
+      <Reveal>
+        <Eyebrow tone="inverse" rule style={{ marginBottom: "var(--space-4)" }}>Timing by plant</Eyebrow>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);color:var(--text-on-dark);max-width:18ch">When does your shrub get cut?</h2>
+        <p style="font:var(--type-body);color:var(--text-on-dark-secondary);margin-top:var(--space-4);max-width:50ch">General Pennsylvania timing by plant type. Pick one to see its window.</p>
+      </Reveal>
+      <TrimCalendar client:load />
+    </Container>
+  </Section>
+
+  <Section tone="sunken">
+    <Container>
+      <Reveal><SectionHead eyebrow="Questions about trimming" title="What people ask before they hire." /></Reveal>
+      <Reveal style={{ marginTop: "var(--space-10)" }}><QuestionList items={FAQ} /></Reveal>
+    </Container>
+  </Section>
+
+  <div id="estimate"><EstimateBand title="Send a photo of the shrubs." intro="We'll tell you whether they can be shaped back, renovated over a couple of seasons, or whether it's time to replant." /></div>
+</Base>
+
+<style>
+  @media (min-width: 760px) {
+    .st-kinds { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: clamp(20px,3vw,40px) !important; }
+    .st-kind-figure { display: block !important; }
+    .st-kind-figure img { aspect-ratio: 4/3 !important; }
+    .st-kind-figure figcaption { margin-top: var(--space-4); }
+    .st-ba { grid-template-columns: minmax(0,1fr) minmax(0,1.5fr) !important; }
+    .st-recent { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: var(--gap-grid) !important; }
+    .st-recent img { height: clamp(200px,24vw,300px) !important; aspect-ratio: auto !important; }
+    .st-options { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+  }
+</style>

@@ -1,0 +1,281 @@
+---
+/* Ported from ui_kits/website/PaverPatios.jsx — the flagship service page. */
+import Base from "../../../layouts/Base.astro";
+import Container from "../../../components/Container.astro";
+import Section from "../../../components/Section.astro";
+import Reveal from "../../../components/Reveal.astro";
+import Hero from "../../../components/Hero.astro";
+import Button from "../../../components/Button.astro";
+import Icon from "../../../components/Icon.astro";
+import Eyebrow from "../../../components/Eyebrow.astro";
+import SectionHead from "../../../components/SectionHead.astro";
+import ProjectTile from "../../../components/ProjectTile.astro";
+import QuestionList from "../../../components/QuestionList.astro";
+import EstimateBand from "../../../components/EstimateBand.astro";
+import RelatedProjects from "../../../components/RelatedProjects.astro";
+import BeforeAfter from "../../../islands/BeforeAfter.jsx";
+import BrandLogo from "../../../components/BrandLogo.astro";
+import Swatches from "../../../components/diagrams/Swatches.astro";
+import Patterns from "../../../components/diagrams/Patterns.astro";
+import BorderDiagram from "../../../components/diagrams/BorderDiagram.astro";
+import PlanViews from "../../../components/diagrams/PlanViews.astro";
+
+const P = "/photos/";
+const PHONE = "(717) 736-6538";
+const phoneHref = `tel:${PHONE.replace(/\D/g, "")}`;
+
+const PLAN_FACTORS: [string, string][] = [
+  ["How you'll use it", "Dining, seating, grilling, fire features and how many people the patio needs to accommodate."],
+  ["How it connects", "Doors, walkways, pools and the natural routes people take through the yard."],
+  ["How the property sits", "Slope, elevation, drainage and whether steps or retaining walls need to become part of the project."],
+];
+const ASSEMBLY: [string, string, string, { h: number; bg: string }][] = [
+  ["05", "Joints + edge restraint", "The finished field is secured at the perimeter and the joints are filled appropriately for the system.", { h: 14, bg: "repeating-linear-gradient(90deg,#8E877C 0 46px,#2E2B27 46px 49px)" }],
+  ["04", "Pavers", "Pavers are set to the planned elevations, pattern and pitch.", { h: 30, bg: "repeating-linear-gradient(90deg,#B8B0A2 0 58px,#6B655D 58px 61px)" }],
+  ["03", "1B stone-chip bedding", "Instead of a conventional sand setting bed, we level the pavers over clean stone chips. The open-graded material allows water to move through the bedding layer rather than relying on a fine sand layer directly beneath the pavers.", { h: 20, bg: "radial-gradient(circle,#9A9388 1.6px,transparent 2px) 0 0/7px 7px,#6B655D" }],
+  ["02", "Compacted stone base", "The structural aggregate base provides the patio's foundation.", { h: 56, bg: "radial-gradient(circle,#A79E90 2.2px,transparent 2.8px) 0 0/10px 9px,radial-gradient(circle,#6B655D 1.4px,transparent 2px) 4px 5px/9px 10px,#4A453F" }],
+  ["01", "Prepared subgrade", "The existing surface is excavated and prepared for the patio system.", { h: 40, bg: "linear-gradient(180deg,#5A4632,#3E3022)" }],
+];
+const OPTIONS: [string, string, any][] = [
+  ["Colour & texture", "Smooth, tumbled or textured faces, in blends chosen to sit with the siding, brick or stone already on the house.", Swatches],
+  ["Pattern", "Pattern changes how big the patio reads and how busy it looks. Modular breaks up a large field; running bond and herringbone add direction.", Patterns],
+  ["Borders", "A contrasting border around the field is the simplest way to make a patio look finished. It also holds the cut edge on curves.", BorderDiagram],
+  ["Curves or straight lines", "Straight lines suit a formal house and a square yard. Curves follow a pool, a planting bed or the way people walk through the space.", PlanViews],
+];
+const PROCESS: [string, string][] = [
+  ["Walk the property", "We look at the space, access for equipment, elevation, drainage, and what you want the patio to do."],
+  ["Plan the project", "Footprint, features, materials and scope, written down with a price before anything starts."],
+  ["Prepare the site", "Excavation, grading and base preparation. The part that decides whether the patio stays flat."],
+  ["Build", "Pavers, borders, and any steps, walls or features that are part of the plan."],
+  ["Finish the property", "Final grading, cleanup, and a walkthrough with you."],
+];
+const RELATED: [string, string, string][] = [
+  ["Retaining walls", "/hardscaping/retaining-walls/", "When the patio needs level ground the yard does not have."],
+  ["Walkways & steps", "/hardscaping/walkways/", "Connecting the patio to the driveway, the gate or the front door."],
+  ["Fire features & seat walls", "/hardscaping/fire-features/", "Built into the patio on the same excavation."],
+  ["Grading & drainage", "/hardscaping/drainage/", "When water already stands where the patio is going."],
+];
+const TOWNS = ["Camp Hill", "Mechanicsburg", "New Cumberland", "Lemoyne", "Harrisburg", "Enola", "Hershey", "Hummelstown", "Dillsburg", "Elizabethtown"];
+---
+<Base route="paver-patios" headerOverlay headerActive="Hardscaping">
+  <Hero height="min(78vh,700px)" image={P + "patio-raised-wall-dusk.jpg"}
+    alt="Raised paver patio on a block retaining wall with lit steps and a seat wall beside the house at dusk"
+    eyebrow="Paver patios"
+    title="Built around your property."
+    lede="Custom paver patio design and installation in Camp Hill, Mechanicsburg, Harrisburg, Hershey and communities within twenty miles of New Cumberland."
+    credit="Raised patio, block wall base and lit steps">
+    <Button slot="primary" variant="solidLight" size="lg" href="#estimate">Request an estimate</Button>
+    <Button slot="secondary" variant="inverse" size="lg" href={phoneHref}><Icon name="phone" size={16} />{PHONE}</Button>
+  </Hero>
+
+  <Section tone="light" tight>
+    <Container>
+      <Reveal><SectionHead eyebrow="Recent patios" title="Built around the way you use the yard." /></Reveal>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--gap-grid);margin-top:var(--space-12)">
+        <Reveal><ProjectTile ratio="3/4" image={P + "patio-pool-pavers.jpg"} alt="Paver patio cut to the curve of an in-ground pool" town="Central PA" service="Pool pavers" detail="Field cut to the pool radius with a contrasting border." /></Reveal>
+        <Reveal delay={80}><ProjectTile ratio="3/4" image={P + "patio-firepit-seatwall-dusk.jpg"} alt="Paver patio at dusk with a round stone firepit, Adirondack chairs and an under-cap lit seat wall" town="Central PA" service="Patio, seat wall & fire pit" detail="Round block fire pit, seat wall lit from under the cap." /></Reveal>
+        <Reveal delay={160}><ProjectTile ratio="3/4" image={P + "patio-pergola-web.png"} alt="Ground-level paver patio with a charcoal soldier-course border under a louvred pergola, framed by black mulch beds" town="Central PA" service="Patio & pergola pad" detail="Two-tone field with a charcoal soldier-course border." /></Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="sunken">
+    <Container>
+      <div class="pp-transform" style="display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(28px,4vw,72px);align-items:center">
+        <Reveal>
+          <BeforeAfter before={P + "pool-pavers-before.jpg"} after={P + "pool-pavers-after.jpg"}
+            beforeAlt="Old pool-side paver patio with weeds in every joint and pavers lifting at the pool edge"
+            afterAlt="Rebuilt pool patio in a multi-size blended paver, cut to the pool curve with a charcoal border and a channel drain across the field"
+            caption="Drag to compare."
+            client:load />
+        </Reveal>
+        <Reveal delay={100}>
+          <SectionHead eyebrow="Project breakdown" title="Rebuilding a failing pool patio." />
+          <dl style="margin:var(--space-8) 0 0">
+            <div style="display:grid;grid-template-columns:minmax(96px,120px) 1fr;gap:var(--space-5);padding:var(--space-5) 0;border-top:1px solid var(--border-hairline)">
+              <dt style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text);padding-top:3px">Before</dt>
+              <dd style="margin:0;font:var(--type-body);color:var(--text-secondary);max-width:48ch">Weeds had taken over the joints, while pavers along the pool coping were lifting and separating.</dd>
+            </div>
+            <div style="display:grid;grid-template-columns:minmax(96px,120px) 1fr;gap:var(--space-5);padding:var(--space-5) 0;border-top:1px solid var(--border-hairline)">
+              <dt style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text);padding-top:3px">The result</dt>
+              <dd style="margin:0;font:var(--type-body);color:var(--text-secondary);max-width:48ch">A clean, continuous pool surround with properly aligned edges and a finished surface built to hold together.</dd>
+            </div>
+          </dl>
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  {/* Technical trust */}
+  <Section tone="dark">
+    <Container>
+      <Reveal>
+        <figure style="margin:0;position:relative">
+          <img src={P + "paver-walkway-chip-bed-install.jpg"} alt="Pavers being laid over a bed of clean 1B stone chips on a compacted base, with the next pavers stacked beside the run" style="width:100%;aspect-ratio:21/9;object-fit:cover;object-position:50% 80%;border-radius:var(--radius-image)" />
+          <span aria-hidden="true" style="position:absolute;left:40%;top:56%;width:44px;height:44px;transform:translate(-50%,-50%);border:1.5px solid var(--gold-500);border-radius:50%;box-shadow:0 0 0 4px rgba(10,36,22,.35)"></span>
+        </figure>
+      </Reveal>
+
+      <Reveal style={{ marginTop: "clamp(48px,6vw,88px)" }}>
+        <SectionHead tone="dark" eyebrow="Built from the ground up" title="What's underneath the pavers matters."
+          intro="A patio is more than the pavers you see. The system underneath determines how the finished surface is supported, leveled and handles water. Alejandro's builds that foundation in layers—including a clean, angular stone-chip bedding course instead of a conventional sand setting bed." />
+      </Reveal>
+
+      <Reveal style={{ marginTop: "var(--space-12)", display: "flex", alignItems: "center", gap: "var(--space-5)" }}>
+        <div aria-hidden="true" style={`flex:0 0 auto;width:112px;height:72px;border-radius:var(--radius-image);outline:1.5px solid var(--gold-500);outline-offset:2px;background:url(${P}paver-walkway-chip-bed-install.jpg) 38% 72% / 420% auto no-repeat`}></div>
+        <span style="flex:0 0 auto;width:clamp(24px,6vw,80px);height:1px;background:var(--gold-500)"></span>
+        <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-on-dark)">A closer look underneath</span>
+      </Reveal>
+
+      <ol style="list-style:none;margin:var(--space-12) 0 0;padding:0;border-bottom:1px solid var(--border-dark)">
+        {ASSEMBLY.map(([n, h, d, band], i) => {
+          const focus = n === "03";
+          return (
+            <Reveal delay={i * 60}>
+              <li style={`display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--space-4) clamp(24px,4vw,64px);align-items:center;border-top:1px solid var(--border-dark);padding:${focus ? "var(--space-6) var(--space-5)" : "var(--space-5) 0"};margin:${focus ? "0 calc(var(--space-5) * -1)" : "0"};background:${focus ? "rgba(245,179,36,.06)" : "transparent"};outline:${focus ? "1px solid rgba(245,179,36,.55)" : "none"};outline-offset:-1px`}>
+                <div aria-hidden="true" style={`height:${band.h}px;background:${band.bg};border-radius:var(--radius-xs);box-shadow:${focus ? "0 0 0 1px var(--gold-500)" : "none"}`}></div>
+                <div style="display:grid;grid-template-columns:44px 1fr;gap:var(--space-4)">
+                  <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);color:var(--gold-500);padding-top:3px">{n}</span>
+                  <div>
+                    <div style="display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3);margin-bottom:var(--space-2)">
+                      <h4 style={`font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:${focus ? "var(--gold-300)" : "var(--text-on-dark)"}`}>{h}</h4>
+                      {focus && <span style="font:var(--fw-semibold) 10px/1 var(--font-sans);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--green-950);background:var(--gold-500);padding:4px 7px">Our method</span>}
+                    </div>
+                    <p style={`font:var(--type-small);color:${focus ? "var(--text-on-dark)" : "var(--text-on-dark-secondary)"};max-width:52ch`}>{d}</p>
+                  </div>
+                </div>
+              </li>
+            </Reveal>
+          );
+        })}
+      </ol>
+
+      <Reveal style={{ marginTop: "var(--space-12)", borderTop: "2px solid var(--gold-500)", paddingTop: "var(--space-6)", maxWidth: "62ch" }}>
+        <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-500);margin-bottom:var(--space-4)">Why we build it this way</div>
+        <p style="font:var(--fw-regular) clamp(1.25rem,1.9vw,1.625rem)/1.4 var(--font-display);color:var(--text-on-dark);text-wrap:pretty">
+          Water gets beneath outdoor paving. Our bedding system is designed around that reality, using clean stone beneath the pavers as part of a stable, free-draining assembly.
+        </p>
+      </Reveal>
+    </Container>
+  </Section>
+
+  {/* Personalisation */}
+  <Section tone="light">
+    <Container>
+      <Reveal>
+        <SectionHead eyebrow="Planning your patio" title="A good patio starts with the space around it."
+          intro="You don't need to know the dimensions, paver pattern or finished layout before you call. We look at how the patio connects to the house, how you'll use it, and what the property allows." />
+      </Reveal>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0 clamp(24px,3vw,48px);margin-top:clamp(40px,5vw,72px)">
+        {PLAN_FACTORS.map(([h, d], i) => (
+          <Reveal delay={i * 60} style={{ borderTop: "1px solid var(--border-strong)", padding: "var(--space-5) 0 var(--space-6)" }}>
+            <h3 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text);margin-bottom:var(--space-3)">{h}</h3>
+            <p style="font:var(--type-small);color:var(--text-secondary);max-width:38ch">{d}</p>
+          </Reveal>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  {/* Materials & design */}
+  <Section tone="sunken">
+    <Container>
+      <Reveal><SectionHead eyebrow="Materials & design" title="Make it fit the house, not just the yard." /></Reveal>
+      <div style="margin-top:var(--space-12);border-bottom:1px solid var(--gold-500)">
+        {OPTIONS.map(([h, d, Visual], i) => (
+          <Reveal delay={i * 60}>
+            <div class="pp-option" style="display:grid;grid-template-columns:minmax(min(100%,280px),1fr);gap:var(--space-6) clamp(24px,4vw,64px);align-items:center;border-top:1px solid var(--gold-500);padding:var(--space-8) 0">
+              <div style="display:grid;grid-template-columns:44px 1fr;gap:var(--space-4)">
+                <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);color:var(--gold-text);padding-top:3px">{String(i + 1).padStart(2, "0")}</span>
+                <div>
+                  <h3 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-primary);margin-bottom:var(--space-3)">{h}</h3>
+                  <p style="font:var(--type-small);color:var(--text-secondary);max-width:46ch">{d}</p>
+                </div>
+              </div>
+              <div style="min-width:0;overflow-x:auto"><Visual /></div>
+            </div>
+          </Reveal>
+        ))}
+        <Reveal>
+          <div class="pp-option" style="display:grid;grid-template-columns:minmax(min(100%,280px),1fr);gap:var(--space-6) clamp(24px,4vw,64px);align-items:center;border-top:1px solid var(--gold-500);padding:var(--space-8) 0">
+            <div style="display:grid;grid-template-columns:44px 1fr;gap:var(--space-4)">
+              <span aria-hidden="true"></span>
+              <div>
+                <h3 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-primary);margin-bottom:var(--space-3)">Paver manufacturers</h3>
+                <p style="font:var(--type-small);color:var(--text-secondary);max-width:46ch">We install pavers from Techo-Bloc and Cambridge, giving homeowners a wide range of colors, textures, sizes and patterns to work with.</p>
+                <p style="font:var(--type-caption);color:var(--text-muted);margin-top:var(--space-3)">Product availability varies by project, color and style.</p>
+              </div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-6) 0">
+              <div style="padding:var(--space-2) clamp(20px,3vw,40px) var(--space-2) 0"><BrandLogo file="techo-bloc.png" name="Techo-Bloc" h="19px" /></div>
+              <div style="padding:var(--space-2) 0 var(--space-2) clamp(20px,3vw,40px);border-left:1px solid var(--border-strong)"><BrandLogo file="cambridge-pavers.png" name="Cambridge Pavers" h="56px" /></div>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  {/* Adjacent needs */}
+  <Section tone="light" tight>
+    <Container>
+      <Reveal><SectionHead eyebrow="Related hardscaping" title="Building more than the patio?" /></Reveal>
+      <div style="margin-top:var(--space-10)">
+        {RELATED.map(([label, href, note], i) => (
+          <Reveal delay={i * 50}>
+            <a href={href} style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) auto;gap:var(--space-6);align-items:baseline;padding:var(--space-6) 0;border-top:1px solid var(--border-hairline);text-decoration:none;color:inherit">
+              <span style="font:var(--type-h3);color:var(--text-primary)">{label}</span>
+              <span style="font:var(--type-small);color:var(--text-secondary)">{note}</span>
+              <Icon name="arrow-right" size={18} color="var(--green-800)" />
+            </a>
+          </Reveal>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  {/* Objections */}
+  <Section tone="sunken">
+    <Container>
+      <Reveal><SectionHead eyebrow="Questions about paver patios" title="What people ask before they hire." /></Reveal>
+      <Reveal style={{ marginTop: "var(--space-12)" }}>
+        <QuestionList items={[
+          { question: "How much does a paver patio cost in Central Pennsylvania?", answer: "Most paver patio projects we build in Central Pennsylvania fall between $10,000 and $50,000. Size sets the base number. Excavation depth, equipment access to the back yard, drainage work, the paver chosen, and any steps, walls or fire features move it from there. Every estimate should state what preparation and materials are included.", linkLabel: null, href: null },
+          { question: "How long does paver patio installation take?", answer: "Most paver patios take 3–7 days once construction begins. Laying the pavers is rarely what takes longest. Excavation, hauling spoil out through a narrow gate, drainage work, and rain that delays base compaction are what extend a schedule.", linkLabel: null, href: null },
+          { question: "Can you replace an existing concrete patio with pavers?", answer: "A cracked slab can't be patched invisibly. Pavers are individual units, so a damaged section can be lifted and reset instead.", linkLabel: null, href: null },
+          { question: "Do paver patios require maintenance?", answer: "Some. Joint sand can wash out over time and should be topped up, and weeds or moss in the joints are easier to handle early. A patio on a sound base shouldn't need resetting.", linkLabel: null, href: null },
+          { question: "How do you prepare the base for a paver patio?", answer: "We excavate, build a compacted stone base, and level the pavers on a clean 1B stone-chip bedding course instead of sand. The base decides whether a patio stays flat through Pennsylvania freeze-thaw.", linkLabel: null, href: null },
+          { question: "Can you build a patio on a sloped yard?", answer: "Yes. The patio is cut into the grade, raised on a retaining-wall base, or split into levels with steps. Which one depends on how far the ground falls and where the door sits.", linkLabel: "Retaining walls", href: "/hardscaping/retaining-walls/" },
+          { question: "Can you add steps, walls, lighting or a fire feature?", answer: "Yes, and it's simpler at the same time. Wall footings, the patio base and lighting wires all go in during one excavation, instead of cutting into a finished patio later.", linkLabel: "Fire features & seat walls", href: "/hardscaping/fire-features/" },
+          { question: "What areas do you serve?", answer: "Towns within about twenty miles of New Cumberland, including Camp Hill, Mechanicsburg, Lemoyne, Harrisburg and Hershey, across Cumberland, Dauphin and York counties.", linkLabel: "Service area", href: "/service-areas/" },
+        ]} />
+      </Reveal>
+    </Container>
+  </Section>
+
+  {/* Local relevance */}
+  <Section tone="light" tight>
+    <Container>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:clamp(24px,4vw,72px);align-items:baseline">
+        <Reveal><SectionHead eyebrow="Where we build" title="Paver patio installation across the Harrisburg area." /></Reveal>
+        <Reveal delay={80}>
+          <p style="font:var(--type-body);color:var(--text-secondary);line-height:1.9">{TOWNS.join(" · ")}</p>
+          <a href="/service-areas/" class="link-underline" style="display:inline-block;margin-top:var(--space-5);font:var(--type-button);letter-spacing:var(--ls-button);text-transform:uppercase;color:var(--green-800);text-decoration:none">Full service area →</a>
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  <div style="position:relative;height:clamp(260px,42vw,520px);overflow:hidden;background:var(--green-950)">
+    <img src={P + "firepit-seatwall-night.jpg"} alt="Finished paver patio with a lit seat wall and firepit at night" style="width:100%;height:100%;object-fit:cover" />
+  </div>
+  <RelatedProjects service="paver-patios" />
+  <div id="estimate"><EstimateBand title="Have a backyard you are ready to use differently?" intro="Tell us what you are working with and what you would like the space to become. We will take a look at the property and talk through the project with you." /></div>
+</Base>
+
+<style>
+  @media (min-width: 760px) {
+    .pp-transform { grid-template-columns: repeat(auto-fit,minmax(300px,1fr)) !important; }
+    .pp-option { grid-template-columns: repeat(auto-fit,minmax(min(100%,280px),1fr)) !important; }
+  }
+</style>

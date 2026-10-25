@@ -1,0 +1,203 @@
+---
+/* Ported from ui_kits/website/SnowRemoval.jsx. Nothing here states triggers, response times,
+   equipment counts or treatment products — none are verified in discovery/business-fact-sheet.md. */
+import Base from "../../../layouts/Base.astro";
+import Container from "../../../components/Container.astro";
+import Section from "../../../components/Section.astro";
+import Reveal from "../../../components/Reveal.astro";
+import Button from "../../../components/Button.astro";
+import Icon from "../../../components/Icon.astro";
+import Eyebrow from "../../../components/Eyebrow.astro";
+import TrustedBy from "../../../components/TrustedBy.astro";
+import EstimateForm from "../../../islands/EstimateForm.jsx";
+
+const P = "/photos/";
+const SN_CM = "/photos/commercial/";
+const PHONE = "(717) 736-6538";
+const phoneHref = `tel:${PHONE.replace(/\D/g, "")}`;
+
+const SN_JOB: [string, string][] = [
+  ["Parking & access", "Keep primary driving and parking areas accessible as conditions develop."],
+  ["Entrances & walkways", "Address pedestrian routes and high-traffic areas around the property."],
+  ["Ice management", "Treat appropriate surfaces when conditions create slipping hazards."],
+];
+const SN_PLAN: [string, string, string][] = [
+  ["01", "Access", "Which entrances and driving lanes need to remain usable."],
+  ["02", "Parking", "How parked vehicles and traffic affect clearing."],
+  ["03", "Pedestrian areas", "Which sidewalks, entrances and walking routes require attention."],
+  ["04", "Snow placement", "Where cleared snow can be placed without creating problems elsewhere on the property."],
+];
+const SN_SERVICES: [string, string][] = [
+  ["Snow plowing", "Commercial lots and vehicle access areas."],
+  ["Sidewalks & entrances", "Pedestrian areas around buildings and primary access points."],
+  ["Ice management", "Treatment of appropriate paved surfaces based on site conditions."],
+  ["Storm cleanup", "Additional clearing and cleanup as conditions require."],
+];
+const SN_PROPS: [string, string][] = [
+  ["Condominium & HOA communities", "Snow management around shared roads, parking and pedestrian areas."],
+  ["Professional & medical offices", "Access around parking areas, entrances and frequently used pedestrian routes."],
+  ["Retail & customer-facing properties", "Clearing focused around the areas customers and employees use."],
+  ["Managed commercial properties", "Property-specific winter service for commercial and managed sites."],
+];
+---
+<Base route="snow-removal" headerOverlay headerActive="Commercial">
+  <section class="sn-hero" style="position:relative;min-height:min(78vh,600px);display:flex;align-items:flex-end;overflow:hidden;background:#07150D">
+    <img src={SN_CM + "snow-hero3-tall.jpg"} alt="Alejandro's plow truck with a red blade on a snowy commercial lot at night, fresh tire tracks in the snow" fetchpriority="high" class="sn-hero-img" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%" />
+    <div class="sn-hero-scrim" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,18,11,.35) 0%,rgba(6,18,11,.65) 45%,rgba(6,18,11,.94) 100%)"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,18,11,.55) 0%,rgba(6,18,11,0) 26%)"></div>
+    <Container style={{ position: "relative", width: "100%", paddingTop: "140px", paddingBottom: "var(--space-10)" }}>
+      <Eyebrow tone="inverse" rule style={{ marginBottom: "var(--space-5)" }}>Commercial · Snow & ice</Eyebrow>
+      <h1 class="sn-h1" style="font:var(--fw-regular) clamp(2.5rem,11vw,3rem)/1.04 var(--font-display);letter-spacing:var(--ls-display);color:#fff;max-width:13ch;text-wrap:balance">Snow management built around your property.</h1>
+      <p class="sn-lede" style="font:var(--type-small);color:rgba(255,255,255,.88);max-width:50ch;margin-top:var(--space-5)">Commercial snow removal and ice management for condominium associations, office properties and commercial sites throughout the Harrisburg area and surrounding Central Pennsylvania communities.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-6)">
+        <Button variant="solidLight" size="md" href="#estimate">Request a seasonal quote</Button>
+        <Button variant="inverse" size="md" href={phoneHref}><Icon name="phone" size={16} />{PHONE}</Button>
+      </div>
+      <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-300);margin-top:var(--space-5);line-height:1.6">Commercial lots · Condominiums · Offices · Managed properties</div>
+    </Container>
+  </section>
+
+  <TrustedBy href="/commercial-landscaping/" />
+
+  <Section tone="light" tight>
+    <Container>
+      <div class="sn-deadline" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-8);align-items:start">
+        <Reveal>
+          <Eyebrow tone="brand" style={{ marginBottom: "var(--space-5)" }}>Before the first car arrives</Eyebrow>
+          <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:14ch;text-wrap:balance">The storm isn't the deadline. Opening time is.</h2>
+          <p style="font:var(--type-small);color:var(--text-secondary);margin-top:var(--space-4);max-width:54ch">Commercial snow management is about more than clearing accumulation. Parking areas, entrances and pedestrian routes need to be addressed around how the property is actually used.</p>
+        </Reveal>
+        <Reveal delay={80}>
+          <dl style="margin:0;border-top:1px solid var(--gold-500)">
+            {SN_JOB.map(([h, d]) => (
+              <div style="padding:var(--space-4) 0;border-bottom:1px solid var(--border-hairline)">
+                <dt><h3 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-primary);margin-bottom:var(--space-2)">{h}</h3></dt>
+                <dd style="margin:0;font:var(--type-small);color:var(--text-secondary);max-width:48ch">{d}</dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="dark" tight>
+    <Container>
+      <Reveal>
+        <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-300);margin-bottom:var(--space-5)">Commercial snow work</div>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);color:var(--text-on-dark);max-width:17ch;text-wrap:balance">Working while the weather is still happening.</h2>
+      </Reveal>
+      <div class="sn-work" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-6);align-items:end;margin-top:var(--space-6)">
+        <Reveal>
+          <figure style="margin:0">
+            <img src={P + "plow-truck-night.jpg"} alt="Plow truck working a snow-covered commercial lot at night" loading="lazy" width="1600" height="900" style="width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;object-position:50% 55%;border-radius:var(--radius-image);display:block" />
+            <figcaption style="font:var(--type-caption);color:var(--text-on-dark-secondary);margin-top:var(--space-3)">Commercial snow removal · Central Pennsylvania</figcaption>
+          </figure>
+        </Reveal>
+        <Reveal delay={80}>
+          <img src={SN_CM + "commercial-snow-removal-office-lot-central-pa.jpg"} alt="Snow-covered office parking lot after clearing" loading="lazy" width="1200" height="675" class="sn-work-img2" style="width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-image);display:none;margin-bottom:var(--space-6)" />
+          <p style="font:var(--type-small);color:var(--text-on-dark-secondary);max-width:44ch;border-top:1px solid var(--gold-500);padding-top:var(--space-4)">Snow operations happen on the property's schedule and the storm's schedule. The goal is to keep critical areas moving while conditions change.</p>
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="light">
+    <Container>
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-5)" }}>Before winter</Eyebrow>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:14ch">Every property has a snow plan.</h2>
+        <p style="font:var(--type-small);color:var(--text-secondary);margin-top:var(--space-4);max-width:54ch">Where snow can be placed, which entrances matter most and how vehicles move through the site all affect how a property should be serviced.</p>
+      </Reveal>
+      <ol class="sn-plan" style="list-style:none;margin:var(--space-8) 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-6) var(--space-5)">
+        {SN_PLAN.map(([n, h, d], i) => (
+          <li style="border-top:1px solid var(--gold-500);padding-top:var(--space-5)">
+            <Reveal delay={i * 60}>
+              <div style="font:var(--fw-light) 2rem/1 var(--font-display);color:var(--gold-text);margin-bottom:var(--space-3)">{n}</div>
+              <h3 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-primary);margin-bottom:var(--space-2)">{h}</h3>
+              <p style="font:var(--type-small);color:var(--text-secondary);max-width:30ch">{d}</p>
+            </Reveal>
+          </li>
+        ))}
+      </ol>
+    </Container>
+  </Section>
+
+  <Section tone="dark" tight>
+    <Container>
+      <div class="sn-services" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-6);align-items:start">
+        <Reveal>
+          <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-300);margin-bottom:var(--space-5)">Snow & ice services</div>
+          <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);color:var(--text-on-dark);max-width:12ch;text-wrap:balance">Winter coverage for the property.</h2>
+        </Reveal>
+        <Reveal delay={80}>
+          <dl style="margin:0;display:grid;grid-template-columns:minmax(0,1fr);gap:0">
+            {SN_SERVICES.map(([h, d]) => (
+              <div style="border-top:1px solid var(--border-dark);padding:var(--space-4) 0">
+                <dt><h3 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-on-dark);margin-bottom:var(--space-2)">{h}</h3></dt>
+                <dd style="margin:0;font:var(--type-small);color:var(--text-on-dark-secondary);max-width:40ch">{d}</dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="light" tight>
+    <Container>
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-5)" }}>Commercial properties</Eyebrow>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:18ch">Built for properties that can't simply close when it snows.</h2>
+      </Reveal>
+      <dl style="margin:var(--space-6) 0 0;border-top:1px solid var(--gold-500)">
+        {SN_PROPS.map(([h, d], i) => (
+          <Reveal delay={i * 50}>
+            <div class="sn-prop-row" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-2);align-items:baseline;padding:var(--space-4) 0;border-bottom:1px solid var(--border-hairline)">
+              <dt style="font:var(--fw-regular) 1.125rem/1.25 var(--font-display);color:var(--text-primary)">{h}</dt>
+              <dd style="margin:0;font:var(--type-small);color:var(--text-secondary);max-width:52ch">{d}</dd>
+            </div>
+          </Reveal>
+        ))}
+      </dl>
+    </Container>
+  </Section>
+
+  <div id="estimate">
+    <section style="position:relative;overflow:hidden;background:var(--green-950)">
+      <img src={SN_CM + "commercial-snow-removal-office-lot-central-pa.jpg"} alt="" aria-hidden="true" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.35" />
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,36,22,.96) 0%,rgba(10,36,22,.86) 60%,rgba(10,36,22,.7) 100%)"></div>
+      <Container style={{ position: "relative", padding: "var(--space-12) var(--gutter)" }}>
+        <div class="sn-cta" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-8);align-items:start">
+          <div>
+            <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-300);margin-bottom:var(--space-5)">Plan before the first storm</div>
+            <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);color:var(--text-on-dark);max-width:14ch;text-wrap:balance">Talk through your property before winter.</h2>
+            <p style="font:var(--type-small);color:var(--text-on-dark-secondary);margin-top:var(--space-4);max-width:54ch">Tell us about the property, the areas that need service and how the site is used. We'll discuss the scope and seasonal snow-management options for the property.</p>
+            <div style="margin-top:var(--space-6)">
+              <Button variant="inverse" size="md" href={phoneHref}><Icon name="phone" size={16} />{PHONE}</Button>
+            </div>
+          </div>
+          <EstimateForm tone="dark" projects={["Commercial lot plowing", "Sidewalks & entrances", "Ice management", "Full seasonal coverage", "Not sure yet"]} client:load />
+        </div>
+      </Container>
+    </section>
+  </div>
+</Base>
+
+<style>
+  @media (min-width: 820px) {
+    .sn-hero { min-height: min(86vh,780px) !important; }
+    .sn-hero-img { object-position: 50% 50% !important; }
+    .sn-hero-scrim { background: linear-gradient(90deg,rgba(6,18,11,.9) 0%,rgba(6,18,11,.62) 48%,rgba(6,18,11,.2) 85%) !important; }
+    .sn-h1 { font: var(--type-display) !important; }
+    .sn-lede { font: var(--type-lead) !important; margin-top: var(--space-8) !important; }
+    .sn-deadline { grid-template-columns: minmax(0,1fr) minmax(0,1.15fr) !important; gap: clamp(32px,5vw,96px) !important; }
+    .sn-work { grid-template-columns: minmax(0,1.7fr) minmax(0,1fr) !important; gap: clamp(24px,3vw,48px) !important; margin-top: var(--space-10) !important; }
+    .sn-work-img2 { display: block !important; }
+    .sn-plan { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 0 clamp(20px,3vw,48px) !important; margin-top: var(--space-16) !important; }
+    .sn-services { grid-template-columns: minmax(0,.85fr) minmax(0,1.4fr) !important; gap: clamp(32px,5vw,96px) !important; }
+    .sn-services dl { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 0 clamp(24px,3vw,48px) !important; }
+    .sn-prop-row { grid-template-columns: minmax(0,1fr) minmax(0,1.4fr) !important; gap: clamp(24px,4vw,64px) !important; }
+    .sn-cta { grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important; gap: clamp(32px,5vw,96px) !important; }
+  }
+</style>

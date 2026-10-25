@@ -1,0 +1,41 @@
+---
+import SeoHead from "../components/SeoHead.astro";
+import SiteHeader from "../islands/SiteHeader.jsx";
+import SiteFooter from "../components/SiteFooter.astro";
+import MobileCallBar from "../islands/MobileCallBar.jsx";
+import { localBusinessLd } from "../lib/localBusiness";
+import "../styles/global.css";
+
+interface Props {
+  route?: string;
+  title?: string;
+  description?: string;
+  path?: string;
+  crumbs?: [string, string][];
+  ogImage?: string;
+  noindex?: boolean;
+  headerOverlay?: boolean;
+  headerActive?: string;
+  footerTowns?: string[];
+}
+const { route, title, description, path, crumbs, ogImage, noindex, headerOverlay = false, headerActive, footerTowns = [] } = Astro.props;
+const PHONE = "(717) 736-6538";
+const ld = JSON.stringify(localBusinessLd());
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <SeoHead route={route} title={title} description={description} path={path} crumbs={crumbs} ogImage={ogImage} noindex={noindex} />
+  <script type="application/ld+json" set:html={ld} />
+</head>
+<body>
+  <SiteHeader phone={PHONE} overlay={headerOverlay} active={headerActive} logo="/logo.png" client:load />
+  <slot />
+  <SiteFooter phone={PHONE} towns={footerTowns} logo="/logo.png" />
+  <MobileCallBar phone={PHONE} estimateHref="/#estimate" client:load />
+  <script src="../scripts/reveal.js"></script>
+  <script src="../scripts/hide-verify.js"></script>
+</body>
+</html>

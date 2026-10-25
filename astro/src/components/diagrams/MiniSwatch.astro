@@ -1,0 +1,7 @@
+---
+const P = "/photos/";
+const swatches = [1, 2, 3, 4];
+---
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;aspect-ratio:4/3">
+  {swatches.map((i) => <img src={`${P}swatches/swatch-${i}.jpg`} alt="" style="width:100%;height:100%;object-fit:cover;display:block" />)}
+</div>

@@ -1,0 +1,119 @@
+---
+/* Homepage. Ported from ui_kits/website/Home.jsx. Section order follows the buyer's
+   questions: who / what they build -> proof of work -> why it lasts -> do they work here ->
+   someone else hired them -> act. */
+import Base from "../layouts/Base.astro";
+import Container from "../components/Container.astro";
+import Section from "../components/Section.astro";
+import Reveal from "../components/Reveal.astro";
+import Hero from "../components/Hero.astro";
+import Button from "../components/Button.astro";
+import Icon from "../components/Icon.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import SectionHead from "../components/SectionHead.astro";
+import ProjectTile from "../components/ProjectTile.astro";
+import TownEntry from "../components/TownEntry.astro";
+import EstimateBand from "../components/EstimateBand.astro";
+
+const P = "/photos/";
+const PHONE = "(717) 736-6538";
+const phoneHref = `tel:${PHONE.replace(/\D/g, "")}`;
+
+const VIGNETTES = [
+  ["01", "Hardscaping", "Patios & Hardscapes.", "Patios, retaining walls, walkways, fire features and drainage.", "Explore hardscaping", "/hardscaping/paver-patios/", "patio-pool-pavers.jpg", "Paver patio wrapping the curve of a backyard pool", "50% 55%"],
+  ["02", "Landscaping", "Finished landscapes.", "Planting, mulch, sod, trimming and seasonal property work.", "Explore landscaping", "/landscaping/installation/", "stone-edge-bed.jpg", "Stone-edged planting bed with sculpted shrubs against a house", "50% 55%"],
+  ["03", "Commercial & snow", "Commercial landscaping.", "Grounds maintenance and winter service for commercial properties.", "Explore commercial", "/commercial-landscaping/", "commercial-mowing-stripes.jpg", "Freshly striped lawn on a commercial property", "50% 50%"],
+];
+
+const FOOTER_TOWNS = ["New Cumberland", "Lemoyne", "Wormleysburg", "Camp Hill", "Shiremanstown", "Enola", "Mechanicsburg", "Harrisburg", "Steelton", "Highspire", "Lewisberry", "Marysville", "Middletown", "Dillsburg", "Hummelstown", "Hershey", "Boiling Springs", "Carlisle", "Elizabethtown", "Palmyra", "York"];
+---
+<Base route="home" headerOverlay footerTowns={FOOTER_TOWNS}>
+  <Hero
+    image={P + "patio-raised-wall-dusk.jpg"}
+    alt="Raised paver patio on a block retaining wall with lit steps beside a house at dusk"
+    eyebrow="Alejandro's Landscaping · New Cumberland, PA"
+    title="Landscaping & hardscaping in the Harrisburg area."
+    lede="Paver patios, retaining walls, walkways, planting and commercial landscaping for homes and businesses within twenty miles of New Cumberland."
+    credit="Raised patio, block wall and lit steps">
+    <Button slot="primary" variant="solidLight" size="lg" href="#estimate">Request an estimate</Button>
+    <Button slot="secondary" variant="inverse" size="lg" href={phoneHref}><Icon name="phone" size={16} />{PHONE}</Button>
+  </Hero>
+
+  {/* WHAT WE DO — three photographic vignettes */}
+  <section aria-label="What we build" style="background:var(--surface-page);padding:56px 0 72px">
+    <div style="padding:0 var(--gutter);max-width:var(--container-max);margin:0 auto var(--space-8)">
+      <div style="display:flex;align-items:center;gap:var(--space-4);margin-bottom:var(--space-3)">
+        <span style="width:28px;height:1px;background:var(--gold-500)"></span>
+        <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--green-700)">What we build</span>
+      </div>
+      <p style="font:var(--fw-regular) clamp(1.125rem,1.6vw,1.375rem)/1.35 var(--font-display);color:var(--text-primary);max-width:36ch">From the ground beneath it to the finished property.</p>
+    </div>
+    <div class="vignette-grid" style="display:grid;grid-template-columns:minmax(0,1fr);gap:10px">
+      {VIGNETTES.map(([n, label, h, d, cta, href, img, alt, pos]) => (
+        <a href={href} class="hover-media vignette" style={`position:relative;display:flex;align-items:flex-end;overflow:hidden;text-decoration:none;color:#fff;min-height:min(54vh,440px)`}>
+          <img src={P + img} alt={alt} loading="lazy" style={`position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:${pos}`} />
+          <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,36,22,.15) 0%,rgba(10,36,22,.05) 30%,rgba(10,36,22,.7) 66%,rgba(10,36,22,.94) 100%)"></div>
+          <div style="position:relative;padding:var(--space-6) var(--gutter) var(--space-8);width:100%">
+            <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-300);margin-bottom:var(--space-4)">{n} — {label}</div>
+            <h2 style="font:var(--fw-regular) clamp(2.25rem,9vw,2.75rem)/1.05 var(--font-display);letter-spacing:var(--ls-heading);color:#fff;max-width:12ch">{h}</h2>
+            <p style="font:var(--type-small);color:rgba(244,241,235,.84);margin-top:var(--space-4);max-width:34ch">{d}</p>
+            <span class="vignette-cta" style="display:inline-block;margin-top:var(--space-6);font:var(--type-button);letter-spacing:.14em;text-transform:uppercase;color:#fff;border-bottom:1px solid rgba(244,241,235,.5);padding-bottom:6px">{cta} →</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  {/* PROOF — asymmetric gallery */}
+  <Section tone="sunken">
+    <Container>
+      <Reveal>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--space-8);align-items:flex-end;justify-content:space-between;margin-bottom:var(--space-12)">
+          <SectionHead eyebrow="Recent work" title="Recent projects around Harrisburg." style={{ flex: "1 1 340px" }} />
+          <Button variant="outline" href="/projects/">All projects</Button>
+        </div>
+      </Reveal>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:var(--gap-grid)">
+        <Reveal style={{ gridColumn: "span 2", minWidth: 0 }}>
+          <ProjectTile size="lg" ratio="16/9" image={P + "firepit-seatwall-night.jpg"} alt="Lit seat wall and gas firepit at night"
+            town="Central PA" service="Seat wall, firepit & lighting" detail="Wall lighting set into the course below the cap, so the light washes the stone instead of glaring at the seat." />
+        </Reveal>
+        <Reveal delay={80}>
+          <ProjectTile image={P + "patio-pergola-mulch.jpg"} alt="Patio with pergola and fresh beds" town="Central PA" service="Patio, pergola pad & beds" detail="Slab, beds and lawn regraded in one pass." />
+        </Reveal>
+        <Reveal delay={160}>
+          <ProjectTile image={P + "patio-pool-pavers.jpg"} alt="Paver patio around a pool" town="Central PA" service="Pool surround" detail="Three-piece modular pattern, soldier-course border cut to the pool radius." />
+        </Reveal>
+        <Reveal delay={240}>
+          <ProjectTile image={P + "residential-lawn-beds.jpg"} alt="Striped lawn and planting beds beside a house" town="Central PA" service="Lawn & bed maintenance" detail="Cut lines re-edged each visit." />
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  {/* WHERE — service area preview */}
+  <Section tone="light">
+    <Container>
+      <Reveal>
+        <SectionHead eyebrow="Where we work" title="Landscaping across the Harrisburg area." intro="Camp Hill, Mechanicsburg, Harrisburg, Hershey, New Cumberland and surrounding communities.">
+          <Button slot="action" variant="outline" href="/service-areas/">Full service area</Button>
+        </SectionHead>
+      </Reveal>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:clamp(24px,3vw,48px);margin-top:var(--space-16)">
+        <Reveal><TownEntry town="Camp Hill" county="Cumberland County" distance="3 mi" image={P + "landscape-azaleas-flagstone-edge.jpg"} alt="Azaleas in a mulched bed behind a flagstone edge" notes="" href="/service-areas/camp-hill-pa/" /></Reveal>
+        <Reveal delay={80}><TownEntry town="Mechanicsburg" county="Cumberland County" distance="7 mi" image={P + "walk/walk-after.jpg"} alt="Finished paver walkway leading to a front entry" notes="" href="/service-areas/mechanicsburg-pa/" /></Reveal>
+        <Reveal delay={160}><TownEntry town="New Cumberland" county="Cumberland County" distance="0 mi" image={P + "sod/sod-first-watering-dusk.jpg"} alt="New sod lawn after its first watering at dusk" notes="" href="/service-areas/new-cumberland-pa/" /></Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  <div id="estimate"><EstimateBand /></div>
+</Base>
+
+<style>
+  @media (min-width: 900px) {
+    .vignette-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 64px 0 clamp(72px, 7vw, 96px); }
+    .vignette { min-height: min(86vh, 760px) !important; padding: clamp(28px, 3vw, 48px) !important; }
+  }
+  .vignette:hover .vignette-cta { border-color: var(--gold-500); }
+</style>

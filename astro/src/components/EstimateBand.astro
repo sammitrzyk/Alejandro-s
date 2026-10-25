@@ -1,0 +1,28 @@
+---
+import Section from "./Section.astro";
+import Container from "./Container.astro";
+import SectionHead from "./SectionHead.astro";
+import Icon from "./Icon.astro";
+import EstimateForm from "../islands/EstimateForm.jsx";
+interface Props { title?: string; intro?: string; phone?: string; }
+const {
+  title = "Tell us what you are looking at.",
+  intro = "Photos of the yard help more than a paragraph. Send what you have and we will tell you what is possible on that ground.",
+  phone = "(717) 736-6538",
+} = Astro.props;
+const phoneHref = `tel:${phone.replace(/\D/g, "")}`;
+---
+<Section tone="dark">
+  <Container>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:clamp(32px,5vw,96px);align-items:start">
+      <div>
+        <SectionHead tone="dark" eyebrow="Free estimate" title={title} intro={intro} />
+        <div style="margin-top:var(--space-12);display:flex;align-items:center;gap:var(--space-4)">
+          <Icon name="phone" size={18} color="var(--gold-500)" />
+          <a href={phoneHref} style="font:var(--fw-light) 1.75rem/1 var(--font-display);color:#fff;text-decoration:none">{phone}</a>
+        </div>
+      </div>
+      <EstimateForm tone="dark" client:load />
+    </div>
+  </Container>
+</Section>

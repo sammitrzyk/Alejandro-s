@@ -1,0 +1,19 @@
+---
+import { sx, type StyleObject } from "../lib/style";
+interface Props { town: string; county: string; distance?: string; image?: string; alt?: string; notes: string; href?: string; style?: StyleObject; }
+const { town, county, distance, image, alt, notes, href = "#", style } = Astro.props;
+---
+<a href={href} class="hover-media" style={sx({ display: "flex", flexDirection: "column", gap: "var(--space-5)", textDecoration: "none", color: "inherit", ...style })}>
+  {image && (
+    <div style={sx({ position: "relative", overflow: "hidden", aspectRatio: "2/1", background: "var(--stone-200)", borderRadius: "var(--radius-image)" })}>
+      <img src={image} alt={alt} loading="lazy" style={sx({ width: "100%", height: "100%", objectFit: "cover" })} />
+    </div>
+  )}
+  <div>
+    <div style={sx({ display: "flex", alignItems: "baseline", gap: "var(--space-3)", flexWrap: "wrap", marginBottom: "var(--space-3)" })}>
+      <h3 style={sx({ font: "var(--type-h3)", color: "var(--text-primary)" })}>{town}</h3>
+      <span style={sx({ font: "var(--type-caption)", color: "var(--text-muted)" })}>{county}{distance ? ` · ${distance}` : ""}</span>
+    </div>
+    <p style={sx({ font: "var(--type-small)", color: "var(--text-secondary)", maxWidth: "44ch", textWrap: "pretty" })}>{notes}</p>
+  </div>
+</a>

@@ -1,0 +1,30 @@
+---
+import { sx, type StyleObject } from "../lib/style";
+interface Props {
+  label: string; name: string; type?: string; placeholder?: string; hint?: string;
+  options?: string[]; rows?: number; required?: boolean; tone?: "light" | "dark"; style?: StyleObject;
+}
+const { label, name, type = "text", placeholder, hint, options, rows, required = false, tone = "light", style } = Astro.props;
+const inverse = tone === "dark";
+const controlClass = `field-control${inverse ? " field-control-dark" : ""}`;
+---
+<div style={sx({ display: "flex", flexDirection: "column", justifyContent: "flex-end", gap: "var(--space-2)", ...style })}>
+  <label for={name} style={sx({ font: "var(--type-eyebrow)", letterSpacing: "var(--ls-eyebrow)", textTransform: "uppercase", color: inverse ? "var(--text-on-dark-secondary)" : "var(--text-muted)" })}>
+    {label}{required && <span style="color:var(--gold-text)"> *</span>}
+  </label>
+  {type === "textarea" ? (
+    <textarea id={name} name={name} rows={rows || 4} placeholder={placeholder} required={required} class={controlClass}></textarea>
+  ) : type === "select" ? (
+    <div style="position:relative">
+      <select id={name} name={name} required={required} class={controlClass}>
+        {(options || []).map((o) => <option value={o}>{o}</option>)}
+      </select>
+      <svg aria-hidden="true" width="12" height="8" viewBox="0 0 12 8" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);pointer-events:none">
+        <path d="M1 1.5 6 6.5 11 1.5" fill="none" stroke={inverse ? "var(--gold-300)" : "var(--gold-text)"} stroke-width="1.5" />
+      </svg>
+    </div>
+  ) : (
+    <input id={name} name={name} type={type} placeholder={placeholder} required={required} class={controlClass} />
+  )}
+  {hint && <span style={sx({ font: "var(--type-caption)", color: inverse ? "var(--text-on-dark-secondary)" : "var(--text-muted)" })}>{hint}</span>}
+</div>

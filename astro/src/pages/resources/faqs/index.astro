@@ -1,0 +1,117 @@
+---
+/* Ported from ui_kits/website/FaqCenter.jsx. Group switcher is plain progressive-enhancement
+   JS (not a React island) — every group's Q&A is present in the static HTML for SEO/no-JS
+   users; the script only toggles which group panel is visible. Q&A items that were entirely a
+   [VERIFY ...] bracket in the prototype are omitted (see VERIFY-LIST.md); items with a bracket
+   plus real content keep the real content with the bracket stripped. */
+import Base from "../../../layouts/Base.astro";
+import Container from "../../../components/Container.astro";
+import Section from "../../../components/Section.astro";
+import Reveal from "../../../components/Reveal.astro";
+import EstimateBand from "../../../components/EstimateBand.astro";
+
+type Item = [string, string, string | null, string | null];
+const FAQ_GROUPS: [string, Item[]][] = [
+  ["Hiring Alejandro's", [
+    ["Does Alejandro's Landscaping serve my town?", "We work a roughly twenty-mile radius from New Cumberland, which covers parts of Cumberland, Dauphin, York, Perry, Lancaster and Lebanon counties. Harrisburg, Camp Hill, Mechanicsburg, Lemoyne, Enola, Hershey, Hummelstown, Dillsburg, Elizabethtown and Carlisle are all inside it.", "Full service area", "/service-areas/"],
+    ["What services do you offer?", "Hardscaping — patios, retaining walls, walkways, fire features and drainage. Landscaping — installation, beds and mulch, trimming, cleanups, lawns and lighting.", "All services", "/hardscaping/paver-patios/"],
+    ["Are you licensed and insured?", "Registration and insurance are different things and both are worth asking any contractor for before work starts.", null, null],
+    ["Do you do both landscaping and hardscaping?", "Both, which is the point. Hardscape crews usually leave the beds to someone else and landscape crews subcontract the wall. One company means one number, one schedule and nobody blaming the other trade when the grade is wrong.", null, null],
+  ]],
+  ["Estimates & scheduling", [
+    ["How do I request an estimate?", "Send a photo of the space and roughly what you are thinking, either through the form or by calling (717) 736-6538. Photos tell us more than a description does.", "Request an estimate", "/#estimate"],
+    ["How does weather affect the schedule?", "Rain stops base work rather than paving. A base cannot be compacted properly when it is saturated, so a wet week moves a start date even when the forecast looks fine.", null, null],
+  ]],
+  ["Hardscaping", [
+    ["How much does a paver patio cost?", "Size, material, excavation depth, access to the back yard, drainage correction, steps and walls all move the number.", "Paver patios", "/hardscaping/paver-patios/"],
+    ["Do paver patios hold up through Pennsylvania winters?", "Yes, when the base is built for it. Freeze-thaw lifts and drops the ground all winter — a patio with a deep compacted base and somewhere for water to go settles back flat.", "Paver patios", "/hardscaping/paver-patios/"],
+    ["Why do retaining walls lean?", "Water behind the wall, no reinforcement tying it into the hill, or a footing cut too shallow. A wall that has started to move does not settle back.", "Retaining walls", "/hardscaping/retaining-walls/"],
+    ["Can you replace an existing concrete patio or walkway?", "Most jobs here start with a slab that has already cracked, so it is a normal first step.", "Paver patios", "/hardscaping/paver-patios/"],
+    ["Can a fire pit or seat wall be built in?", "Yes, and much cheaper during the patio build than after it. Footing, base and any gas or electrical run get set in the one excavation.", "Fire features", "/hardscaping/fire-features/"],
+  ]],
+  ["Grading & drainage", [
+    ["Why does water pool in my yard?", "Usually the ground falls the wrong way, there is a low spot with nowhere to drain, or roof water is being dumped beside the house and never carried off.", "Grading & drainage", "/hardscaping/drainage/"],
+    ["Do I need grading or a French drain?", "Grading fixes water running the wrong way. A drain fixes water with nowhere to go once it arrives. Dries out a day after rain, usually grading. Soft for a week, something has to collect it.", "Grading & drainage", "/hardscaping/drainage/"],
+  ]],
+  ["Landscaping", [
+    ["How much does landscaping cost?", "Bed size, how much comes out first, plant sizes, soil condition and access.", "Landscape installation", "/landscaping/installation/"],
+    ["When is the best time to plant in Pennsylvania?", "Spring and fall both work, and fall is often better — warm soil, cooler air, roots establish before winter without fighting summer heat.", "Landscape installation", "/landscaping/installation/"],
+    ["How much mulch do I need?", "Roughly one cubic yard per 100 square feet at three inches. Most residential properties land between three and ten yards.", "Mulch & bed work", "/landscaping/mulch-beds/"],
+    ["Can overgrown shrubs be saved?", "Often, over two or three seasons rather than one cut. Some species will not regrow from bare wood at all and are a replacement instead.", "Trimming", "/landscaping/trimming/"],
+    ["Sod or seed?", "Sod gives a lawn the day it is laid and holds a slope immediately. Seed costs far less and roots more deeply, but needs weeks of consistent watering.", "Sod installation", "/landscaping/sod-installation/"],
+  ]],
+];
+---
+<Base route="faqs" headerActive="Resources">
+  <Section tone="light" tight style={{ paddingTop: "var(--space-16)" }}>
+    <Container>
+      <Reveal>
+        <nav style="font:var(--type-caption);color:var(--text-muted);margin-bottom:var(--space-8)">
+          <a href="/" style="color:inherit">Home</a> › <a href="/resources/" style="color:inherit">Resources</a> › FAQs
+        </nav>
+        <h1 style="font:var(--type-h1);letter-spacing:var(--ls-heading);max-width:16ch;margin-bottom:var(--space-8);text-wrap:balance">Questions, answered short.</h1>
+        <p style="font:var(--type-lead);color:var(--text-secondary);max-width:var(--measure-lead)">Quick answers about services, estimates and working with us. Where a question needs the full explanation, the link goes to the page that owns it.</p>
+      </Reveal>
+    </Container>
+  </Section>
+
+  <Section tone="light" tight style={{ paddingTop: 0 }}>
+    <Container>
+      <div class="faq-layout" style="display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(24px,5vw,80px);align-items:start">
+        <Reveal style={{ position: "sticky", top: 100 }}>
+          <ul id="faq-nav" style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+            {FAQ_GROUPS.map(([g], i) => (
+              <li>
+                <button type="button" data-group={g} aria-pressed={i === 0 ? "true" : "false"}
+                  style={`display:block;width:100%;text-align:left;background:none;cursor:pointer;border:0;border-top:1px solid var(--border-hairline);padding:var(--space-4) 0;min-height:44px;font:var(--type-button);letter-spacing:var(--ls-button);text-transform:uppercase;color:${i === 0 ? "var(--green-800)" : "var(--text-muted)"}`}>{g}</button>
+              </li>
+            ))}
+          </ul>
+        </Reveal>
+
+        <div id="faq-panels">
+          {FAQ_GROUPS.map(([g, items], gi) => (
+            <div class="faq-panel" data-group={g} style={`display:${gi === 0 ? "block" : "none"}`}>
+              <h2 style="font:var(--type-h3);margin-bottom:var(--space-8)">{g}</h2>
+              {items.map(([q, a, label, href]) => (
+                <div style="border-top:1px solid var(--border-hairline);padding:var(--space-8) 0">
+                  <h3 style="font:var(--fw-medium) 1.125rem/1.35 var(--font-display);margin-bottom:var(--space-4);max-width:40ch">{q}</h3>
+                  <p style="font:var(--type-body);color:var(--text-secondary);max-width:58ch;text-wrap:pretty">{a}</p>
+                  {href && <a href={href} class="link-underline" style="display:inline-block;margin-top:var(--space-4);font:var(--type-button);letter-spacing:var(--ls-button);text-transform:uppercase;color:var(--green-800);text-decoration:none">{label} →</a>}
+                </div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <div id="estimate"><EstimateBand title="Question not here?" intro="Call and ask. Most of what people want to know is faster answered in two minutes on the phone than read off a page." /></div>
+</Base>
+
+<style>
+  @media (min-width: 760px) {
+    .faq-layout { grid-template-columns: minmax(0,220px) minmax(0,1fr) !important; }
+  }
+</style>
+
+<script>
+  const nav = document.getElementById("faq-nav");
+  const panels = document.getElementById("faq-panels");
+  if (nav && panels) {
+    nav.addEventListener("click", (e) => {
+      const btn = (e.target as HTMLElement).closest("button[data-group]") as HTMLButtonElement | null;
+      if (!btn) return;
+      const group = btn.dataset.group;
+      nav.querySelectorAll("button").forEach((b) => {
+        const active = b === btn;
+        b.setAttribute("aria-pressed", String(active));
+        (b as HTMLElement).style.color = active ? "var(--green-800)" : "var(--text-muted)";
+      });
+      panels.querySelectorAll<HTMLElement>(".faq-panel").forEach((p) => {
+        p.style.display = p.dataset.group === group ? "block" : "none";
+      });
+    });
+  }
+</script>

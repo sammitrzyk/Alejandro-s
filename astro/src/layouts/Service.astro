@@ -1,0 +1,214 @@
+---
+/* Generic service page — ports ui_kits/website/ServicePage.jsx. Drives off a record from
+   src/data/services.js. Section order: hero -> proof -> conversion moment -> construction
+   detail -> process -> FAQ -> review slot -> close. Used for the services that don't have a
+   bespoke hand-built page (see src/layouts/Service.astro callers). */
+import Base from "./Base.astro";
+import Container from "../components/Container.astro";
+import Section from "../components/Section.astro";
+import Reveal from "../components/Reveal.astro";
+import Hero from "../components/Hero.astro";
+import Button from "../components/Button.astro";
+import Icon from "../components/Icon.astro";
+import Eyebrow from "../components/Eyebrow.astro";
+import SectionHead from "../components/SectionHead.astro";
+import ProjectTile from "../components/ProjectTile.astro";
+import QuestionList from "../components/QuestionList.astro";
+import ReviewQuote from "../components/ReviewQuote.astro";
+import EstimateBand from "../components/EstimateBand.astro";
+
+interface Props { route: string; data: any; }
+const { route, data: d } = Astro.props;
+const P = "/photos/";
+const PHONE = "(717) 736-6538";
+const phoneHref = `tel:${PHONE.replace(/\D/g, "")}`;
+const tileRatio = d.tileRatio || "3/4";
+const urgent = d.ctaStyle === "phone";
+---
+<Base route={route} headerOverlay={!!d.hero} headerActive={d.navGroup} noindex={d.noindex}>
+  {d.hero ? (
+    <Hero height="min(74vh,660px)" image={P + d.hero} alt={d.heroAlt} eyebrow={d.eyebrow} title={d.title} lede={d.lede} credit={d.heroCredit}>
+      <Fragment slot="primary">
+        {urgent ? (
+          <Button variant="accent" size="lg" href={phoneHref}><Icon name="phone" size={16} />{PHONE}</Button>
+        ) : (
+          <Button variant="solidLight" size="lg" href="#estimate">Request an estimate</Button>
+        )}
+      </Fragment>
+      <Fragment slot="secondary">
+        {urgent ? (
+          <Button variant="inverse" size="lg" href="#estimate">Request a quote</Button>
+        ) : (
+          <Button variant="inverse" size="lg" href={phoneHref}><Icon name="phone" size={16} />{PHONE}</Button>
+        )}
+      </Fragment>
+    </Hero>
+  ) : (
+    <Section tone="light" tight style={{ paddingTop: "var(--space-16)" }}>
+      <Container>
+        <Reveal>
+          <Eyebrow tone="brand" style={{ marginBottom: "var(--space-6)" }}>{d.eyebrow}</Eyebrow>
+          <h1 style="font:var(--type-h1);letter-spacing:var(--ls-heading);max-width:17ch;margin-bottom:var(--space-8);text-wrap:balance">{d.title}</h1>
+          <p style="font:var(--type-lead);color:var(--text-secondary);max-width:var(--measure-lead)">{d.lede}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:var(--space-4);margin-top:var(--space-10)">
+            {urgent ? (
+              <>
+                <Button variant="accent" size="lg" href={phoneHref}><Icon name="phone" size={16} />{PHONE}</Button>
+                <Button variant="outline" size="lg" href="#estimate">Request a quote</Button>
+              </>
+            ) : (
+              <>
+                <Button variant="primary" size="lg" href="#estimate">Request an estimate</Button>
+                <Button variant="outline" size="lg" href={phoneHref}><Icon name="phone" size={16} />{PHONE}</Button>
+              </>
+            )}
+          </div>
+        </Reveal>
+      </Container>
+    </Section>
+  )}
+
+  {d.notConfirmed && (
+    <div style="background:var(--status-emergency);color:#fff;padding:var(--space-4) 0">
+      <Container><p style="font:var(--type-small);max-width:80ch">{d.notConfirmed}</p></Container>
+    </div>
+  )}
+
+  {d.projects && (
+    <Section tone="light" tight>
+      <Container>
+        <Reveal><SectionHead eyebrow={d.projectsEyebrow || "Recent work"} title={d.projects.some((p: any) => p.image) ? (d.projectsTitle || "See what changes the yard.") : "No photography yet."} intro={d.projectsIntro} /></Reveal>
+        {d.projects.some((p: any) => p.image) ? (
+          <div style={`display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:var(--gap-grid);margin-top:var(--space-12);max-width:${d.projects.length === 1 ? "640px" : "none"}`}>
+            {d.projects.map((p: any, i: number) => (
+              <Reveal delay={i * 80}>
+                {p.image ? (
+                  <ProjectTile ratio={tileRatio} image={P + p.image} alt={p.alt} town={p.town} service={p.service} detail={p.detail} />
+                ) : (
+                  <div style={`width:100%;max-width:420px;aspect-ratio:${tileRatio};background:var(--surface-sunken);border:1px dashed var(--border-strong);display:grid;place-items:center;padding:var(--space-8)`}>
+                    <p style="font:var(--type-caption);color:var(--text-muted);text-align:center;max-width:28ch">{p.note || "[ADD PROJECT PHOTOGRAPHY]"}</p>
+                  </div>
+                )}
+              </Reveal>
+            ))}
+          </div>
+        ) : (
+          <Reveal style={{ marginTop: "var(--space-10)" }}>
+            <p style="font:var(--type-lead);color:var(--text-secondary);max-width:58ch;border-top:2px solid var(--gold-500);padding-top:var(--space-6);text-wrap:pretty">
+              {d.projects.find((p: any) => p.note)?.note || "[ADD PROJECT PHOTOGRAPHY]"}
+            </p>
+          </Reveal>
+        )}
+      </Container>
+    </Section>
+  )}
+
+  <Section tone="dark" tight style={d.convertImage ? { position: "relative", overflow: "hidden", padding: "clamp(72px,9vw,128px) 0" } : undefined}>
+    {d.convertImage && (
+      <>
+        <img src={P + d.convertImage} alt="" loading="lazy" style={`position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:${d.convertImagePos || "50% 50%"}`} />
+        <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,36,22,.88) 0%,rgba(10,36,22,.68) 50%,rgba(10,36,22,.4) 100%)"></div>
+      </>
+    )}
+    <Container style={d.convertImage ? { position: "relative" } : undefined}>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(28px,5vw,80px);align-items:center">
+        <Reveal>
+          <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);color:var(--text-on-dark);max-width:16ch;text-wrap:pretty">{d.convertTitle}</h2>
+          <p style="font:var(--type-lead);color:var(--text-on-dark-secondary);max-width:46ch;margin-top:var(--space-6);text-wrap:pretty">{d.convertBody}</p>
+        </Reveal>
+        <Reveal delay={100} style={{ display: "flex", flexWrap: "wrap", gap: "var(--space-4)" }}>
+          {urgent ? (
+            <>
+              <Button variant="accent" size="lg" href={phoneHref}><Icon name="phone" size={16} />{PHONE}</Button>
+              <Button variant="inverse" size="lg" href="#estimate">{d.convertCta || "Request a quote"}</Button>
+            </>
+          ) : (
+            <>
+              <Button variant="accent" size="lg" href="#estimate">{d.convertCta || "Request an estimate"}</Button>
+              <Button variant="inverse" size="lg" href={phoneHref}><Icon name="phone" size={16} />{PHONE}</Button>
+            </>
+          )}
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  {d.detail && (
+    <Section tone="light">
+      <Container>
+        <Reveal><SectionHead eyebrow={d.detailEyebrow} title={d.detailTitle} intro={d.detailIntro} /></Reveal>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0;margin-top:var(--space-12)">
+          {d.detail.map(([h, t]: [string, string], i: number) => (
+            <Reveal delay={i * 60} style={{ borderTop: "1px solid var(--border-hairline)", padding: "var(--space-8) var(--space-8) var(--space-8) 0" }}>
+              <h3 style="font:var(--fw-semibold) 1.0625rem/1.3 var(--font-sans);margin-bottom:var(--space-3)">{h}</h3>
+              <p style="font:var(--type-small);color:var(--text-secondary);max-width:34ch">{t}</p>
+            </Reveal>
+          ))}
+        </div>
+        {d.detailNote && <Reveal><p style="font:var(--type-caption);color:var(--text-muted);margin-top:var(--space-10);max-width:62ch">{d.detailNote}</p></Reveal>}
+      </Container>
+    </Section>
+  )}
+
+  {d.pairWith && (
+    <Section tone="sunken" tight>
+      <Container>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:var(--space-8) clamp(28px,5vw,88px);align-items:start">
+          <Reveal><SectionHead eyebrow={d.pairWith.eyebrow} title={d.pairWith.title} intro={d.pairWith.intro} /></Reveal>
+          <div>
+            {d.pairWith.links.map(([h, t, href]: [string, string, string], i: number) => (
+              <Reveal delay={i * 60}>
+                <a href={href} style="display:flex;justify-content:space-between;align-items:baseline;gap:var(--space-5);border-top:1px solid var(--border-strong);padding:var(--space-5) 0;text-decoration:none;color:inherit">
+                  <span>
+                    <span style="display:block;font:var(--fw-regular) 1.25rem/1.3 var(--font-display);color:var(--text-primary);margin-bottom:var(--space-1)">{h}</span>
+                    <span style="font:var(--type-small);color:var(--text-secondary)">{t}</span>
+                  </span>
+                  <span style="font:var(--type-button);color:var(--green-800);flex:0 0 auto">→</span>
+                </a>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </Container>
+    </Section>
+  )}
+
+  {d.steps && d.stepsStyle !== "rows" && (
+    <Section tone="sunken" tight>
+      <Container>
+        <Reveal><SectionHead eyebrow="How it goes" title={d.stepsTitle || "What hiring us looks like."} /></Reveal>
+        <ol style="list-style:none;margin:var(--space-12) 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--space-8)">
+          {d.steps.map(([h, t]: [string, string], i: number) => (
+            <Reveal delay={i * 70}>
+              <li>
+                <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);color:var(--gold-text)">{String(i + 1).padStart(2, "0")}</span>
+                <h3 style="font:var(--type-h4);margin:var(--space-4) 0 var(--space-3)">{h}</h3>
+                <p style="font:var(--type-small);color:var(--text-secondary);max-width:32ch">{t}</p>
+              </li>
+            </Reveal>
+          ))}
+        </ol>
+      </Container>
+    </Section>
+  )}
+
+  <Section tone="light">
+    <Container>
+      <Reveal><SectionHead eyebrow={`Questions about ${d.shortName}`} title="What people ask before they hire." /></Reveal>
+      <Reveal style={{ marginTop: "var(--space-12)" }}><QuestionList items={d.faq} /></Reveal>
+      <Reveal>
+        <a href="/resources/faqs/" class="link-underline" style="display:inline-block;margin-top:var(--space-10);font:var(--type-button);letter-spacing:var(--ls-button);text-transform:uppercase;color:var(--green-800);text-decoration:none">See all questions →</a>
+      </Reveal>
+    </Container>
+  </Section>
+
+  {d.review && (
+    <Section tone="darkAlt" tight>
+      <Container width="var(--container-text)">
+        <Reveal><ReviewQuote size="lg" tone="dark" quote={d.review.quote} name={d.review.name} town={d.review.town} service={d.review.service} /></Reveal>
+      </Container>
+    </Section>
+  )}
+
+  <div id="estimate"><EstimateBand title={d.closeTitle} intro={d.closeBody} /></div>
+</Base>

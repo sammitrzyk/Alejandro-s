@@ -1,0 +1,109 @@
+---
+/* Town page template. Ported from ui_kits/website/TownPage.jsx. One static page per entry in
+   TOWNS_DATA (src/data/towns.js) — three towns with real local work, ~60 generic towns with
+   recent nearby work labelled by where it was actually done. */
+import Base from "../../../layouts/Base.astro";
+import Container from "../../../components/Container.astro";
+import Section from "../../../components/Section.astro";
+import Button from "../../../components/Button.astro";
+import Icon from "../../../components/Icon.astro";
+import QuestionList from "../../../components/QuestionList.astro";
+import EstimateBand from "../../../components/EstimateBand.astro";
+import { TOWNS_DATA, TOWN_SERVICES, townProjects, nearbyProjects } from "../../../data/towns";
+import { PROJECT_STUDIES, PROJECT_CARDS } from "../../../data/projects";
+
+export function getStaticPaths() {
+  return TOWNS_DATA.map((t) => ({ params: { slug: t.slug }, props: { t } }));
+}
+
+const { t } = Astro.props as { t: (typeof TOWNS_DATA)[number] };
+const P = "/photos/";
+const PHONE = "(717) 736-6538";
+const phoneHref = `tel:${PHONE.replace(/\D/g, "")}`;
+const own = townProjects(t.town, PROJECT_STUDIES, PROJECT_CARDS);
+const work = own.length ? own : nearbyProjects(PROJECT_STUDIES);
+const title = `Landscaping & Hardscaping in ${t.town}, PA | Alejandro's`;
+const description = `Patios, walls, walkways, landscape installation and commercial grounds work in ${t.town}, PA by Alejandro's Landscaping, with completed local projects.`;
+const path = `/service-areas/${t.slug}/`;
+const crumbs: [string, string][] = [["Home", "/"], ["Service areas", "/service-areas/"], [t.town, path]];
+const faq = [
+  { question: `Does Alejandro's Landscaping serve ${t.town}?`, answer: `Yes. ${t.town} is inside our regular service area, which covers towns within about twenty miles of New Cumberland.`, linkLabel: null, href: null },
+  { question: `What services are available in ${t.town}?`, answer: "The same landscaping, hardscaping and commercial services we offer across the area: patios, walls, walkways, driveways, landscape installation, bed work and trimming. Each is linked above.", linkLabel: null, href: null },
+  { question: "Can landscaping and hardscaping be done as one project?", answer: "Yes. We build the patio or wall and do the beds and planting around it, so one crew handles the whole job.", linkLabel: null, href: null },
+  { question: "How do I request an estimate?", answer: "Use the form below or call (717) 736-6538. Photos of the area and a rough size help us understand the job before we visit.", linkLabel: null, href: null },
+];
+---
+<Base title={title} description={description} path={path} crumbs={crumbs} headerActive="Areas">
+  <Section tone="light" tight>
+    <Container>
+      <nav aria-label="Breadcrumb" style="font:var(--type-caption);color:var(--text-muted);margin-bottom:var(--space-6)">
+        <a href="/">Home</a> / <a href="/service-areas/">Service areas</a> / <span>{t.town}</span>
+      </nav>
+      <div class="town-hero" style="display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:center">
+        <div>
+          <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text)">{t.county}</div>
+          <h1 style="font:var(--type-h1);letter-spacing:var(--ls-heading);margin-top:var(--space-3);max-width:14ch">Landscaping &amp; Hardscaping in {t.town}, PA</h1>
+          <p style="font:var(--type-lead);color:var(--text-secondary);margin-top:var(--space-5);max-width:46ch">{t.intro}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-6)">
+            <Button variant="primary" size="lg" href="#estimate">Request an estimate</Button>
+            <Button variant="outline" size="lg" href={phoneHref}><Icon name="phone" size={16} />{PHONE}</Button>
+          </div>
+        </div>
+        <img src={P + t.hero} alt={t.heroAlt} fetchpriority="high" class="town-hero-img" style="width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:var(--radius-image);display:block;order:-1" />
+      </div>
+    </Container>
+  </Section>
+
+  {work.length > 0 && (
+    <Section tone="sunken" tight>
+      <Container>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading)">{own.length ? `Completed projects in ${t.town}` : "Recent work nearby"}</h2>
+        <p style="font:var(--type-small);color:var(--text-secondary);margin-top:var(--space-3);max-width:52ch">{t.note}</p>
+        <div class="town-work" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-5) 12px;margin-top:var(--space-8)">
+          {work.map((p) => (
+            <a href={p.href} style="text-decoration:none;color:inherit;min-width:0">
+              <img src={P + p.img} alt={p.alt} loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:var(--radius-image);display:block" />
+              {p.place && <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-text);margin-top:var(--space-3)">{p.place}</div>}
+              <div style={`font:var(--fw-regular) 1rem/1.3 var(--font-display);margin-top:${p.place ? "2px" : "var(--space-3)"}`}>{p.title}</div>
+              <p class="town-work-scope" style="font:var(--type-caption);color:var(--text-secondary);margin-top:4px;display:none">{p.scope}</p>
+              {p.study && <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--green-800);margin-top:var(--space-2)">View project →</div>}
+            </a>
+          ))}
+        </div>
+      </Container>
+    </Section>
+  )}
+
+  <Section tone="light" tight>
+    <Container>
+      <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading)">Services in {t.town}</h2>
+      <div class="town-services" style="display:grid;grid-template-columns:minmax(0,1fr);gap:0 clamp(24px,4vw,56px);margin-top:var(--space-6)">
+        {TOWN_SERVICES.map(([h, href, d]) => (
+          <div style="border-top:1px solid var(--border-hairline);padding:var(--space-4) 0">
+            <a href={href} style="font:var(--type-h4);text-decoration:none;color:var(--green-800)">{h} →</a>
+            <p style="font:var(--type-small);color:var(--text-secondary);margin-top:4px">{d}</p>
+          </div>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="sunken" tight>
+    <Container>
+      <h2 style="font:var(--type-h3);margin-bottom:var(--space-6)">Questions about working in {t.town}</h2>
+      <QuestionList items={faq} />
+    </Container>
+  </Section>
+
+  <div id="estimate"><EstimateBand title={`Planning a project in ${t.town}?`} intro="Send a photo of the area and a rough size. We'll come out, walk it with you and give you a written estimate." /></div>
+</Base>
+
+<style>
+  @media (min-width: 760px) {
+    .town-hero { grid-template-columns: minmax(0,1fr) minmax(0,1.2fr) !important; }
+    .town-hero-img { order: 0 !important; }
+    .town-work { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: var(--space-8) var(--gap-grid) !important; }
+    .town-work-scope { display: block !important; }
+    .town-services { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  }
+</style>

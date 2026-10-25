@@ -1,0 +1,8 @@
+---
+/* Manufacturer logo. No onerror fallback at build time (static HTML, no JS) — files are
+   checked into public/logos/ so they resolve; swap the file if a brand asset changes. */
+interface Props { file: string; name: string; h?: string | number; }
+const { file, name, h = 40 } = Astro.props;
+const height = typeof h === "number" ? `${h}px` : h;
+---
+<img src={`/logos/${file}`} alt={name} style={`height:${height};width:auto;max-width:100%;display:block`} />

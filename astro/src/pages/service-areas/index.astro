@@ -1,0 +1,105 @@
+---
+/* Ported from ui_kits/website/ServiceArea.jsx. Per-town operational notes in the prototype were
+   all `[VERIFY ... CONDITIONS ...]` placeholders — omitted here rather than shown; see
+   VERIFY-LIST.md. */
+import Base from "../../layouts/Base.astro";
+import Container from "../../components/Container.astro";
+import Section from "../../components/Section.astro";
+import SectionHead from "../../components/SectionHead.astro";
+import Reveal from "../../components/Reveal.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import StatRow from "../../components/StatRow.astro";
+import TownEntry from "../../components/TownEntry.astro";
+import EstimateBand from "../../components/EstimateBand.astro";
+import RelatedProjects from "../../components/RelatedProjects.astro";
+import { TOWNS_DATA } from "../../data/towns";
+
+const P = "/photos/";
+
+const TOWNS: [string, string, string, string][] = [
+  ["Camp Hill", "Cumberland County", "3 mi", "stone-edge-bed.jpg"],
+  ["Mechanicsburg", "Cumberland County", "7 mi", "patio-pool-pavers.jpg"],
+  ["New Cumberland", "Cumberland County", "0 mi", "patio-pergola-mulch.jpg"],
+  ["Harrisburg", "Dauphin County", "4 mi", "residential-lawn-beds.jpg"],
+  ["Hershey", "Dauphin County", "15 mi", "commercial-property-beds.jpg"],
+  ["Lemoyne", "Cumberland County", "2 mi", "firepit-seatwall-night.jpg"],
+  ["Enola", "Cumberland County", "6 mi", "patio-pool-pavers.jpg"],
+];
+const RINGS: [string, string[]][] = [
+  ["0–8 miles", ["New Cumberland", "Lemoyne", "Wormleysburg", "Camp Hill", "Highspire", "Steelton", "Harrisburg", "Shiremanstown", "Lewisberry", "Goldsboro", "Etters", "Enola", "Summerdale", "Marysville", "Mechanicsburg"]],
+  ["8–15 miles", ["Paxtang", "Penbrook", "Newberrytown", "Middletown", "Colonial Park", "Lisburn", "Dillsburg", "Grantham", "Linglestown", "Dauphin", "Hummelstown", "Boiling Springs", "Wellsville", "New Kingstown", "Shermans Dale", "Hershey"]],
+  ["15–20 miles", ["Rossville", "Emigsville", "Franklintown", "Manchester", "Mount Wolf", "New Bloomfield", "Carlisle", "Grantville", "Dover", "Bainbridge", "Elizabethtown", "Mount Holly Springs", "Campbelltown", "York", "Palmyra", "Maytown"]],
+];
+const townSlug = (n: string) => n.toLowerCase().replace(/ /g, "-") + "-pa";
+---
+<Base route="service-area" headerActive="Areas">
+  <Section tone="light" tight>
+    <Container>
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-6)" }}>Where we work</Eyebrow>
+        <h1 style="font:var(--type-h1);letter-spacing:var(--ls-heading);max-width:17ch;margin-bottom:var(--space-8);text-wrap:balance">Landscaping &amp; Hardscaping Service Areas</h1>
+        <p style="font:var(--type-lead);color:var(--text-secondary);max-width:var(--measure-lead)">The radius crosses six counties and the ground changes across all of them.</p>
+      </Reveal>
+      <Reveal delay={100} style={{ marginTop: "var(--space-16)" }}>
+        <img src={P + "hero-firepit-wall-night.jpg"} alt="Retaining wall and firepit lit at night" style="width:100%;aspect-ratio:21/9;object-fit:cover;border-radius:var(--radius-image)" />
+      </Reveal>
+      <Reveal delay={140} style={{ marginTop: "var(--space-12)" }}>
+        <StatRow items={[
+          { value: "6", label: "Counties inside the radius — Cumberland, Dauphin, York, Perry, Lancaster, Lebanon" },
+          { value: "20 mi", label: "Working radius, measured from New Cumberland" },
+          { value: String(TOWNS_DATA.length), label: "Towns, each with a page of its own" },
+        ]} />
+      </Reveal>
+    </Container>
+  </Section>
+
+  <Section tone="sunken">
+    <Container>
+      <div class="sa-towns" style="display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(28px,3.5vw,56px)">
+        {TOWNS.map(([town, county, dist, img], i) => (
+          <Reveal delay={(i % 3) * 70}>
+            <TownEntry town={town} county={county} distance={dist} image={P + img} alt={`${town} project`} notes="" href={`/service-areas/${townSlug(town)}/`} />
+          </Reveal>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="light" tight>
+    <Container>
+      <Reveal><SectionHead eyebrow="The rest of the radius" title="Towns we reach, grouped by drive."
+        intro="Covered from the same shop on the same schedule. Tap a town to see the services and recent work for it." /></Reveal>
+      <div style="margin-top:var(--space-12)">
+        {RINGS.map(([label, towns], i) => (
+          <Reveal delay={i * 80}>
+            <div class="sa-ring" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-4);padding:var(--space-8) 0;border-top:1px solid var(--border-hairline)">
+              <h3 style="font:var(--type-h4);color:var(--text-primary)">{label}</h3>
+              <p style="font:var(--type-body);color:var(--text-secondary);line-height:1.9;display:flex;flex-wrap:wrap;gap:2px 14px">
+                {towns.map((n) => <a href={`/service-areas/${townSlug(n)}/`} style="color:var(--green-800)">{n}</a>)}
+              </p>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="light" tight>
+    <Container>
+      <h2 style="font:var(--type-h3);border-top:1px solid var(--gold-500);padding-top:var(--space-5)">Towns with completed projects</h2>
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-3) var(--space-8);margin-top:var(--space-4)">
+        {TOWNS_DATA.filter((t) => !t.generic).map((t) => <a href={`/service-areas/${t.slug}/`} style="font:var(--type-h4);color:var(--green-800);text-decoration:none">{t.town}, PA →</a>)}
+      </div>
+    </Container>
+  </Section>
+  <RelatedProjects title="Completed projects in the area" />
+
+  <div id="estimate"><EstimateBand title="Not sure if you are in range?" intro="Tell us the town. If we do not cover it we will say so, and usually point you at somebody who does." /></div>
+</Base>
+
+<style>
+  @media (min-width: 700px) {
+    .sa-towns { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)) !important; }
+    .sa-ring { grid-template-columns: minmax(120px,180px) 1fr !important; gap: clamp(20px,4vw,64px) !important; }
+  }
+</style>

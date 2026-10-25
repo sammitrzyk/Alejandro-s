@@ -222,7 +222,8 @@
      "/landscaping/christmas-light-installation/"
     ]
    ],
-   "ogImage": "og-home.jpg"
+   "ogImage": "og-home.jpg",
+   "noindex": true
   },
   "commercial-landscaping": {
    "path": "/commercial-landscaping/",

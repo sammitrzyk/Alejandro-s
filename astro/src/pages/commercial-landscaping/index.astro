@@ -1,0 +1,316 @@
+---
+/* Ported from ui_kits/website/CommercialLandscaping.jsx. */
+import Base from "../../layouts/Base.astro";
+import Container from "../../components/Container.astro";
+import Section from "../../components/Section.astro";
+import Reveal from "../../components/Reveal.astro";
+import Button from "../../components/Button.astro";
+import Icon from "../../components/Icon.astro";
+import Eyebrow from "../../components/Eyebrow.astro";
+import TrustedBy from "../../components/TrustedBy.astro";
+import EstimateForm from "../../islands/EstimateForm.jsx";
+
+const CM = "/photos/commercial/";
+const CMF = (s: string) => `${CM}commercial-landscaping-${s}.jpg`;
+const PHONE = "(717) 736-6538";
+const phoneHref = `tel:${PHONE.replace(/\D/g, "")}`;
+
+type Account = { name: string; town: string; type: string; scope: string; image?: string; alt?: string; images?: [string, string, string][]; note: string; featured?: boolean };
+const CM_PORTFOLIO: Record<string, Account> = {
+  geigle: { name: "Geigle Funeral Home", town: "Colonial Park, PA", type: "Funeral home", scope: "Grounds maintenance", image: CMF("geigle-funeral-home-colonial-park-pa"), alt: "Manicured lawn, rounded shrubs and black-mulch beds across the front of Geigle Funeral Home in Colonial Park, Pennsylvania", note: "Formal frontage: shaped shrubs, clean black mulch and a full-width planting bed.", featured: true },
+  advanced: { name: "Advanced Dental Partners", town: "", type: "Dental practice", scope: "Commercial grounds", image: CMF("advanced-dental-partners-pa"), alt: "Advanced Dental Partners sign in a freshly mulched bed with maintained lawn and trees", note: "Sign bed and tree rings freshly mulched, lawn cut and trimmed." },
+  sauve: { name: "Sauvé Family Dentistry", town: "Camp Hill, PA", type: "Dental practice", scope: "Commercial grounds", image: CMF("sauve-family-dentistry-pa"), alt: "Sauvé Family Dentistry sign bed planted with roses, daylilies and shrubs", note: "Sign bed layered with roses, daylilies and shrubs." },
+  eastmain: { name: "East Main Street Dental", town: "Harrisburg, PA", type: "Dental practice", scope: "Landscape maintenance", image: CMF("east-main-street-dental-harrisburg-pa"), alt: "Sheared foundation shrubs and beds along the front of East Main Street Dental in Harrisburg, Pennsylvania", note: "Foundation shrubs sheared to form along the walk." },
+  meadowview: { name: "MeadowView Dental", town: "Dillsburg, PA", type: "Dental practice", scope: "Commercial landscaping", image: CMF("meadowview-dental-dillsburg-pa"), alt: "Striped lawn and a round black-mulch bed around the MeadowView Dental sign in Dillsburg, Pennsylvania", note: "Striped turf and a hand-cut ring of black mulch at the sign." },
+  verizon: { name: "Verizon", town: "Harrisburg, PA", type: "Retail", scope: "Commercial landscape work", image: CMF("verizon-pa"), alt: "Alejandro's crew in branded safety vests working the landscape beds along a Verizon store in Pennsylvania", note: "Our crew on site, cutting back and clearing the beds along the building.", featured: true },
+  linglestown: { name: "Linglestown Family Dental", town: "Linglestown, PA", type: "Dental practice", scope: "Commercial landscaping", images: [[CMF("linglestown-family-dental-mulch-colonial-park-pa"), "Black mulch", "Linglestown Family Dental sign bed finished in black mulch"], [CMF("linglestown-family-dental-river-rock-colonial-park-pa"), "River rock", "Linglestown Family Dental sign bed finished in tan river rock"]], note: "The same sign bed, shown in two finishes." },
+  bridge: { name: "Bridge Street Dental Center", town: "New Cumberland, PA", type: "Dental practice", scope: "Commercial landscaping", image: CMF("bridge-street-dental-new-cumberland-pa"), alt: "Curved sign bed with hostas and up-lights at Bridge Street Dental Center in New Cumberland, Pennsylvania", note: "Hostas and sign lighting in a crisp-edged bed." },
+  fpa: { name: "Family Physician Associates of New Cumberland", town: "New Cumberland, PA", type: "Medical practice", scope: "Commercial grounds", image: CMF("family-physician-associates-new-cumberland-pa"), alt: "Mulched corner sign bed and maintained lawn at Family Physician Associates of New Cumberland", note: "Corner sign bed, shrub care and a fresh edge." },
+};
+const CM_ORDER: [string, string, string][] = [
+  ["verizon", "Verizon", "45% 50%"],
+  ["geigle", "Geigle Funeral Home", "50% 60%"],
+  ["advanced", "Advanced Dental Partners", "50% 55%"],
+  ["meadowview", "MeadowView Dental", "50% 62%"],
+  ["eastmain", "East Main Street Dental", "50% 50%"],
+  ["linglestown", "Linglestown Family Dental", "50% 50%"],
+  ["sauve", "Sauvé Family Dentistry", "50% 50%"],
+  ["bridge", "Bridge Street Dental Center", "50% 50%"],
+  ["fpa", "Family Physician Associates", "50% 50%"],
+];
+const CM_SCOPE: [string, string, string[], string, string, [string, string]][] = [
+  ["01", "Lawn & grounds", ["Commercial mowing", "Edging", "Sod & lawn work", "Routine grounds care"], CM + "commercial-mowing-striped-slope-central-pa.jpg", "Striped commercial lawn mowed across a slope", ["Sod installation", "/landscaping/sod-installation/"]],
+  ["02", "Beds & landscaping", ["Mulch & bed work", "Landscape installation", "Planting", "Seasonal landscape improvements"], CM + "commercial-landscaping-managed-property-beds-central-pa.jpg", "Mulched planting beds and shrubs at a managed commercial property", ["Mulch & bed work", "/landscaping/mulch-beds/"]],
+  ["03", "Shrubs & hedges", ["Shrub & hedge trimming", "Foundation shrub shaping", "Hedge maintenance"], CM + "east-main.jpg", "Sheared foundation shrubs along a commercial building", ["Shrub & hedge trimming", "/landscaping/trimming/"]],
+  ["04", "Seasonal & property work", ["Spring & fall cleanups", "Grading & drainage", "Landscape lighting", "Property improvements"], CM + "commercial-landscaping-office-entrance-central-pa.jpg", "Office entrance with maintained beds and walkway", ["Grading & drainage", "/hardscaping/drainage/"]],
+];
+const CM_PROP_TYPES: [string, string][] = [
+  ["Medical & dental offices", "Maintain entrances, lawns, beds and high-visibility areas around practices where the exterior is part of the patient experience."],
+  ["Professional offices", "Routine grounds maintenance for offices that need a clean, consistent exterior throughout the growing season."],
+  ["Retail & commercial properties", "Landscape maintenance for customer-facing commercial sites where curb appeal and clear access matter."],
+  ["HOAs & managed properties", "Coordinated grounds care for shared spaces and managed properties with recurring landscape needs."],
+];
+const CM_HOW: [string, string, string][] = [
+  ["01", "Walk the property", "We review the grounds, existing landscaping and the areas that need recurring or seasonal attention."],
+  ["02", "Build the scope", "The maintenance plan is based on the work the property actually needs rather than forcing every site into the same package."],
+  ["03", "Maintain the grounds", "The crew handles the agreed landscaping and grounds work throughout the service period."],
+];
+const CM_AREAS = ["New Cumberland", "Camp Hill", "Mechanicsburg", "Harrisburg", "Hershey"];
+---
+<Base route="commercial-landscaping" headerOverlay headerActive="Commercial">
+  <section class="cm-hero" style="position:relative;min-height:min(82vh,640px);display:flex;align-items:flex-end;overflow:hidden;background:var(--green-950)">
+    <img src={CM + "commercial-lawn-striping-central-pa.jpg"} alt="Commercial lawn freshly mowed in crisp alternating stripes" fetchpriority="high" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%" />
+    <div class="cm-hero-scrim" style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,36,22,.25) 0%,rgba(10,36,22,.55) 45%,rgba(10,36,22,.9) 100%)"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,36,22,.5) 0%,rgba(10,36,22,0) 26%)"></div>
+    <Container style={{ position: "relative", width: "100%", paddingTop: "140px", paddingBottom: "var(--space-12)" }}>
+      <Eyebrow tone="inverse" rule style={{ marginBottom: "var(--space-5)" }}>Commercial landscaping</Eyebrow>
+      <h1 class="cm-h1" style="font:var(--fw-regular) clamp(2.75rem,12.5vw,3.375rem)/1.02 var(--font-display);letter-spacing:var(--ls-display);color:#fff;max-width:14ch;text-wrap:balance">Commercial landscaping built around your property.</h1>
+      <p class="cm-lede" style="font:var(--type-small);color:rgba(255,255,255,.9);max-width:50ch;margin-top:var(--space-5)">Commercial landscaping and grounds maintenance for businesses, medical offices, managed properties and commercial sites throughout the Harrisburg area and surrounding Central Pennsylvania communities.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-6)">
+        <Button variant="solidLight" size="md" href="#estimate">Request a commercial estimate</Button>
+        <Button variant="inverse" size="md" href={phoneHref}><Icon name="phone" size={16} />{PHONE}</Button>
+      </div>
+      <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-300);margin-top:var(--space-5)">Offices · Medical · Retail · Managed properties</div>
+    </Container>
+  </section>
+
+  <TrustedBy href="#portfolio" />
+
+  <Section tone="light" tight id="portfolio">
+    <Container>
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-5)" }}>Commercial experience</Eyebrow>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:16ch;text-wrap:balance">Properties we maintain across Central PA.</h2>
+        <p style="font:var(--type-small);color:var(--text-secondary);margin-top:var(--space-4);max-width:54ch">Alejandro's provides commercial landscaping and grounds maintenance for businesses and managed properties throughout the Harrisburg area.</p>
+      </Reveal>
+      <ul class="cm-portfolio" style="list-style:none;margin:var(--space-8) 0 0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-6) 12px">
+        {CM_ORDER.map(([k, label, pos], i) => {
+          const it = CM_PORTFOLIO[k];
+          const src = it.image || it.images![0][0];
+          const alt = it.alt || it.images![0][2];
+          return (
+            <li style="min-width:0">
+              <Reveal delay={(i % 3) * 60}>
+                <figure style="margin:0">
+                  <img src={src} alt={alt} loading="lazy" width="900" height="675" style={`width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;object-position:${pos};border-radius:var(--radius-image);display:block;background:var(--stone-200)`} />
+                  <figcaption style="margin-top:var(--space-2)">
+                    <h3 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-primary);line-height:1.35">{label}</h3>
+                    {it.town && <div style="font:var(--type-caption);color:var(--text-muted);margin-top:2px">{it.town}</div>}
+                  </figcaption>
+                </figure>
+              </Reveal>
+            </li>
+          );
+        })}
+      </ul>
+    </Container>
+  </Section>
+
+  <Section tone="sunken" tight>
+    <Container>
+      <div class="cm-mow" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;align-items:end">
+        <Reveal style={{ gridColumn: "span 2", marginBottom: "var(--space-4)" }}>
+          <Eyebrow tone="brand" style={{ marginBottom: "var(--space-4)" }}>Commercial mowing</Eyebrow>
+          <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:13ch">Lines you can see from the road.</h2>
+        </Reveal>
+        <Reveal><img src={CM + "commercial-mowing-striped-hillside-central-pa.jpg"} alt="Wide commercial lawn mowed in curved stripes along a hillside" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;object-position:50% 70%;border-radius:var(--radius-image);display:block" /></Reveal>
+        <Reveal delay={70}><img src={CM + "commercial-mowing-diamond-stripes-central-pa.jpg"} alt="Commercial lawn mowed in a diamond stripe pattern" loading="lazy" style="width:100%;aspect-ratio:4/3;object-fit:cover;object-position:50% 60%;border-radius:var(--radius-image);display:block" /></Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="light" tight>
+    <Container>
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-5)" }}>Commercial landscaping services</Eyebrow>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:18ch">One crew for the grounds around your property.</h2>
+        <p style="font:var(--type-small);color:var(--text-secondary);margin-top:var(--space-4);max-width:54ch">Commercial maintenance can include routine grounds care, seasonal work and landscape improvements based on the needs of the property.</p>
+      </Reveal>
+      <div class="cm-scope" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-6);margin-top:var(--space-8)">
+        {CM_SCOPE.map(([n, h, list, img, alt, lk], i) => (
+          <Reveal delay={(i % 2) * 70}>
+            <div class="cm-scope-item" style="display:grid;grid-template-columns:112px minmax(0,1fr);gap:var(--space-4);align-items:start;border-top:1px solid var(--gold-500);padding-top:var(--space-5)">
+              <img src={img} alt={alt} loading="lazy" width="900" height="600" style="width:100%;height:auto;aspect-ratio:3/2;object-fit:cover;border-radius:var(--radius-image);display:block" />
+              <div>
+                <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);color:var(--gold-text)">{n}</span>
+                <h3 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;margin:var(--space-2) 0 var(--space-3)">{h}</h3>
+                <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:3px">
+                  {list.map((l) => <li style="font:var(--type-small);color:var(--text-secondary)">{l}</li>)}
+                </ul>
+                <div class="cm-scope-link" style="margin-top:var(--space-3);display:none">
+                  <a href={lk[1]} style="display:inline-flex;align-items:center;min-height:44px;font:var(--type-button);letter-spacing:var(--ls-button);text-transform:uppercase;color:var(--green-800);text-decoration:none"><span style="border-bottom:1px solid var(--gold-500);padding-bottom:5px">{lk[0]} →</span></a>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="dark" tight>
+    <Container>
+      <div class="cm-proptypes" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-8);align-items:start">
+        <Reveal>
+          <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-500);margin-bottom:var(--space-5)">Commercial properties</div>
+          <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);color:var(--text-on-dark);max-width:14ch;text-wrap:balance">Built for properties people see every day.</h2>
+          <p style="font:var(--type-small);color:var(--text-on-dark-secondary);margin-top:var(--space-4);max-width:54ch">Commercial landscaping needs vary by property, traffic, visibility and the amount of grounds surrounding the site.</p>
+        </Reveal>
+        <Reveal delay={80}>
+          <dl style="margin:0">
+            {CM_PROP_TYPES.map(([h, d], i) => (
+              <div style={`border-top:1px solid ${i ? "var(--border-dark)" : "var(--gold-500)"};padding:var(--space-4) 0`}>
+                <dt style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-on-dark);margin-bottom:var(--space-2)">{h}</dt>
+                <dd style="margin:0;font:var(--type-small);color:var(--text-on-dark-secondary);max-width:56ch">{d}</dd>
+              </div>
+            ))}
+          </dl>
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="light" tight>
+    <Container>
+      <div class="cm-how" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-6);align-items:center">
+        <Reveal>
+          <Eyebrow tone="brand" style={{ marginBottom: "var(--space-5)" }}>Working with Alejandro's</Eyebrow>
+          <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:15ch">A maintenance plan built around the property.</h2>
+          <ol style="list-style:none;margin:var(--space-6) 0 0;padding:0">
+            {CM_HOW.map(([n, h, d]) => (
+              <li style="display:grid;grid-template-columns:40px minmax(0,1fr);gap:var(--space-3);border-top:1px solid var(--border-hairline);padding:var(--space-4) 0">
+                <span style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);color:var(--gold-text);padding-top:2px">{n}</span>
+                <div>
+                  <h3 style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;margin-bottom:var(--space-2)">{h}</h3>
+                  <p style="font:var(--type-small);color:var(--text-secondary);max-width:48ch">{d}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </Reveal>
+        <Reveal delay={80}>
+          <img src={CM + "commercial-grounds-office-beds-truck-central-pa.jpg"} alt="Fresh black mulch beds, ornamental grasses and a new tree at a commercial office, with Alejandro's work truck in the lot" loading="lazy" width="414" height="414" style="width:100%;height:auto;aspect-ratio:16/9;max-height:240px;object-fit:cover;object-position:50% 62%;border-radius:var(--radius-image);display:block" />
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  <section style="position:relative;overflow:hidden;background:var(--green-950)">
+    <img src={CM + "commercial-snow-removal-office-lot-central-pa.jpg"} alt="" aria-hidden="true" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%" />
+    <div style="position:absolute;inset:0;background:rgba(10,36,22,.8)"></div>
+    <Container style={{ position: "relative", padding: "var(--space-12) var(--gutter)" }}>
+      <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-300);margin-bottom:var(--space-4)">Year-round property care</div>
+      <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);color:#fff;max-width:18ch">Landscaping when it's green. Snow removal when it's white.</h2>
+      <p style="font:var(--type-small);color:rgba(255,255,255,.86);margin-top:var(--space-4);max-width:48ch">Alejandro's also provides commercial snow removal for businesses and managed properties throughout the service area.</p>
+      <div style="margin-top:var(--space-5)">
+        <a href="/commercial/snow-removal/" style="display:inline-flex;align-items:center;min-height:44px;font:var(--type-button);letter-spacing:var(--ls-button);text-transform:uppercase;color:var(--text-on-dark);text-decoration:none"><span style="border-bottom:1px solid var(--gold-500);padding-bottom:5px">Explore commercial snow removal →</span></a>
+      </div>
+    </Container>
+  </section>
+
+  <Section tone="light" tight>
+    <Container>
+      <div class="cm-area" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-6);align-items:end">
+        <Reveal>
+          <Eyebrow tone="brand" style={{ marginBottom: "var(--space-5)" }}>Commercial landscaping service area</Eyebrow>
+          <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:17ch">Commercial landscaping throughout the Harrisburg area.</h2>
+          <p style="font:var(--type-small);color:var(--text-secondary);margin-top:var(--space-4);max-width:54ch">Alejandro's serves commercial properties in New Cumberland, Camp Hill, Mechanicsburg, Harrisburg, Hershey and surrounding communities within the company's Central Pennsylvania service area.</p>
+        </Reveal>
+        <Reveal delay={80}>
+          <ul style="list-style:none;margin:0;padding:0;border-top:1px solid var(--gold-500)">
+            {CM_AREAS.map((a) => <li style="font:var(--fw-regular) 1.125rem/1.3 var(--font-display);color:var(--text-primary);padding:var(--space-3) 0;border-bottom:1px solid var(--border-hairline)">{a}</li>)}
+          </ul>
+          <div style="margin-top:var(--space-4)">
+            <a href="/service-areas/" style="display:inline-flex;align-items:center;min-height:44px;font:var(--type-button);letter-spacing:var(--ls-button);text-transform:uppercase;color:var(--green-800);text-decoration:none"><span style="border-bottom:1px solid var(--gold-500);padding-bottom:5px">View all service areas →</span></a>
+          </div>
+        </Reveal>
+      </div>
+    </Container>
+  </Section>
+
+  <Section tone="sunken">
+    <Container width="var(--container-text)">
+      <Reveal>
+        <Eyebrow tone="brand" style={{ marginBottom: "var(--space-5)" }}>Commercial landscaping FAQ</Eyebrow>
+        <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);max-width:18ch">Questions about commercial grounds maintenance.</h2>
+      </Reveal>
+      <div class="faq-details" style="margin-top:var(--space-6)">
+        <details style="border-top:1px solid var(--border-strong)">
+          <summary style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:var(--space-4);cursor:pointer;padding:var(--space-5) 0;min-height:56px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-primary)">
+            <span>What types of commercial properties do you service?</span><span aria-hidden="true" style="color:var(--gold-text);font:var(--fw-regular) 1.25rem/1 var(--font-sans)">+</span>
+          </summary>
+          <p style="font:var(--type-small);color:var(--text-secondary);max-width:64ch;padding-bottom:var(--space-5)">Medical and dental offices, professional offices, customer-facing businesses, managed properties and similar commercial sites. Most of our current commercial portfolio is medical and dental practices around the Harrisburg area.</p>
+        </details>
+        <details style="border-top:1px solid var(--border-hairline)">
+          <summary style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:var(--space-4);cursor:pointer;padding:var(--space-5) 0;min-height:56px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-primary)">
+            <span>Do you offer recurring commercial landscaping?</span><span aria-hidden="true" style="color:var(--gold-text);font:var(--fw-regular) 1.25rem/1 var(--font-sans)">+</span>
+          </summary>
+          <p style="font:var(--type-small);color:var(--text-secondary);max-width:64ch;padding-bottom:var(--space-5)">Yes. Commercial work can be set up around the property's recurring grounds-maintenance needs, with seasonal work such as cleanups and mulch added to the same scope.</p>
+        </details>
+        <details style="border-top:1px solid var(--border-hairline)">
+          <summary style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:var(--space-4);cursor:pointer;padding:var(--space-5) 0;min-height:56px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-primary)">
+            <span>What commercial landscaping services do you provide?</span><span aria-hidden="true" style="color:var(--gold-text);font:var(--fw-regular) 1.25rem/1 var(--font-sans)">+</span>
+          </summary>
+          <p style="font:var(--type-small);color:var(--text-secondary);max-width:64ch;padding-bottom:var(--space-5)">Mowing and edging, <a href="/landscaping/mulch-beds/">mulch and bed work</a>, shrub and hedge trimming, spring and fall cleanups, <a href="/landscaping/installation/">landscape installation</a>, sod and lawn work, and <a href="/hardscaping/drainage/">grading and drainage</a> where landscape areas need it.</p>
+        </details>
+        <details style="border-top:1px solid var(--border-hairline)">
+          <summary style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:var(--space-4);cursor:pointer;padding:var(--space-5) 0;min-height:56px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-primary)">
+            <span>Do you provide commercial snow removal?</span><span aria-hidden="true" style="color:var(--gold-text);font:var(--fw-regular) 1.25rem/1 var(--font-sans)">+</span>
+          </summary>
+          <p style="font:var(--type-small);color:var(--text-secondary);max-width:64ch;padding-bottom:var(--space-5)">Yes. Alejandro's provides <a href="/commercial/snow-removal/">commercial snow removal</a> for businesses and managed properties throughout the service area.</p>
+        </details>
+        <details style="border-top:1px solid var(--border-hairline)">
+          <summary style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:var(--space-4);cursor:pointer;padding:var(--space-5) 0;min-height:56px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-primary)">
+            <span>What areas do you serve?</span><span aria-hidden="true" style="color:var(--gold-text);font:var(--fw-regular) 1.25rem/1 var(--font-sans)">+</span>
+          </summary>
+          <p style="font:var(--type-small);color:var(--text-secondary);max-width:64ch;padding-bottom:var(--space-5)">New Cumberland, Camp Hill, Mechanicsburg, Harrisburg, Hershey and the surrounding communities within our Central Pennsylvania <a href="/service-areas/">service area</a>.</p>
+        </details>
+        <details style="border-top:1px solid var(--border-hairline);border-bottom:1px solid var(--border-hairline)">
+          <summary style="width:100%;display:flex;justify-content:space-between;align-items:center;gap:var(--space-4);cursor:pointer;padding:var(--space-5) 0;min-height:56px;font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--text-primary)">
+            <span>How do I get an estimate for my commercial property?</span><span aria-hidden="true" style="color:var(--gold-text);font:var(--fw-regular) 1.25rem/1 var(--font-sans)">+</span>
+          </summary>
+          <p style="font:var(--type-small);color:var(--text-secondary);max-width:64ch;padding-bottom:var(--space-5)">Request an estimate below or call {PHONE}. The first step is a look at the property, so the scope and price are based on the actual grounds rather than a standard package.</p>
+        </details>
+      </div>
+    </Container>
+  </Section>
+
+  <div id="estimate">
+    <Section tone="dark" tight>
+      <Container>
+        <div class="cm-cta" style="display:grid;grid-template-columns:minmax(0,1fr);gap:var(--space-8);align-items:start">
+          <div>
+            <div style="font:var(--type-eyebrow);letter-spacing:var(--ls-eyebrow);text-transform:uppercase;color:var(--gold-500);margin-bottom:var(--space-5)">Commercial landscaping</div>
+            <h2 style="font:var(--type-h2);letter-spacing:var(--ls-heading);color:var(--text-on-dark);max-width:14ch;text-wrap:balance">Let's walk the property.</h2>
+            <p style="font:var(--type-small);color:var(--text-on-dark-secondary);margin-top:var(--space-4);max-width:54ch">Tell us about your commercial property and the grounds work you need. We'll start by looking at the site and building the scope around it.</p>
+            <div style="margin-top:var(--space-6)">
+              <Button variant="inverse" size="md" href={phoneHref}><Icon name="phone" size={16} />Call {PHONE}</Button>
+            </div>
+          </div>
+          <EstimateForm tone="dark" projects={["Commercial grounds maintenance", "Mulch & bed work", "Shrub & hedge trimming", "Seasonal cleanup", "Landscape installation", "Commercial snow removal", "Not sure yet"]} client:load />
+        </div>
+      </Container>
+    </Section>
+  </div>
+</Base>
+
+<style>
+  @media (min-width: 820px) {
+    .cm-hero { min-height: min(88vh,820px) !important; }
+    .cm-hero-scrim { background: linear-gradient(90deg,rgba(10,36,22,.82) 0%,rgba(10,36,22,.5) 46%,rgba(10,36,22,.08) 82%) !important; }
+    .cm-h1 { font: var(--type-display) !important; }
+    .cm-lede { font: var(--type-body) !important; margin-top: var(--space-8) !important; }
+    .cm-portfolio { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: var(--space-10) clamp(16px,2.2vw,32px) !important; }
+    .cm-portfolio img { aspect-ratio: 3/2 !important; }
+    .cm-mow { grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr) minmax(0,1.1fr) !important; gap: clamp(20px,2.4vw,36px) !important; }
+    .cm-mow > :first-child { grid-column: auto !important; margin-bottom: 0 !important; }
+    .cm-scope { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: var(--space-12) clamp(28px,4vw,64px) !important; margin-top: var(--space-12) !important; }
+    .cm-scope-item { grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important; gap: var(--space-6) !important; }
+    .cm-scope-link { display: block !important; }
+    .cm-proptypes { grid-template-columns: minmax(0,.9fr) minmax(0,1.3fr) !important; gap: clamp(32px,5vw,88px) !important; }
+    .cm-how { grid-template-columns: minmax(0,1.1fr) minmax(0,1fr) !important; gap: clamp(32px,5vw,88px) !important; }
+    .cm-how img { aspect-ratio: 1/1 !important; max-height: 520px !important; }
+    .cm-area { grid-template-columns: minmax(0,1.2fr) minmax(0,1fr) !important; gap: clamp(32px,5vw,88px) !important; }
+    .cm-cta { grid-template-columns: minmax(0,1fr) minmax(0,1fr) !important; gap: clamp(32px,5vw,96px) !important; }
+  }
+</style>
