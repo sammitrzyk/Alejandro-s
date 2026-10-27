@@ -38,7 +38,7 @@ export default function EstimateForm({ tone = "light", projects = PROJECTS }) {
   }
 
   return (
-    <form name="estimate" method="POST" data-netlify="true" netlify-honeypot="bot-field" onSubmit={onSubmit} style={{ display: "flex", flexDirection: "column", gap: "var(--space-5)" }}>
+    <form name="estimate" method="POST" netlify="true" netlify-honeypot="bot-field" onSubmit={onSubmit} style={{ display: "flex", flexDirection: "column", gap: "var(--space-5)" }}>
       <input type="hidden" name="form-name" value="estimate" />
       <p style={{ display: "none" }}><label>Don't fill this out: <input name="bot-field" /></label></p>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(200px,1fr))", gap: "var(--space-5)" }}>
