@@ -64,7 +64,7 @@ export default function SiteHeader({ phone = "(717) 736-6538", overlay = false, 
     }}>
       <div style={{ maxWidth: "var(--container-max)", margin: "0 auto", padding: "0 var(--gutter)", display: "flex", alignItems: "center", gap: "var(--space-6)" }}>
         <a href="/" style={{ display: "flex", alignItems: "center", padding: "14px 0", flex: "0 1 auto", minWidth: 0 }}>
-          <img src={logo} alt="Alejandro's Landscaping" style={{ height: tiny ? 32 : 42, width: "auto", filter: light ? "brightness(0) invert(1)" : "none" }} />
+          <img src={logo} alt="Alejandro's Landscaping" style={{ height: tiny ? 32 : 42, width: "auto" }} />
         </a>
 
         <nav style={{ display: "flex", alignItems: "center", gap: "var(--space-6)", marginLeft: "auto", minWidth: 0 }}>
